@@ -4,11 +4,17 @@ const chalk = require('chalk');
 
 const directory = 'src';  // starting directory
 
-const extensions = ['.ts', '.tsx', '.js', '.jsx', '.type.ts', '.component.tsx', '.component.ts', '.component.jsx', '.type.tsx', '.type.ts', '.type.jsx'];
+const fileExtensionsToInclude = ['.ts', '.tsx', '.type.ts', '.component.tsx', '.component.ts', '.type.tsx', '.type.ts'];
+const fileExtensionsToExclude = ['.stories.tsx', '.stories.ts', '.test.tsx', '.test.ts', '.spec.tsx', '.spec.ts'];
 
 function fileHasValidExtension(filename) {
-    for (const extension of extensions) {
+    for (const extension of fileExtensionsToInclude) {
         if (filename.endsWith(extension)) {
+            for (const exclExtension of fileExtensionsToExclude) {
+                if (filename.endsWith(exclExtension)) {
+                    return false;
+                }
+            }
             return true;
         }
     }
