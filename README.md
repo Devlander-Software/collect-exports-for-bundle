@@ -18,7 +18,7 @@ node <path_to_script.js> [options]
 ## Options:
 -d, --directory: Specifies the directory to generate exports for. Defaults to src.
 
-# Example:
+### Example:
 ```bash
 node <path_to_script.js> -d ./path/to/directory
 ```
@@ -26,7 +26,7 @@ node <path_to_script.js> -d ./path/to/directory
 
 -de, --default-export: Specifies a file that should be exported as default. Provide the file name, including its extension. Defaults to some-file-name-to-export-as-default.ts.
 
-# Example:
+### Example:
 ``` bash
 node <path_to_script.js> --default-export some-other-file.ts
 
@@ -42,7 +42,7 @@ If a file's name matches the one specified with the --default-export flag, it wi
 
 The script will skip index.ts and index.tsx files and won't include them in the generated exports.
 
-Output
+# Output
 The script will generate an index.ts file in the specified directory (or the default directory if none was specified).
 
 During its operation, the script will print messages for each exported file, using green text for successful exports.
