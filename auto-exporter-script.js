@@ -6,7 +6,7 @@ let directory = 'src';  // default starting directory
 let defaultExportFile = 'some-file-name-to-export-as-default.ts'; // default file to use default export
 
 const includeExtensions = ['.ts', '.tsx', '.type.ts', '.component.tsx', '.component.ts', '.type.tsx', '.type.ts', '.table.ts'];
-const excludeExtensions = ['.stories.tsx', '.stories.ts', '.test.tsx', '.test.ts', '.spec.tsx', '.spec.ts', '.styles.tsx', '.styles.ts'];
+const excludeExtensions = ['.stories.tsx', '.stories.ts', '.test.tsx', '.test.ts', '.spec.tsx', '.spec.ts', '.styles.tsx', '.styles.ts', '.keys.ts'];
 
 // Function to handle command line flags
 function handleCommandLineArgs() {
