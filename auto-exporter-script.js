@@ -2,82 +2,98 @@ const fs = require('fs');
 const path = require('path');
 const chalk = require('chalk');
 
-let directory = 'src';  // default starting directory
-let defaultExportFile = 'some-file-name-to-export-as-default.ts'; // default file to use default export
+/**
+ * Configuration
+ */
+const config = {
+  directory: 'src',
+  defaultExportFile: '', // can be blank
+  includeExtensions: ['.ts', '.tsx', '.type.ts', '.component.tsx', '.component.ts', '.type.tsx', '.type.ts', '.table.ts'],
+  excludeExtensions: ['.stories.tsx', '.stories.ts', '.test.tsx', '.test.ts', '.spec.tsx', '.spec.ts', '.styles.tsx', '.styles.ts', '.keys.ts']
+};
 
-const includeExtensions = ['.ts', '.tsx', '.type.ts', '.component.tsx', '.component.ts', '.type.tsx', '.type.ts', '.table.ts'];
-const excludeExtensions = ['.stories.tsx', '.stories.ts', '.test.tsx', '.test.ts', '.spec.tsx', '.spec.ts', '.styles.tsx', '.styles.ts', '.keys.ts'];
-
-// Function to handle command line flags
+/**
+ * Process command line arguments to override default configuration.
+ */
 function handleCommandLineArgs() {
-    const args = process.argv.slice(2);
-    for (let i = 0; i < args.length; i++) {
-        switch (args[i]) {
-            case '-d':
-            case '--directory':
-                directory = args[i + 1];
-                i++;
-                break;
-            case '-de':
-            case '--default-export':
-                defaultExportFile = args[i + 1];
-                i++;
-                break;
-        }
+  const args = process.argv.slice(2);
+  for (let i = 0; i < args.length; i++) {
+    switch (args[i]) {
+      case '-d':
+      case '--directory':
+        config.directory = args[i + 1];
+        i++;
+        break;
+      case '-de':
+      case '--default-export':
+        config.defaultExportFile = args[i + 1];
+        i++;
+        break;
     }
+  }
 }
 
-handleCommandLineArgs();
-
+/**
+ * Check if the given filename matches the valid extension criteria.
+ * @param {string} filename - The filename to check.
+ * @returns {boolean} - True if valid, false otherwise.
+ */
 function fileHasValidExtension(filename) {
-    for (const exclExtension of excludeExtensions) {
-        if (filename.endsWith(exclExtension)) {
-            return false;
-        }
-    }
-    for (const extension of includeExtensions) {
-        if (filename.endsWith(extension)) {
-            return true;
-        }
-    }
-    return false;
+  if (config.excludeExtensions.some(ext => filename.endsWith(ext))) return false;
+  return config.includeExtensions.some(ext => filename.endsWith(ext));
 }
 
+/**
+ * Generate exports for all valid files in the given directory.
+ * @param {string} startPath - The starting directory.
+ * @returns {string[]} - List of exports.
+ */
 function generateExportsFromDir(startPath) {
-    let results = [];
+  let results = [];
 
-    if (!fs.existsSync(startPath)) {
-        console.log("Directory does not exist: ", startPath);
-        return results;
-    }
-
-    const files = fs.readdirSync(startPath);
-
-    for (let i = 0; i < files.length; i++) {
-        const filename = path.join(startPath, files[i]);
-        const stat = fs.lstatSync(filename);
-
-        if (stat.isDirectory()) {
-            results = results.concat(generateExportsFromDir(filename));
-        } else if (fileHasValidExtension(filename) && !filename.endsWith('index.ts') && !filename.endsWith('index.tsx')) {
-            const relativePath = './' + path.relative(directory, filename).replace(/\\/g, '/');
-            const withoutExtension = relativePath.substr(0, relativePath.lastIndexOf('.'));
-            
-            if (relativePath === `./${defaultExportFile}`) {
-                const exportName = path.basename(defaultExportFile).split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(''); 
-                results.push(`export { default as ${exportName} } from "${withoutExtension}";`);
-            } else {
-                results.push(`export * from "${withoutExtension}";`);
-            }
-            
-            const componentName = path.basename(filename, path.extname(filename));
-            console.log(chalk.green(`Exported: ${chalk.bold(componentName)} from ${chalk.blue(relativePath)}`));
-        }
-    }
+  if (!fs.existsSync(startPath)) {
+    console.log("Directory does not exist:", startPath);
     return results;
+  }
+
+  const files = fs.readdirSync(startPath);
+
+  for (const file of files) {
+    const filename = path.join(startPath, file);
+    const stat = fs.lstatSync(filename);
+
+    if (stat.isDirectory()) {
+      results = results.concat(generateExportsFromDir(filename));
+      continue;
+    }
+
+    if (fileHasValidExtension(filename) && !filename.endsWith('index.ts') && !filename.endsWith('index.tsx')) {
+      const relativePath = `./${path.relative(config.directory, filename).replace(/\\/g, '/')}`;
+      const withoutExtension = relativePath.substr(0, relativePath.lastIndexOf('.'));
+
+      if (config.defaultExportFile && relativePath === `./${config.defaultExportFile}`) {
+        const exportName = path.basename(config.defaultExportFile)
+          .split('-')
+          .map(word => `${word.charAt(0).toUpperCase()}${word.slice(1)}`)
+          .join('');
+        results.push(`/**\n * TSDoc for ${exportName}\n */`);
+        results.push(`export { default as ${exportName} } from "${withoutExtension}";`);
+      } else {
+        const componentName = path.basename(filename, path.extname(filename));
+        results.push(`/**\n * TSDoc for ${componentName}\n */`);
+        results.push(`export * from "${withoutExtension}";`);
+      }
+
+      const componentName = path.basename(filename, path.extname(filename));
+      console.log(chalk.green(`Exported: ${chalk.bold(componentName)} from ${chalk.blue(relativePath)}`));
+    }
+  }
+
+  return results;
 }
 
-const exportsList = generateExportsFromDir(directory);
-fs.writeFileSync(path.join(directory, 'index.ts'), exportsList.join('\n'));
-
+// Main Execution
+handleCommandLineArgs();
+const exportsList = generateExportsFromDir(config.directory);
+fs.writeFileSync(path.join(config.directory, 'index.ts'), exportsList.join('\n'));
 console.log(chalk.bgGreen.black("\nExports generated in index.ts\n"));
