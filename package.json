@@ -1,0 +1,26 @@
+{
+    "name": "collect-exports-for-bundle",
+    "version": "1.0.0",
+    "main": "index.js",
+    "author": {
+      "name": "Landon W. Johnson",
+      "email": "landonwjohnson@gmail.com"
+    },
+    "dependencies": {
+      "child_process": "^1.0.2",
+      "fs": "^0.0.2",
+      "path": "^0.12.7",
+      "picocolors": "^1.0.0"
+    },
+    "repository": {
+      "type": "git",
+      "url": "https://gist.github.com/landonwjohnson/2ca297f86cf9e25ae2fcc01752f80908"
+    },
+    "scripts": {
+      "test": "jest"
+    },
+    "devDependencies": {
+      "jest": "^latest"
+    }
+  }
+  

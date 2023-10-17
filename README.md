@@ -1,54 +1,75 @@
+# Collect Exports For Bundle Script
 
+## Introduction
 
+The Collect Exports For Bundle Script is a utility designed to automatically generate export statements for files in a specified directory. This tool is especially useful for projects with numerous files that need to be exported, eliminating the tedious task of manually writing export statements.
 
-# Auto Exporter Script
+## Features
 
-This is a script I have been using to export all of my TypeScript files into my `index.ts`, which makes developing npm packages convenient.
+- Recursive scanning of directories.
+- Specify which file extensions to include or exclude.
+- Configurable through command-line arguments or direct function parameters.
+- Utilizes picocolors for colorful console outputs.
 
-This Node.js script automatically generates export statements for TypeScript files in a directory. It's especially handy for automatically creating an `index.ts` file that re-exports all members of the TypeScript files in a given directory. The script also provides an option to default-export a specific file.
+## Installation
 
-## Prerequisites
+To install the Collect Exports For Bundle Script from the provided gist:
 
-- [Node.js](https://nodejs.org/)
-- The [chalk](https://www.npmjs.com/package/chalk) npm package. Install with `npm install chalk`.
+npm
+
+```bash
+npm install gist:2ca297f86cf9e25ae2fcc01752f80908
+```
+
+```bash
+yarn add gist:2ca297f86cf9e25ae2fcc01752f80908
+```
 
 ## Usage
 
+After installation, you can use the Collect Exports For Bundle Script in two primary ways: Programmatically or through the command line.
+
+## Programmatically:
+
+First, require the **autoExporter** function from the installed module and call it with an options object:
+
+```javascript
+const { autoExporter } = require("collect-exports-for-bundle");
+
+autoExporter({
+  directory: "src",
+  includeExtensions: [".ts", ".tsx"],
+  excludeExtensions: [".test.ts"],
+});
+```
+
+## Command Line:
+
+To use it via the command line, you can create an npm script or run it directly using npx:
+
 ```bash
-node <path_to_script.js> [options]
+npx gist:2ca297f86cf9e25ae2fcc01752f80908 [arguments]
 ```
 
-## Options:
--d, --directory: Specifies the directory to generate exports for. Defaults to src.
+## Command Line Arguments:
+
+- **-d or --directory**: The directory to scan. E.g., -d src.
+
+- **-de or --default-export**: Default export file name. E.g., -de index.ts.
+
+- **-ie** or --include-extensions\*\*: File extensions to include, separated by commas. E.g., -ie .ts,.tsx.
+
+- **-ee** or --exclude-extensions: File extensions to exclude, separated by commas. E.g., -ee .test.ts,.spec.ts.
 
 ## Example:
-``` bash
-node <path_to_script.js> -d ./path/to/directory
+
+```bash
+
+npx gist:2ca297f86cf9e25ae2fcc01752f80908 -d src -ie .ts,.tsx -ee .test.ts,.spec.ts
 ```
 
--de, --default-export: Specifies a file that should be exported as default. Provide the file name, including its extension. Defaults to some-file-name-to-export-as-default.ts.
+This command will generate exports for all .ts and .tsx files in the src directory, excluding any .test.ts or .spec.ts files.
 
-## Example:
-``` bash
+### Conclusion
 
-node <path_to_script.js> --default-export some-other-file.ts
-```
-
-
-## Behavior
-The script considers files with the extensions **.ts, .tsx, .type.ts, .component.tsx, .component.ts, .type.tsx, .type.ts,** and **.table.ts** for exports.
-
-It excludes files with extensions **.stories.tsx, .stories.ts, .test.tsx, .test.ts, .spec.tsx, .spec.ts, .styles.tsx,** and **.styles.ts.**
-
-If a file's name matches the one specified with the --default-export flag, it will be exported as a default export. The name of the export will be a camel-cased version of the file name. For example, some-file-name-to-export-as-default.ts becomes SomeFileNameToExportAsDefault.
-
-The script will skip **index.ts** and **index.tsx** files and won't include them in the generated exports.
-
-## Output
-The script will generate an **index.ts** file in the specified directory (or the default directory if none was specified).
-
-During its operation, the script will print messages for each exported file, using green text for successful exports.
-
-Upon completion, a message will be displayed indicating the success of the export generation.
-
-
+The Collect Exports For Bundle Script simplifies the process of generating export statements in projects, providing a flexible and configurable solution that can be effortlessly integrated into any development workflow.

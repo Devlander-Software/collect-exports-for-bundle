@@ -3,4 +3,8 @@
 // Location: external-modules/auto-exporter-script/index.js
 
 
-require("./auto-exporter-script")
+const {autoExporter} = require('./auto-exporter');
+
+module.exports = {
+    autoExporter
+}
