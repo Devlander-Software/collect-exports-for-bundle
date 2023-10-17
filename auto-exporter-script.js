@@ -1,6 +1,6 @@
-// File: auto-exporter-script.test.js (JavaScript)
+// File: auto-exporter-script.js (JavaScript)
 // GitHub Gist URL: https://gist.github.com/landonwjohnson/2ca297f86cf9e25ae2fcc01752f80908
-// Location: external-modules/auto-exporter-script/auto-exporter-script.test.js
+// Location: external-modules/auto-exporter-script/auto-exporter-script.js
 
 const fs = require('fs');
 const path = require('path');
@@ -45,6 +45,8 @@ function handleCommandLineArgs() {
         break;
     }
   }
+
+  console.log(chalk.cyan("Updated Configuration after processing command-line args:"), JSON.stringify(config, null, 2));
 }
 
 /**
@@ -53,12 +55,16 @@ function handleCommandLineArgs() {
  * @returns {boolean} - True if valid, false otherwise.
  */
 function fileHasValidExtension(filename) {
-  if (config.excludeExtensions.some(ext => filename.endsWith(ext))) return false;
-  return config.includeExtensions.some(ext => filename.endsWith(ext));
+  const isIncluded = config.includeExtensions.some(ext => filename.endsWith(ext));
+  const isExcluded = config.excludeExtensions.some(ext => filename.endsWith(ext));
+
+  console.log(`Checking file: ${filename}. Included: ${isIncluded}, Excluded: ${isExcluded}`);
+
+  return isIncluded && !isExcluded;
 }
 
 /**
- * Generate exports for all valid files in the given directory, sorted alphabetically.
+ * Generate exports for all valid files in the given directory and its subdirectories.
  * @param {string} startPath - The starting directory.
  * @returns {string[]} - List of exports.
  */
@@ -71,49 +77,39 @@ function generateExportsFromDir(startPath) {
   }
 
   const files = fs.readdirSync(startPath);
-
-  // Collect valid file paths
-  const validFilePaths = [];
+  console.log(`Reading files from directory: ${startPath}`);
+  console.log("Found", files.length, "files:", JSON.stringify(files));
 
   for (const file of files) {
     const filename = path.join(startPath, file);
     const stat = fs.lstatSync(filename);
 
-    if (!stat.isDirectory() && fileHasValidExtension(filename) && !filename.endsWith('index.ts') && !filename.endsWith('index.tsx')) {
-      validFilePaths.push(filename);
-    }
-  }
+    if (stat.isDirectory()) {
+      // Recursively generate exports for subdirectories
+      results = results.concat(generateExportsFromDir(filename));
+    } else if (fileHasValidExtension(filename) && !filename.endsWith('index.ts') && !filename.endsWith('index.tsx')) {
+      const relativePath = `./${path.relative(config.directory, filename).replace(/\\/g, '/')}`;
+      const withoutExtension = relativePath.substr(0, relativePath.lastIndexOf('.'));
 
-  // Sort file paths alphabetically
-  validFilePaths.sort();
-
-  // Generate exports
-  for (const filename of validFilePaths) {
-    const relativePath = `./${path.relative(config.directory, filename).replace(/\\/g, '/')}`;
-    const withoutExtension = relativePath.substr(0, relativePath.lastIndexOf('.'));
-
-    if (config.defaultExportFile && relativePath === `./${config.defaultExportFile}`) {
-      const exportName = path.basename(config.defaultExportFile)
-        .split('-')
-        .map(word => `${word.charAt(0).toUpperCase()}${word.slice(1)}`)
-        .join('');
-      results.push(`/**\n * TSDoc for ${exportName}\n */`);
-      results.push(`export { default as ${exportName} } from "${withoutExtension}";`);
-    } else {
       const componentName = path.basename(filename, path.extname(filename));
       results.push(`/**\n * TSDoc for ${componentName}\n */`);
       results.push(`export * from "${withoutExtension}";`);
-    }
 
-    const componentName = path.basename(filename, path.extname(filename));
-    console.log(chalk.green(`Exported: ${chalk.bold(componentName)} from ${chalk.blue(relativePath)}`));
+      console.log(chalk.green(`Exported: ${chalk.bold(componentName)} from ${chalk.blue(relativePath)}`));
+    } else {
+      console.log(`Excluding from valid file paths: ${filename}`);
+    }
   }
 
   return results;
 }
 
 // Main Execution
+console.log("Starting auto-exporter script");
+console.log(chalk.cyan("Current Configuration:"), JSON.stringify(config, null, 2));
+
 handleCommandLineArgs();
+
 const exportsList = generateExportsFromDir(config.directory);
 fs.writeFileSync(path.join(config.directory, 'index.ts'), exportsList.join('\n'));
 console.log(chalk.bgGreen.black("\nExports generated in index.ts\n"));
