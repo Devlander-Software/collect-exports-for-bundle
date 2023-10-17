@@ -103,7 +103,7 @@ function autoExporter(options = {}) {
 
   const exportsList = generateExportsFromDir(config.directory);
   fs.writeFileSync(path.join(config.directory, 'index.ts'), exportsList.join('\n'));
-  console.log(pc.bgGreen.black("\nExports generated in index.ts\n"));
+  console.log(pc.green("\nExports generated in index.ts\n"));
 }
 
 module.exports = {
