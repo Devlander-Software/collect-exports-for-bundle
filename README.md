@@ -34,7 +34,7 @@ After installation, you can use the Collect Exports For Bundle Script in two pri
 First, require the **autoExporter** function from the installed module and call it with an options object:
 
 ```javascript
-const { autoExporter } = require("collect-exports-for-bundle");
+const { autoExporter } = require("@devlander/collect-exports-for-bundle");
 
 autoExporter({
   directory: "src",
