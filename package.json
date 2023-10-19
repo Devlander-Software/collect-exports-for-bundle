@@ -13,11 +13,12 @@
     "auto-deploy": "./cli.js"
   },
   "dependencies": {
+    "@types/jest": "^29.5.6",
     "child_process": "^1.0.2",
     "fs": "^0.0.1-security",
+    "jest": "^29.7.0",
     "path": "^0.12.7",
     "picocolors": "^1.0.0",
-    "jest": "^29.7.0",
     "ts-jest": "^29.1.1"
   },
   "scripts": {
@@ -29,9 +30,5 @@
   "repository": {
     "type": "git",
     "url": "https://gist.github.com/landonwjohnson/2ca297f86cf9e25ae2fcc01752f80908"
-  },
-  "devDependencies": {
-    "@types/jest": "^29.5.6"
-
   }
 }
