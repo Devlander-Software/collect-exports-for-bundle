@@ -4,23 +4,8 @@ import * as pc from 'picocolors';
 import { generateExportsFromDir } from './generate-exports-from-dir'; // Assuming you named the file containing the new function like this
 import { AutoExporterOptions } from './types';
 
-export const createTestFolderAndFiles = (folderPath: string, files: string[]): void => {
-    fs.mkdirSync(folderPath, { recursive: true });
-    for (const file of files) {
-        fs.writeFileSync(path.join(folderPath, file), '');
-    }
-}
 
-export function autoExporter(options: AutoExporterOptions = {}): void {
-    const config: AutoExporterOptions = {
-        directory: options.directory || 'src',
-        defaultExportFile: options.defaultExportFile || 'index.ts',
-        includeExtensions: options.includeExtensions || ['.ts', '.tsx', '.type.ts', '.component.tsx', '.component.ts', '.type.tsx', '.type.ts', '.table.ts'],
-        excludeExtensions: options.excludeExtensions || ['.stories.tsx', '.stories.ts', '.test.tsx', '.test.ts', '.spec.tsx', '.spec.ts', '.styles.tsx', '.styles.ts', '.keys.ts'],
-        excludeFolders: options.excludeFolders || [],
-        files: options.files || []
-    };
-
+const checkForCommandLineFlags = (config: AutoExporterOptions): AutoExporterOptions => {
     function handleCommandLineArgs(): void {
         const args = process.argv.slice(2);
         for (let i = 0; i < args.length; i++) {
@@ -55,6 +40,43 @@ export function autoExporter(options: AutoExporterOptions = {}): void {
     console.log(pc.cyan("Current Configuration:"), JSON.stringify(config, null, 2));
 
     handleCommandLineArgs();
+
+
+    return config;
+}
+
+export const createTestFolderAndFiles = (folderPath: string, files: string[]): void => {
+    fs.mkdirSync(folderPath, { recursive: true });
+    for (const file of files) {
+        fs.writeFileSync(path.join(folderPath, file), '');
+    }
+}
+
+
+
+
+export const autoExporter = (options: AutoExporterOptions = {}): void => {
+    const config: AutoExporterOptions = {
+        ...options,
+        directory: options.directory || 'src',
+        defaultExportFile: options.defaultExportFile || 'index.ts',
+        includeExtensions: options.includeExtensions || ['.ts', '.tsx'],
+        excludeExtensions: options.excludeExtensions || ['.test.tsx', '.test.ts'],
+        excludeFolders: options.excludeFolders || [],
+        files: options.files || [],
+    };
+
+    checkForCommandLineFlags(config);
+
+    // Ensure defaultExportFile is added to the files list
+    if (config.defaultExportFile && fs.existsSync(path.join(config.directory, config.defaultExportFile))) {
+        if (!config.files.includes(config.defaultExportFile)) {
+            config.files.push(config.defaultExportFile);
+        }
+    }
+
+    console.log("Starting auto-exporter script");
+    console.log(pc.cyan("Current Configuration:"), JSON.stringify(config, null, 2));
 
     const exportsList = generateExportsFromDir(config.directory, config);
     fs.writeFileSync(path.join(config.directory, config.defaultExportFile), exportsList.join('\n'));
