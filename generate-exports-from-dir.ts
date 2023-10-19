@@ -26,6 +26,7 @@ export function extractDefaultExportVariable(filepath: string): string | null {
 
 export function generateExportsFromPaths(paths: string[], config: AutoExporterOptions): string[] {
     let results: string[] = [];
+    let defaultExportString: string[] = [];
 
     for (const filename of paths) {
         const fileContent = fs.readFileSync(filename, 'utf-8'); // Reading the content of the file
@@ -37,8 +38,8 @@ export function generateExportsFromPaths(paths: string[], config: AutoExporterOp
             if (filename.endsWith(config.defaultExportFile || '') && hasDefaultExport(fileContent)) {
                 const defaultVariable = extractDefaultExportVariable(filename);
                 if (defaultVariable) {
-                    results.push(`import ${defaultVariable} from "${withoutExtension}";`);
-                    results.push(`export default ${defaultVariable};`);
+                    defaultExportString.push(`import ${defaultVariable} from "${withoutExtension}";`);
+                    defaultExportString.push(`export default ${defaultVariable};`);
                 } else {
                     console.error(`Failed to extract default export from ${filename}.`);
                 }
@@ -52,5 +53,5 @@ export function generateExportsFromPaths(paths: string[], config: AutoExporterOp
         }
     }
 
-    return results;
+    return [...results, ...defaultExportString];
 }
