@@ -70,6 +70,6 @@ npx gist:2ca297f86cf9e25ae2fcc01752f80908 -d src -ie .ts,.tsx -ee .test.ts,.spec
 
 This command will generate exports for all .ts and .tsx files in the src directory, excluding any .test.ts or .spec.ts files.
 
-### Conclusion
-
-The Collect Exports For Bundle Script simplifies the process of generating export statements in projects, providing a flexible and configurable solution that can be effortlessly integrated into any development workflow.
+## To do 
+- [ ] Write tests for generateExportsFromDir
+- [ ] Write tests for randomTypeScriptFileContent 

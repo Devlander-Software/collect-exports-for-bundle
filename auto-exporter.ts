@@ -59,12 +59,17 @@ export const autoExporter = (options: AutoExporterOptions = {}): void => {
     const config: AutoExporterOptions = {
         ...options,
         directory: options.directory || 'src',
-        defaultExportFile: options.defaultExportFile || 'index.ts',
+        defaultExportFile: options.defaultExportFile || '',
         includeExtensions: options.includeExtensions || ['.ts', '.tsx'],
         excludeExtensions: options.excludeExtensions || ['.test.tsx', '.test.ts'],
         excludeFolders: options.excludeFolders || [],
         files: options.files || [],
     };
+    // default export file should never be index
+    // all of the files in the directory will be exported in index.ts
+    if(config.defaultExportFile.includes('index')) {
+        config.defaultExportFile = config.defaultExportFile = ''
+    }
 
     checkForCommandLineFlags(config);
 

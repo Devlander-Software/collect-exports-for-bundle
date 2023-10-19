@@ -10,12 +10,13 @@
     "email": "landonwjohnson@gmail.com"
   },
   "bin": {
-    "auto-deploy": "./cli.js"
+    "auto-deploy": "./dist/cli.js"
   },
   "dependencies": {
     "@types/jest": "^29.5.6",
     "child_process": "^1.0.2",
     "fs": "^0.0.1-security",
+    "inquirer": "^9.2.11",
     "jest": "^29.7.0",
     "path": "^0.12.7",
     "picocolors": "^1.0.0",
