@@ -87,3 +87,6 @@ export const autoExporter = (options: AutoExporterOptions = {}): void => {
     fs.writeFileSync(path.join(config.directory, "index.ts"), exportsList.join('\n'));
     console.log(pc.green(`\nExports generated in index.ts\n`));
 }
+
+
+export default autoExporter
