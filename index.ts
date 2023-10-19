@@ -2,9 +2,4 @@
 // GitHub Gist URL: https://gist.github.com/landonwjohnson/6c444d07e8686711347fa474dd5540f5
 // Location: external-modules/auto-exporter-script/index.js
 
-
-const {autoExporter} = require('./auto-exporter');
-
-module.exports = {
-    autoExporter
-}
+export { autoExporter } from './auto-exporter';
