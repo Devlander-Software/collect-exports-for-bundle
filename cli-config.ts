@@ -85,4 +85,4 @@ export const runCLI = async () => {
     autoExporter(config);
 };
 
-runCLI();
+

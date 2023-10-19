@@ -9,6 +9,12 @@ const jestConfig: Config.InitialOptions = {
   coverageReporters: ['json'],
   coverageDirectory: path.resolve(__dirname, '..', 'coverage'),
   collectCoverageFrom: ['dist/**/*.{js}'],
+  // Handling ESM modules in node_modules
+  transformIgnorePatterns: [
+    // Update this regular expression to include any specific node modules that need to be transformed.
+    'node_modules/(?!(inquirer)/)',
+  ],
+
   // Add other Jest options as needed
 };
 
