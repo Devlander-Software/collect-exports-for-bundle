@@ -6,6 +6,10 @@ log
 # Node modules
 node_modules/
 
+typings
+node_modules
+coverage
+
 
 # Logs
 logs
