@@ -10,6 +10,13 @@ export function generateExportsFromDir(startPath: string, config: AutoExporterOp
     return generateExportsFromPaths(distinctPaths, config);
 }
 
+function hasNamedExports(fileContent: string): boolean {
+    return /export\s+(?!default)/.test(fileContent);
+}
+
+function hasDefaultExport(fileContent: string): boolean {
+    return /export default/.test(fileContent);
+}
 
 export function extractDefaultExportVariable(filepath: string): string | null {
     const fileContent = fs.readFileSync(filepath, 'utf-8');
@@ -21,12 +28,13 @@ export function generateExportsFromPaths(paths: string[], config: AutoExporterOp
     let results: string[] = [];
 
     for (const filename of paths) {
+        const fileContent = fs.readFileSync(filename, 'utf-8'); // Reading the content of the file
         const relativePath = `./${path.relative(config.directory, filename).replace(/\\/g, '/')}`;
         const withoutExtension = relativePath.substring(0, relativePath.lastIndexOf('.'));
         const componentName = path.basename(filename, path.extname(filename));
 
         if (config.files && config.files.includes(filename)) {
-            if (filename.endsWith(config.defaultExportFile || '')) {
+            if (filename.endsWith(config.defaultExportFile || '') && hasDefaultExport(fileContent)) {
                 const defaultVariable = extractDefaultExportVariable(filename);
                 if (defaultVariable) {
                     results.push(`import ${defaultVariable} from "${withoutExtension}";`);
@@ -34,11 +42,11 @@ export function generateExportsFromPaths(paths: string[], config: AutoExporterOp
                 } else {
                     console.error(`Failed to extract default export from ${filename}.`);
                 }
-            } else {
+            } else if (hasNamedExports(fileContent)) {
                 results.push(`/**\n * TSDoc for ${componentName}\n */`);
                 results.push(`export * from "${withoutExtension}";`);
             }
-        } else if (fileHasValidExtension(filename, config)) {
+        } else if (fileHasValidExtension(filename, config) && hasNamedExports(fileContent)) {
             results.push(`/**\n * TSDoc for ${componentName}\n */`);
             results.push(`export * from "${withoutExtension}";`);
         }
