@@ -79,6 +79,6 @@ export const autoExporter = (options: AutoExporterOptions = {}): void => {
     console.log(pc.cyan("Current Configuration:"), JSON.stringify(config, null, 2));
 
     const exportsList = generateExportsFromDir(config.directory, config);
-    fs.writeFileSync(path.join(config.directory, config.defaultExportFile), exportsList.join('\n'));
-    console.log(pc.green(`\nExports generated in ${config.defaultExportFile}\n`));
+    fs.writeFileSync(path.join(config.directory, "index.ts"), exportsList.join('\n'));
+    console.log(pc.green(`\nExports generated in index.ts\n`));
 }
