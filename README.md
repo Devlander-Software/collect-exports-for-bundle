@@ -218,7 +218,7 @@ jobs:
 
     - name: Run script
       run: |
-        npx auto-deploy --directory=src --defaultExportFile=app.ts --includeExtensions=.ts,.tsx --excludeExtensions=.test.ts,.test.tsx
+        npx collect-files-and-export --directory=src --defaultExportFile=app.ts --includeExtensions=.ts,.tsx --excludeExtensions=.test.ts,.test.tsx
 
     - name: Commit changes
       run: |
