@@ -3,3 +3,5 @@
 // Location: external-modules/auto-exporter-script/index.js
 
 export { autoExporter } from './auto-exporter';
+export * from './types';
+
