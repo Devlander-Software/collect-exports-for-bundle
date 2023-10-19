@@ -9,6 +9,9 @@ node_modules/
 typings
 node_modules
 coverage
+.dist
+./dist
+dist
 
 
 # Logs

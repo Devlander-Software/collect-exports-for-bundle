@@ -1,5 +1,6 @@
 import * as fs from 'fs';
-import { fileHasValidExtension, generateExportsFromDir } from './auto-exporter';
+import { generateExportsFromDir } from './generate-exports-from-dir';
+import { fileHasValidExtension } from './has-valid-extension';
 
 jest.mock('fs');
 
