@@ -3,15 +3,11 @@
   "version": "1.0.0",
   "main": "./dist/index.js",
   "types": "./typings/index.d.ts",
-  "type": "commonjs",
   "module": "./dist/index.js",
   "description": "Collects all exports from a package.json's main file and writes them to a file.",
   "author": {
     "name": "Landon W. Johnson",
     "email": "landonwjohnson@gmail.com"
-  },
-  "bin": {
-    "collect-files-and-export": "./dist/cli.js"
   },
   "dependencies": {
     "@types/jest": "^29.5.6",
@@ -34,6 +30,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://gist.github.com/landonwjohnson/2ca297f86cf9e25ae2fcc01752f80908"
-  }
+    "url": "https://github.com/landonwjohnson/collect-exports-for-bundle"
+  },
+  "keywords": [
+    "collect",
+    "exports",
+    "bundle"
+  ]
 }

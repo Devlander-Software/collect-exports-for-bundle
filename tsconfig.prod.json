@@ -1,5 +1,5 @@
 {
-    "extends": "./tsconfig.json",
+    "extends": "./tsconfig",
     "compilerOptions": {
       "outDir": "./dist", // Output directory
       "declarationDir": "./typings", // Declaration files output directory
@@ -18,7 +18,7 @@
       // Other options...
       
     },
-    "exclude": ["node_modules", "**/*.spec.ts", "*.d.ts", "typings", "dist", "*.test.ts"],
+    "exclude": ["node_modules", "**/*.spec.ts", "*.d.ts", "typings", "dist", "*.test.ts", "cli.ts", "cli-config.ts", "*.sh"],
     "include": ["*.ts"]
     // Other configurations...
   }
