@@ -23,9 +23,7 @@
     "typescript": "^5.2.2"
   },
   "scripts": {
-    "postinstall": "tsc --project tsconfig.prod.json",
-    "start": "node",
-    "poststart": "node ./dist/cli.js",
+    "prepare": "tsc --project tsconfig.prod.json",
     "test": "ts-node run-jest-coverage.ts"
   },
   "repository": {
