@@ -1,5 +1,4 @@
 {
-  "extends": ["@devlander/ts-config-base"],
 
     "compilerOptions": {
       "outDir": "./dist", // Output directory
@@ -15,9 +14,11 @@
       "moduleResolution": "node",
       "sourceMap": true,
       "emitDeclarationOnly": false,
+      "strict": false
       // Other options...
       
     },
-    "exclude": ["node_modules", "**/*.spec.ts", "*.d.ts", "typings", "dist"]
+    "exclude": ["node_modules", "**/*.spec.ts", "*.d.ts", "typings", "dist"],
+    "include": ["*.ts"]
     // Other configurations...
   }

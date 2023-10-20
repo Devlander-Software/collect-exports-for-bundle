@@ -31,6 +31,9 @@ export function generateExportsFromPaths(paths: string[], config: AutoExporterOp
     console.log(green('Generating exports from provided paths...'));
     let results: string[] = [];
     let defaultExportString: string[] = [];
+    if(!config.directory || config.directory === '') {
+        throw new Error('Directory is required');
+    }
 
     for (const filename of paths) {
         const fileContent = fs.readFileSync(filename, 'utf-8'); // Reading the content of the file
