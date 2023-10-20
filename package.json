@@ -27,9 +27,7 @@
     "typescript": "^5.2.2"
   },
   "scripts": {
-    "postinstall": "tsc",
-    "prepare": "tsc",
-    "build": "tsc",
+    "postinstall": "tsc --project tsconfig.prod.json",
     "start": "node",
     "poststart": "node ./dist/cli.js",
     "test": "ts-node run-jest-coverage.ts"
