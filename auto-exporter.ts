@@ -1,7 +1,9 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as pc from 'picocolors';
+import { colorfulLog } from './color-log';
 import { generateExportsFromDir } from './generate-exports-from-dir'; // Assuming you named the file containing the new function like this
+import { simulateProgressBar } from './stimulate-progress-bar';
 import { AutoExporterOptions } from './types';
 
 
@@ -37,7 +39,7 @@ const checkForCommandLineFlags = (config: AutoExporterOptions): AutoExporterOpti
     }
 
     console.log("Starting auto-exporter script");
-    console.log(pc.cyan("Current Configuration:"), JSON.stringify(config, null, 2));
+    console.log(colorfulLog("Current Configuration:", 'blue'), JSON.stringify(config, null, 2));
 
     handleCommandLineArgs();
 
@@ -71,21 +73,27 @@ export const autoExporter = (options: AutoExporterOptions = {}): void => {
         config.defaultExportFile = config.defaultExportFile = ''
     }
 
+
+    const TOTAL_STEPS = 4; // Number of steps in your progress
+    let currentStep = 1; // Starting step
+
+    simulateProgressBar("Processing command-line flags...", TOTAL_STEPS, currentStep++);
     checkForCommandLineFlags(config);
 
-    // Ensure defaultExportFile is added to the files list
+    simulateProgressBar("Checking default export file...", TOTAL_STEPS, currentStep++);
     if (config.defaultExportFile && fs.existsSync(path.join(config.directory, config.defaultExportFile))) {
         if (!config.files.includes(config.defaultExportFile)) {
             config.files.push(config.defaultExportFile);
         }
     }
 
-    console.log("Starting auto-exporter script");
-    console.log(pc.cyan("Current Configuration:"), JSON.stringify(config, null, 2));
-
+    simulateProgressBar("Generating exports from directory...", TOTAL_STEPS, currentStep++);
     const exportsList = generateExportsFromDir(config.directory, config);
+
+    simulateProgressBar("Writing to index.ts...", TOTAL_STEPS, currentStep++);
     fs.writeFileSync(path.join(config.directory, "index.ts"), exportsList.join('\n'));
-    console.log(pc.green(`\nExports generated in index.ts\n`));
+
+    console.log(colorfulLog(`\nExports generated in index.ts\n`, 'blue'));
 }
 
 

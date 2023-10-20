@@ -2,6 +2,19 @@ import * as fs from 'fs';
 import path from 'path';
 import { AutoExporterOptions } from "./types";
 
+/**
+ * Recursively collects paths of files from the specified directory.
+ * It allows certain folders to be excluded based on the provided configuration.
+ * 
+ * @param {string} startPath - The path to the directory from which files need to be collected.
+ * @param {AutoExporterOptions} config - Configuration options which may include folders to exclude.
+ * @returns {string[]} An array of paths for the files inside the `startPath` excluding specified folders.
+ * 
+ * @example
+ * 
+ * const paths = collectPaths('./src', { excludeFolders: ['test'] });
+ * console.log(paths);  // ['/src/file1.js', '/src/file2.js', ...]
+ */
 export function collectPaths(startPath: string, config: AutoExporterOptions): string[] {
     let paths: string[] = [];
 
