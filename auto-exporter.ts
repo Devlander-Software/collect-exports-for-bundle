@@ -66,7 +66,10 @@ export const autoExporter = (options: AutoExporterOptions = {}): void => {
         excludeExtensions: options.excludeExtensions || ['.test.tsx', '.test.ts'],
         excludeFolders: options.excludeFolders || [],
         files: options.files || [],
+        saveEntryFileWithExtension: options.saveEntryFileWithExtension || '.ts'
     };
+
+    const fileNameToWriteTo = `index.${config.saveEntryFileWithExtension}`
     // default export file should never be index
     // all of the files in the directory will be exported in index.ts
     if(config.defaultExportFile.includes('index')) {
@@ -90,10 +93,10 @@ export const autoExporter = (options: AutoExporterOptions = {}): void => {
     simulateProgressBar("Generating exports from directory...", TOTAL_STEPS, currentStep++);
     const exportsList = generateExportsFromDir(config.directory, config);
 
-    simulateProgressBar("Writing to index.ts...", TOTAL_STEPS, currentStep++);
-    fs.writeFileSync(path.join(config.directory, "index.ts"), exportsList.join('\n'));
+    simulateProgressBar(`Writing to ${fileNameToWriteTo}...`, TOTAL_STEPS, currentStep++);
+    fs.writeFileSync(path.join(config.directory, fileNameToWriteTo), exportsList.join('\n'));
 
-    console.log(colorfulLog(`\nExports generated in index.ts\n`, 'blue'));
+    console.log(colorfulLog(`\nExports generated in ${fileNameToWriteTo}\n`, 'blue'));
 }
 
 

@@ -37,6 +37,11 @@ export function collectPaths(startPath: string, config: AutoExporterOptions): st
             // Recursively collect paths for subdirectories
             paths = paths.concat(collectPaths(filename, config));
         } else {
+            // Check if the file is named 'index.ts' or 'index.tsx'
+            if (['index.ts', 'index.tsx'].includes(file)) {
+                console.log(`Excluding file: ${file}`);
+                continue;
+            }
             paths.push(filename);
         }
     }

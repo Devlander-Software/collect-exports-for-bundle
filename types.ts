@@ -3,6 +3,7 @@ export interface AutoExporterOptions {
     directory?: string;
     defaultExportFile?: string;
     includeExtensions?: string[];
+    saveEntryFileWithExtension?:  '.ts' | '.tsx' 
     excludeExtensions?: string[];
     files?: string[];               // New Parameter
     excludeFolders?: string[];     // New Parameter
