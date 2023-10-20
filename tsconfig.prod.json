@@ -1,24 +1,24 @@
 {
     "extends": "./tsconfig",
     "compilerOptions": {
-      "outDir": "./dist", // Output directory
-      "declarationDir": "./typings", // Declaration files output directory
-      "allowJs": false, // Allow JavaScript files
-      "declaration": true, // Generate declaration files
-      "esModuleInterop": true,
-      "types": ["node", "@types/jest"],
-      "rootDir": "",
-      "noEmit": false,
-      "target": "ES2015",
-      "module": "commonjs",
-      "moduleResolution": "node",
-      "sourceMap": true,
-      "emitDeclarationOnly": false,
-      "strict": false
+        "outDir": "./dist", // Output directory
+        "declarationDir": "./typings", // Declaration files output directory
+        "allowJs": false, // Allow JavaScript files
+        "declaration": true, // Generate declaration files
+        "esModuleInterop": true,
+        "types": ["node", "@types/jest"],
+        "rootDir": "",
+        "noEmit": false,
+        "target": "ES2015",
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "sourceMap": true,
+        "emitDeclarationOnly": false,
+        "strict": false
       // Other options...
       
     },
-    "exclude": ["node_modules", "**/*.spec.ts", "*.d.ts", "typings", "dist", "*.test.ts", "cli.ts", "cli-config.ts", "*.sh"],
+    "exclude": ["node_modules", "**/*.spec.ts", "*.d.ts", "typings", "dist", "*.test.ts", "cli.ts", "cli-config.ts", "*.sh", "index.js"],
     "include": ["*.ts"]
     // Other configurations...
   }
