@@ -34,13 +34,16 @@ bump_version() {
   
   # Save the new version back to the version file
   echo \$new_version > \$version_file
+
+  # Update package.json with the new version
+  jq --arg version \$new_version '.version = \$version' package.json > tmp.json && mv tmp.json package.json
 }
 
 # Bump the version
 bump_version
 
-# Add the version.txt file and commit the changes
-git add version.txt
+# Add the version.txt and package.json files, then commit the changes
+git add version.txt package.json
 git commit -m "Bump version to \$(cat version.txt)"
 
 exit 0
