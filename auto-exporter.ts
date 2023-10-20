@@ -75,7 +75,7 @@ export const autoExporter = (options: AutoExporterOptions = {}): void => {
     saveEntryFileWithExtension: options.saveEntryFileWithExtension || ".ts",
   };
 
-  const fileNameToWriteTo = `index.${config.saveEntryFileWithExtension}`;
+  const fileNameToWriteTo = `index${config.saveEntryFileWithExtension}`;
 
   if (config && config.defaultExportFile && config.defaultExportFile !== "") {
     // default export file should never be index
