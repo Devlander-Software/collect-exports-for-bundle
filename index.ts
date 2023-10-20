@@ -7,7 +7,7 @@ export * from './color-log';
 export * from './generate-exports-from-dir';
 export * from './has-valid-extension';
 
-export { autoExporter } from './auto-exporter';
+export { default as autoExporter } from './auto-exporter';
 export { AutoExporterOptions } from './types';
 
 
