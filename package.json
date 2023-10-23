@@ -1,8 +1,8 @@
 {
   "name": "@devlander/collect-exports-for-bundle",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "main": "./dist/index.js",
-  "types": "./typings/index.d.ts",
+  "types": "./dist/index.d.ts",
   "type": "commonjs",
   "module": "./dist/index.js",
   "files": [
