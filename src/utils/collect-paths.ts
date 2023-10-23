@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import path from 'path';
-import { AutoExporterOptions } from "./types";
+import { AutoExporterOptions } from "../types/types";
 
 /**
  * Recursively collects paths of files from the specified directory.

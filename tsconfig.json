@@ -7,7 +7,7 @@
       "declaration": true, // Generate declaration files
       "esModuleInterop": true,
       "types": ["node", "@types/jest"],
-      "rootDir": "",
+      "rootDir": "src",
       "noEmit": false,
       "target": "ESNext",
       "module": "ESNext",
@@ -19,6 +19,6 @@
       
     },
     "exclude": ["node_modules", "**/*.spec.ts", "*.d.ts", "typings", "dist"],
-    "include": ["*.ts"]
+    "include": ["*.ts", "src/utils/auto-exporter.ts", "src/__tests__/auto-exporter.test.ts", "src/utils/generate-exports-from-dir.ts", "src/utils/generate-random-typescript-content.ts", "src/__tests__/cli-config.test.ts", "src/cli/cli-config.ts", "src/utils/color-log.ts", "src/cli/cli.ts", "src/utils/collect-paths.ts", "src/utils/has-valid-extension.ts", "src/__tests__/generate-random-typescript-content.test.ts", "src/utils/stimulate-progress-bar.ts", "src/run-jest-coverage.ts", "src/index.ts", "src/__tests__/stimulate-progress-bar.test.ts", "src/types/types.ts"]
     // Other configurations...
   }

@@ -1,9 +1,9 @@
 import * as fs from 'fs';
 import path from 'path';
 import { green, red, yellow } from 'picocolors';
+import { AutoExporterOptions } from "../types/types";
 import { collectPaths } from './collect-paths';
 import { fileHasValidExtension } from './has-valid-extension';
-import { AutoExporterOptions } from "./types";
 
 export function generateExportsFromDir(startPath: string, config: AutoExporterOptions): string[] {
     console.log(green('Starting export generation from directory...'));

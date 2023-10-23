@@ -1,4 +1,4 @@
-import { randomTypeScriptFileContent } from './generate-random-typescript-content';
+import { randomTypeScriptFileContent } from '../utils/generate-random-typescript-content';
 
 describe('randomTypeScriptFileContent', () => {
   it('should return a string', () => {

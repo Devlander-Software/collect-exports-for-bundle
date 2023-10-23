@@ -1,5 +1,5 @@
-import { colorfulLog } from './color-log';
-import { simulateProgressBar } from './stimulate-progress-bar'; // Replace 'your-module' with the actual module path
+import { colorfulLog } from '../utils/color-log';
+import { simulateProgressBar } from '../utils/stimulate-progress-bar'; // Replace 'your-module' with the actual module path
 
 // Mock the colorfulLog function to track its calls
 jest.mock('./color-log', () => ({

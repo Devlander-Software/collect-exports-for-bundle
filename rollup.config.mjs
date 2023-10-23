@@ -33,7 +33,7 @@ const commonOutput = {
 
 const config = [
   {
-    input: './index.ts',
+    input: './src/index.ts',
     output: [
       {
         file: pkg.main,
@@ -53,7 +53,7 @@ const config = [
   },
 
   {
-    input: 'typings/index.d.ts',
+    input: 'dist/typings/index.d.ts',
     output: [{ file: 'dist/index.d.ts', format: 'esm' }],
     plugins: [dts()],
   },

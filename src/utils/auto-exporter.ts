@@ -1,10 +1,10 @@
 import * as fs from "fs";
 import * as path from "path";
 import * as pc from "picocolors";
+import { AutoExporterOptions } from "../types/types";
 import { colorfulLog } from "./color-log";
 import { generateExportsFromDir } from "./generate-exports-from-dir"; // Assuming you named the file containing the new function like this
 import { simulateProgressBar } from "./stimulate-progress-bar";
-import { AutoExporterOptions } from "./types";
 
 const checkForCommandLineFlags = (
   config: AutoExporterOptions
@@ -139,3 +139,5 @@ export const autoExporter = (options: AutoExporterOptions = {}): void => {
   );
 };
 
+
+export default autoExporter;

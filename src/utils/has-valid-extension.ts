@@ -1,4 +1,4 @@
-import { AutoExporterOptions } from "./types";
+import { AutoExporterOptions } from "../types/types";
 export function fileHasValidExtension(filename: string, config: AutoExporterOptions): boolean {
     if(!config.includeExtensions || config.includeExtensions.length === 0) {
         throw new Error('Include extensions are required');
