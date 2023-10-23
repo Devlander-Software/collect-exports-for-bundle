@@ -53,7 +53,7 @@ const config = [
   },
 
   {
-    input: 'dist/typings/index.d.ts',
+    input: 'typings/index.d.ts',
     output: [{ file: 'dist/index.d.ts', format: 'esm' }],
     plugins: [dts()],
   },
