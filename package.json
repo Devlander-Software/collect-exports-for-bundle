@@ -1,6 +1,6 @@
 {
   "name": "@devlander/collect-exports-for-bundle",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "type": "commonjs",
@@ -16,6 +16,7 @@
   "bin": {
     "collect-files-and-export": "./dist/cli.js"
   },
+  "license": "MIT",
   "dependencies": {
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-typescript": "^11.1.5",
