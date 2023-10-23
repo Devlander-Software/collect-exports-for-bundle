@@ -54,13 +54,13 @@ To install the Collect Exports For Bundle Script from the provided gist:
 
 ```bash
 
-npm install gist:2ca297f86cf9e25ae2fcc01752f80908
+npm install @devlander/collect-exports-for-bundle
 ```
 
 ### yarn:
 
 ```bash
-yarn add gist:2ca297f86cf9e25ae2fcc01752f80908
+yarn add @devlander/collect-exports-for-bundle
 ```
 
 ## Usage
