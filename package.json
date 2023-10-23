@@ -1,10 +1,10 @@
 {
   "name": "@devlander/collect-exports-for-bundle",
-  "version": "1.0.6",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "version": "1.0.7",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/cjs/index.d.ts",
   "type": "commonjs",
-  "module": "./dist/index.js",
   "files": [
     "dist"
   ],
