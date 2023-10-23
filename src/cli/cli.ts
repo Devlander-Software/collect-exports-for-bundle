@@ -1,7 +1,5 @@
 #!/usr/bin/env node
 
-import { runCLI } from './cli-config';
+import { runCLI } from './cli-config'
 
-
-
-runCLI();
+runCLI()

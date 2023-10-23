@@ -1,0 +1,48 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.eslint.json",
+    "tsconfigRootDir": "./"
+  },
+ 
+  "extends": [
+    "eslint:recommended",
+    "plugin:prettier/recommended", 
+    "plugin:jest/recommended"
+  ],
+  "plugins": ["prettier", "@typescript-eslint", "promise", "jest"],
+  "rules": {
+    "prettier/prettier": "warn", // Use the "warn" severity
+
+    "arrow-body-style": "off",
+    "prefer-arrow-callback": "off",
+    "prefer-const": "warn",
+    "no-var": "warn",
+    "no-throw-literal": "off",
+    "no-unreachable": "warn",
+    "no-prototype-builtins": "off",
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }
+    ],
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "promise/always-return": "warn",
+    "promise/no-return-wrap": "warn",
+    "promise/param-names": "warn",
+    "promise/catch-or-return": ["warn", { "allowFinally": true }],
+    "promise/no-native": "off",
+    "promise/no-nesting": "warn",
+    "promise/no-promise-in-callback": "warn",
+    "promise/no-callback-in-promise": "warn",
+    "promise/avoid-new": "off",
+    "promise/no-new-statics": "warn",
+    "promise/no-return-in-finally": "warn",
+    "promise/valid-params": "warn",
+    "jest/no-disabled-tests": "off",
+    "jest/no-commented-out-tests": "off"
+  },
+  "env": {
+    "node": true,
+    "jest": true
+  }
+}

@@ -1,143 +1,142 @@
-import * as fs from "fs";
-import * as path from "path";
-import * as pc from "picocolors";
-import { AutoExporterOptions } from "../types/types";
-import { colorfulLog } from "./color-log";
-import { generateExportsFromDir } from "./generate-exports-from-dir"; // Assuming you named the file containing the new function like this
-import { simulateProgressBar } from "./stimulate-progress-bar";
+import * as fs from 'fs'
+import * as path from 'path'
+import { ModuleExportOptions } from '../types/types'
+import { colorLog } from './color-log'
+import { generateExportsFromDir } from './generate-exports-from-dir' // Assuming you named the file containing the new function like this
+import { simulateProgressBar } from './stimulate-progress-bar'
 
 const checkForCommandLineFlags = (
-  config: AutoExporterOptions
-): AutoExporterOptions => {
+  config: ModuleExportOptions
+): ModuleExportOptions => {
   function handleCommandLineArgs(): void {
-    const args = process.argv.slice(2);
+    const args = process.argv.slice(2)
     for (let i = 0; i < args.length; i++) {
       switch (args[i]) {
-        case "-d":
-        case "--directory":
-          config.directory = args[i + 1];
-          i++;
-          break;
-        case "-de":
-        case "--default-export":
-          config.defaultExportFile = args[i + 1];
-          i++;
-          break;
-        case "-ie":
-        case "--include-extensions":
-          config.includeExtensions = args[i + 1].split(",");
-          i++;
-          break;
-        case "-ee":
-        case "--exclude-extensions":
-          config.excludeExtensions = args[i + 1].split(",");
-          i++;
-          break;
+        case '-d':
+        case '--directory':
+          config.rootDir = args[i + 1]
+          i++
+          break
+        case '-de':
+        case '--default-export':
+          config.primaryExportFile = args[i + 1]
+          i++
+          break
+        case '-ie':
+        case '--include-extensions':
+          config.allowedExtensions = args[i + 1].split(',')
+          i++
+          break
+        case '-ee':
+        case '--exclude-extensions':
+          config.ignoredExtensions = args[i + 1].split(',')
+          i++
+          break
         // Add case for excludeFolders and files if you want to handle them via command line
       }
     }
-    console.log(
-      pc.cyan("Updated Configuration after processing command-line args:"),
-      JSON.stringify(config, null, 2)
-    );
+
+    colorLog(
+      `Updated Configuration after processing command-line args: ${JSON.stringify(
+        config,
+        null,
+        2
+      )}`,
+      'blue'
+    )
   }
 
-  console.log("Starting auto-exporter script");
-  console.log(
-    colorfulLog("Current Configuration:", "blue"),
-    JSON.stringify(config, null, 2)
-  );
+  colorLog('Starting auto-exporter script', 'blue')
 
-  handleCommandLineArgs();
+  colorLog(`Current Configuration: ${JSON.stringify(config, null, 2)}`, 'blue')
 
-  return config;
-};
+  handleCommandLineArgs()
+
+  return config
+}
 
 export const createTestFolderAndFiles = (
   folderPath: string,
   files: string[]
 ): void => {
-  fs.mkdirSync(folderPath, { recursive: true });
+  fs.mkdirSync(folderPath, { recursive: true })
   for (const file of files) {
-    fs.writeFileSync(path.join(folderPath, file), "");
+    fs.writeFileSync(path.join(folderPath, file), '')
   }
-};
+}
 
-export const autoExporter = (options: AutoExporterOptions = {}): void => {
-  const config: AutoExporterOptions = {
+export const autoExporter = (options: ModuleExportOptions = {}): void => {
+  const config: ModuleExportOptions = {
     ...options,
-    directory: options.directory || "src",
-    defaultExportFile: options.defaultExportFile || "",
-    includeExtensions: options.includeExtensions || [".ts", ".tsx"],
-    excludeExtensions: options.excludeExtensions || [".test.tsx", ".test.ts"],
-    excludeFolders: options.excludeFolders || [],
-    files: options.files || [],
-    saveEntryFileWithExtension: options.saveEntryFileWithExtension || ".ts",
-  };
+    rootDir: options.rootDir || 'src',
+    primaryExportFile: options.primaryExportFile || '',
+    allowedExtensions: options.allowedExtensions || ['.ts', '.tsx'],
+    ignoredExtensions: options.ignoredExtensions || ['.test.tsx', '.test.ts'],
+    excludedFolders: options.excludedFolders || [],
+    specificFiles: options.specificFiles || [],
+    outputFilenameExtension: options.outputFilenameExtension || '.ts'
+  }
 
-  const fileNameToWriteTo = `index${config.saveEntryFileWithExtension}`;
+  const fileNameToWriteTo = `index${config.outputFilenameExtension}`
 
-  if (config && config.defaultExportFile && config.defaultExportFile !== "") {
+  if (config && config.primaryExportFile && config.primaryExportFile !== '') {
     // default export file should never be index
     // all of the files in the directory will be exported in index.ts
-    if (config.defaultExportFile.includes("index")) {
-      config.defaultExportFile = config.defaultExportFile = "";
+    if (config.primaryExportFile.includes('index')) {
+      config.primaryExportFile = config.primaryExportFile = ''
     }
   }
 
-  const TOTAL_STEPS = 4; // Number of steps in your progress
-  let currentStep = 1; // Starting step
+  const TOTAL_STEPS = 4 // Number of steps in your progress
+  let currentStep = 1 // Starting step
 
   simulateProgressBar(
-    "Processing command-line flags...",
+    'Processing command-line flags...',
     TOTAL_STEPS,
     currentStep++
-  );
-  checkForCommandLineFlags(config);
+  )
+  checkForCommandLineFlags(config)
 
   simulateProgressBar(
-    "Checking default export file...",
+    'Checking default export file...',
     TOTAL_STEPS,
     currentStep++
-  );
-  if (!config.directory || config.directory === "") {
-    throw new Error("Directory is required");
+  )
+  if (!config.rootDir || config.rootDir === '') {
+    throw new Error('Directory is required')
   }
 
-  if (config.files && config.files.length > 0) {
-    if (!config.defaultExportFile || config.defaultExportFile !== "") {
+  if (config.specificFiles && config.specificFiles.length > 0) {
+    if (!config.primaryExportFile || config.primaryExportFile !== '') {
       if (
-        config.defaultExportFile &&
-        fs.existsSync(path.join(config.directory, config.defaultExportFile))
+        config.primaryExportFile &&
+        fs.existsSync(path.join(config.rootDir, config.primaryExportFile))
       ) {
-        if (!config.files.includes(config.defaultExportFile)) {
-          config.files.push(config.defaultExportFile);
+        if (!config.specificFiles.includes(config.primaryExportFile)) {
+          config.specificFiles.push(config.primaryExportFile)
         }
       }
     }
   }
 
   simulateProgressBar(
-    "Generating exports from directory...",
+    'Generating exports from directory...',
     TOTAL_STEPS,
     currentStep++
-  );
-  const exportsList = generateExportsFromDir(config.directory, config);
+  )
+  const exportsList = generateExportsFromDir(config.rootDir, config)
 
   simulateProgressBar(
     `Writing to ${fileNameToWriteTo}...`,
     TOTAL_STEPS,
     currentStep++
-  );
+  )
   fs.writeFileSync(
-    path.join(config.directory, fileNameToWriteTo),
-    exportsList.join("\n")
-  );
+    path.join(config.rootDir, fileNameToWriteTo),
+    exportsList.join('\n')
+  )
 
-  console.log(
-    colorfulLog(`\nExports generated in ${fileNameToWriteTo}\n`, "blue")
-  );
-};
+  console.log(colorLog(`\nExports generated in ${fileNameToWriteTo}\n`, 'blue'))
+}
 
-
-export default autoExporter;
+export default autoExporter

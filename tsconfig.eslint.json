@@ -1,0 +1,17 @@
+{
+    "extends": "./tsconfig.json",
+    "include": [
+      "src/**/*",
+      "jest.config.js",
+      "build-script.config.js",
+      "rollup.config.js",
+      "test/**/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "**/*.spec.ts",
+        "*.d.ts",
+        "typings",
+        "dist"
+    ]
+  }
