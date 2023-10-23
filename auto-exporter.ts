@@ -139,4 +139,3 @@ export const autoExporter = (options: AutoExporterOptions = {}): void => {
   );
 };
 
-export default autoExporter;

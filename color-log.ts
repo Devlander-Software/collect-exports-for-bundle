@@ -1,8 +1,8 @@
 import { blue, green, red } from 'picocolors';
+import { TColor } from './types';
 
-type TColor = "green" | "red" | "blue";
 
-export const colorfulLog = (message, color:TColor) => {
+export const colorfulLog = (message: string, color:TColor) => {
     switch (color) {
       case 'green':
         console.log(green(message));

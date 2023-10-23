@@ -19,3 +19,5 @@ export interface ParsedArgs  {
     _: (string | number)[];
     $0: string;
 }
+
+export type TColor = "green" | "red" | "blue";
