@@ -1,6 +1,6 @@
 {
   "name": "@devlander/collect-exports-for-bundle",
-  "version": "1.0.19",
+  "version": "1.0.20",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/cjs/index.d.ts",
@@ -14,7 +14,7 @@
     "url": "https://landonjohnson.dev"
   },
   "bin": {
-    "collect-files-and-export": "./dist/cli.js"
+    "collect-files-and-export": "./dist/cjs/cli"
   },
   "scripts": {
     "docs": "typedoc --out ./docs ./src",
