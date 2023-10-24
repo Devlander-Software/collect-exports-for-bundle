@@ -1,6 +1,6 @@
 {
   "name": "@devlander/collect-exports-for-bundle",
-  "version": "1.0.20",
+  "version": "1.0.21",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/cjs/index.d.ts",
@@ -19,6 +19,7 @@
   "scripts": {
     "docs": "typedoc --out ./docs ./src",
     "test": "jest --coverage",
+    "test:example": "node example/bootstrap.cjs",
     "test:snaps": "jest --updateSnapshot",
     "patch": "yarn version --new-version patch",
     "lint": "eslint .",
@@ -27,7 +28,7 @@
     "buildESM": "tsc",
     "buildCJS": "rollup -c",
     "timeout": "delay 5",
-    "build": "yarn run docs && npx rimraf ./dist && yarn run timeout && yarn run format && yarn run typecheck && yarn run buildESM && yarn run buildCJS && yarn run patch"
+    "build": "yarn run docs && npx rimraf ./dist && yarn run timeout && yarn run format && yarn run typecheck && yarn run buildESM && yarn run buildCJS && yarn run test:example &&  yarn run patch"
   },
   "license": "MIT",
   "dependencies": {
