@@ -12,18 +12,14 @@
     "noEmit": false,
     "emitDeclarationOnly": true,
     "resolveJsonModule": true,
-    "rootDir": "src",
+    "rootDirs": ["src", "__tests__"],
     "allowJs": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
     "types": ["node", "@types/jest"],
     "allowSyntheticDefaultImports": true
   },
-  "include": [
-    "./src/**/*",
-    "./testing-auto-exporter",
-    "*/**.ts"
-  ],
+  "include": ["./src/**/*.ts", "**/*.test.ts"],
   "exclude": [
     "rollup.config.mjs",
     "node_modules",

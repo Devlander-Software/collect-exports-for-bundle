@@ -1,93 +1,61 @@
-import * as fs from 'fs'
+import * as fs from 'fs/promises' // Use the promise version of the fs module
 import path from 'path'
 import { ModuleExportOptions } from '../types/types'
-import { logColoredMessage } from './log-with-color'
-const readDirectory = (directoryPath: string): Promise<string[]> =>
-  new Promise((resolve, reject) => {
-    fs.readdir(directoryPath, (err, files) => {
-      if (err) {
-        reject(err)
-        return // ensure that the function ends here in case of an error
-      }
-      resolve(files)
-    })
-  })
 
-function directoryExists(directoryPath: string) {
-  // Check if the path exists
-  if (fs.existsSync(directoryPath)) {
-    // Check if the path points to a directory
-    return fs.statSync(directoryPath).isDirectory()
-  }
-  return false
-}
-
-async function checkDirectory(directoryPath: string): Promise<true | false> {
-  try {
-    const files = await readDirectory(directoryPath)
-    if (files.length > 0) {
-      return true
-    } else {
-      return false
-    }
-  } catch (err: any) {
-    logColoredMessage(
-      `An error occurred while reading directory: ${err.message}`,
-      'red'
-    )
-    return false
-  }
-}
-
-export function collectPaths(
+export async function collectPaths(
   startPath: string,
-  config: ModuleExportOptions
-): string[] {
+  config: ModuleExportOptions = { excludedFolders: [] }
+): Promise<string[]> {
   let paths: string[] = []
 
-  const hasFilesInDirectory = checkDirectory(startPath)
-  console.log(`hasFilesInDirectory: ${hasFilesInDirectory}`)
-  // Check if starting directory exists
-  if (directoryExists(startPath)) {
-    console.error('Directory does not exist:', startPath)
+  const absolutePath = path.resolve(startPath)
+
+  try {
+    const stat = await fs.lstat(absolutePath)
+
+    if (!stat.isDirectory()) {
+      console.log('Not a directory:', absolutePath)
+      return paths
+    }
+  } catch (error: any) {
+    console.error(`Error accessing path "${absolutePath}":`, error.message)
     return paths
   }
 
-  const files = fs.readdirSync(startPath)
+  try {
+    const files = await fs.readdir(absolutePath)
+    for (const file of files) {
+      const filename = path.join(absolutePath, file)
 
-  for (const file of files) {
-    const filename = path.join(startPath, file)
-    const stat = fs.lstatSync(filename)
+      // Cached directory check
+      let isDirectory: boolean
+      try {
+        isDirectory = (await fs.lstat(filename)).isDirectory()
+      } catch (error: any) {
+        console.error(
+          `Error accessing file/folder "${filename}":`,
+          error.message
+        )
+        continue
+      }
 
-    if (stat.isDirectory()) {
-      // Skip if the directory is in the excludeFolders list
-      if (config.excludedFolders && config.excludedFolders.includes(file)) {
-        console.log(`Excluding folder: ${file}`)
-        continue
+      if (isDirectory) {
+        if (config.excludedFolders && config.excludedFolders.includes(file)) {
+          console.log(`Excluding folder: ${file}`)
+          continue
+        }
+        paths = paths.concat(await collectPaths(filename, config)) // Recursive call
+      } else {
+        if (['index.ts', 'index.tsx'].includes(file)) {
+          console.log(`Excluding file: ${file}`)
+          continue
+        }
+        paths.push(filename)
       }
-      // Recursively collect paths from subdirectories
-      paths = paths.concat(collectPaths(filename, config))
-    } else {
-      // Skip 'index.ts' or 'index.tsx' files
-      if (['index.ts', 'index.tsx'].includes(file)) {
-        console.log(`Excluding index file: ${file}`)
-        continue
-      }
-      // Check against specific files if any
-      if (
-        config.specificFiles &&
-        config.specificFiles.length &&
-        !config.specificFiles.includes(file)
-      ) {
-        console.log(`Excluding non-specified file: ${file}`)
-        continue
-      }
-      // Add the file if it passes all conditions
-      paths.push(filename)
     }
+  } catch (error: any) {
+    console.error(`Error reading directory "${absolutePath}":`, error.message)
   }
 
-  // Log the collected paths for verification
-  console.log(`Collected paths:`, paths)
   return paths
 }

@@ -1,14 +1,23 @@
 import { ModuleExportOptions } from '../types/types'
-import { collectRelevantPaths } from './collect-relavant-paths'
+import { collectPaths } from './collect-paths'
 import { generateExportsFromPaths } from './generator-exports-from-paths'
-import { logColoredMessage as colorLog } from './log-with-color'
+import { fileHasValidExtension } from './has-valid-extension'
+import { logColoredMessage } from './log-with-color'
 
-export function generateExportsFromDir(
-  rootDir: string,
+export async function generateExportsFromDir(
+  startPath: string,
   config: ModuleExportOptions
-): string[] {
-  colorLog('Starting export generation from directory...', 'green')
-  const collectedPaths = collectRelevantPaths(rootDir, config)
-  const distinctPaths = [...new Set(collectedPaths)]
-  return generateExportsFromPaths(distinctPaths, config)
+): Promise<string[]> {
+  logColoredMessage(`Starting export generation from directory...`, 'green')
+  const collectedPaths: string[] = await collectPaths(startPath, config)
+
+  const distinctPaths = [...new Set(collectedPaths)] // Remove duplicates using Set
+
+  const filteredPaths = distinctPaths.filter((path) => {
+    if (fileHasValidExtension(path, config)) {
+      return path
+    }
+  })
+
+  return generateExportsFromPaths(filteredPaths, config)
 }

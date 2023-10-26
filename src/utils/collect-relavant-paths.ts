@@ -3,12 +3,12 @@ import { collectPaths } from './collect-paths'
 import { fileHasValidExtension } from './has-valid-extension'
 import { logColoredMessage } from './log-with-color'
 
-export function collectRelevantPaths(
+export async function collectRelevantPaths(
   rootDir: string,
   config: ModuleExportOptions
-): string[] {
+): Promise<string[]> {
   const path = require('path')
-  let allPaths = collectPaths(rootDir, config)
+  let allPaths = await collectPaths(rootDir, config)
 
   // Filter based on specificFiles if provided
   if (config.specificFiles && config.specificFiles.length) {
@@ -23,10 +23,14 @@ export function collectRelevantPaths(
     allPaths = allPaths.filter((filePath) => {
       logColoredMessage(
         `Checking filepath inside of collect relavant paths ${filePath}`,
-        'red'
+        'yellow'
       )
       const fileName = path.basename(filePath)
       const fileExtension = path.extname(fileName)
+      logColoredMessage(
+        `Checking file extension inside of collect relavant paths ${fileExtension}`,
+        'yellow'
+      )
       return !ignoredExtensions.includes(fileExtension)
     })
   }

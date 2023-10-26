@@ -1,26 +1,21 @@
 import { blue, green, red, yellow } from 'picocolors'
-import { TColor } from '../types/types'
+import { TColor, TColorValue } from '../types/types'
 
-const logWithColor = (color: TColor, message: string) => {
-  switch (color) {
-    case 'green':
-      console.log(green(message))
-      break
-    case 'red':
-      console.log(red(message))
-      break
-    case 'blue':
-      console.log(blue(message))
-      break
-    case 'yellow':
-      console.log(yellow(message))
-      break
-    default:
-      console.log(message)
+const logWithColor = (color: TColor | TColorValue, message: string) => {
+  if (color === TColor.green) {
+    console.log(green(message))
+  } else if (color === TColor.red) {
+    console.log(red(message))
+  } else if (color === TColor.blue) {
+    console.log(blue(message))
+  } else if (color === TColor.yellow) {
+    console.log(yellow(message))
+  } else {
+    console.log(message)
   }
 }
 
-export const logColoredMessage = (message: string, color: TColor) => {
+export const logColoredMessage = (message: string, color: TColorValue) => {
   logWithColor(color, message)
 }
 
@@ -28,6 +23,6 @@ export const logMessageBasedOnCondition = (
   message: string,
   condition: boolean
 ) => {
-  const color = condition ? 'green' : 'red'
+  const color: TColor = condition ? TColor.green : TColor.red
   logWithColor(color, message)
 }

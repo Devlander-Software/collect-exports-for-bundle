@@ -24,4 +24,3 @@ export * from "./math-functions/getPercentage";
 export * from "./math-functions/multipleBy";
 import mainExport from "./math-functions/mainExport";
 export default mainExport;
-// Auto-generated exports from index.ts file at 10/26/2023, 10:24:10 AM

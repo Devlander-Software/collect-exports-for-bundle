@@ -1,62 +1,113 @@
+import * as fs from 'fs'
+import path from 'path'
 import { ModuleExportOptions } from '../types/types'
 import { hasDefaultExport, hasNamedExports } from './export-patterns'
 import { extractDefaultExportVariable } from './extract-default-export'
+import { getFilenameFromPath } from './get-file-name-from-path'
 import { fileHasValidExtension } from './has-valid-extension'
 import { logColoredMessage } from './log-with-color'
-const fs = require('fs')
+
+// const fileName = getFilenameFromPath(filepath)
+// const fileContent = fs.readFileSync(filepath, 'utf-8') // Reading the content of the file
+// const relativePath = `./${path
+//   .relative(config.rootDir, filepath)
+//   .replace(/\\/g, '/')}`
+// const withoutExtension = relativePath.substring(
+//   0,
+//   relativePath.lastIndexOf('.')
+// )
+// const componentName = path.basename(filepath, path.extname(filepath))
+// const isPrimaryExportFile = fileName === config.primaryExportFile
+
+interface BuildExportsFromPathParams {
+  isPrimaryExportFile: boolean
+  fileName: string
+  fileContent: string
+  results: string[]
+  withoutExtension: string
+  filepath: string
+  componentName: string
+  defaultExportString: string[]
+  config: ModuleExportOptions
+}
+
+const buildExportsFromPaths = (params: BuildExportsFromPathParams) => {
+  const {
+    isPrimaryExportFile,
+    fileName,
+    fileContent,
+    withoutExtension,
+    filepath,
+    defaultExportString,
+    componentName,
+    results,
+    config
+  } = params
+  logColoredMessage(`Processing included file: ${filepath}...`, 'yellow')
+  if (isPrimaryExportFile && hasDefaultExport(fileContent)) {
+    const defaultVariable = extractDefaultExportVariable(filepath)
+    console.log('defaultVariable', defaultVariable)
+    if (defaultVariable) {
+      if (
+        !defaultExportString.includes(
+          `import ${defaultVariable} from "${withoutExtension}";`
+        )
+      ) {
+        defaultExportString.push(
+          `import ${defaultVariable} from "${withoutExtension}";`
+        )
+        defaultExportString.push(`export default ${defaultVariable};`)
+      }
+    } else {
+      logColoredMessage(
+        `Failed to extract default export from ${fileName}.`,
+        'red'
+      )
+    }
+  } else if (
+    fileHasValidExtension(filepath, config) &&
+    hasNamedExports(fileContent)
+  ) {
+    results.push(`/**\n * TSDoc for ${componentName}\n */`)
+    results.push(`export * from "${withoutExtension}";`)
+  }
+}
 
 export function generateExportsFromPaths(
   paths: string[],
   config: ModuleExportOptions
 ): string[] {
-  const path = require('path')
-  logColoredMessage('Generating exports from provided paths...', 'green')
+  logColoredMessage(`Generating exports from provided paths...`, 'green')
   const results: string[] = []
   const defaultExportString: string[] = []
   if (!config.rootDir || config.rootDir === '') {
     throw new Error('rootDir is required')
   }
 
-  for (const filename of paths) {
-    const fileContent = fs.readspecificFilesync(filename, 'utf-8') // Reading the content of the file
+  for (const filepath of paths) {
+    const fileName = getFilenameFromPath(filepath)
+    const fileContent = fs.readFileSync(filepath, 'utf-8') // Reading the content of the file
     const relativePath = `./${path
-      .relative(config.rootDir, filename)
+      .relative(config.rootDir, filepath)
       .replace(/\\/g, '/')}`
     const withoutExtension = relativePath.substring(
       0,
       relativePath.lastIndexOf('.')
     )
-    const componentName = path.basename(filename, path.extname(filename))
+    const componentName = path.basename(filepath, path.extname(filepath))
+    const isPrimaryExportFile = fileName === config.primaryExportFile
 
-    if (config.specificFiles && config.specificFiles.includes(filename)) {
-      logColoredMessage(`Processing included file: ${filename}...`, 'yellow')
-      if (
-        filename.endsWith(config.primaryExportFile || '') &&
-        hasDefaultExport(fileContent)
-      ) {
-        const defaultVariable = extractDefaultExportVariable(filename)
-        if (defaultVariable) {
-          defaultExportString.push(
-            `import ${defaultVariable} from "${withoutExtension}";`
-          )
-          defaultExportString.push(`export default ${defaultVariable};`)
-        } else {
-          logColoredMessage(
-            `Failed to extract default export from ${filename}.`,
-            'red'
-          )
-        }
-      } else if (hasNamedExports(fileContent)) {
-        results.push(`/**\n * TSDoc for ${componentName}\n */`)
-        results.push(`export * from "${withoutExtension}";`)
-      }
-    } else if (
-      fileHasValidExtension(filename, config) &&
-      hasNamedExports(fileContent)
-    ) {
-      results.push(`/**\n * TSDoc for ${componentName}\n */`)
-      results.push(`export * from "${withoutExtension}";`)
-    }
+    buildExportsFromPaths({
+      isPrimaryExportFile,
+      fileName,
+      fileContent,
+      withoutExtension,
+      filepath,
+      componentName,
+      defaultExportString,
+      results,
+      config
+    })
   }
 
   return [...results, ...defaultExportString]
