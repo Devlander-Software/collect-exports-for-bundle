@@ -4,11 +4,12 @@
       "src/**/*",
       "jest.config.js",
       "build-script.config.js",
-      "rollup.config.js",
       "test/**/*"
     ],
     "exclude": [
         "node_modules",
+        "example",
+
         "**/*.spec.ts",
         "*.d.ts",
         "typings",

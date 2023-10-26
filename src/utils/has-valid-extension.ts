@@ -1,25 +1,20 @@
+import path from 'path'
 import { ModuleExportOptions } from '../types/types'
+
 export function fileHasValidExtension(
-  filename: string,
+  filePath: string,
   config: ModuleExportOptions
 ): boolean {
-  if (!config.allowedExtensions || config.allowedExtensions.length === 0) {
-    throw new Error('Allowed extensions are required')
+  // Get the file extension
+  const ext = path.extname(filePath)
+
+  // First, check if the file's extension is within the ignored list
+  if (config.ignoredExtensions && config.ignoredExtensions.includes(ext)) {
+    return false
   }
 
-  if (!config.ignoredExtensions || config.ignoredExtensions.length === 0) {
-    throw new Error('ignoredExtensions extensions are required')
-  }
-  const isIncluded = config.allowedExtensions.some((ext) =>
-    filename.endsWith(ext)
+  // Then, check if the file's extension is allowed
+  return Boolean(
+    config.allowedExtensions && config.allowedExtensions.includes(ext)
   )
-  const isExcluded = config.ignoredExtensions.some((ext) =>
-    filename.endsWith(ext)
-  )
-
-  console.log(
-    `Checking file: ${filename}. Included: ${isIncluded}, Excluded: ${isExcluded}`
-  )
-
-  return isIncluded && !isExcluded
 }

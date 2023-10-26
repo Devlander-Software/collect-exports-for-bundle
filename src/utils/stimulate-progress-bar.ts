@@ -1,4 +1,4 @@
-import { colorLog } from './color-log'
+import { logColoredMessage } from './log-with-color'
 
 /**
  * Simulate a custom progress bar.
@@ -15,5 +15,5 @@ export const simulateProgressBar = (
   const progressBar = `[${'='.repeat(current)}${' '.repeat(
     total - current
   )}] ${percentage}%`
-  colorLog(`${message} ${progressBar}`, 'blue')
+  logColoredMessage(`${message} ${progressBar}`, 'blue')
 }

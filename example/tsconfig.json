@@ -20,10 +20,11 @@
     "allowSyntheticDefaultImports": true
   },
   "include": [
-    "src/**/*"
-, "src/__tests__"  ],
+    "./src/**/*",
+    "./testing-auto-exporter",
+    "*/**.ts"
+  ],
   "exclude": [
-    "example",
     "rollup.config.mjs",
     "node_modules",
     "**/*.spec.ts",
