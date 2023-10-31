@@ -1,7 +1,9 @@
 import * as fs from 'fs'
 import * as path from 'path'
 import { ModuleExportOptions } from '../types/types'
+import { bundleExportAsFunction } from './bundle-export-as-function'
 import { generateExportsFromDir } from './generate-exports-from-dir'
+import { isCamelCase } from './is-camel-case'
 import { logColoredMessage } from './log-with-color'
 import { simulateProgressBar } from './stimulate-progress-bar'
 
@@ -19,7 +21,8 @@ const defaultAutoExportConfig: ModuleExportOptions = {
   excludedFolders: [],
   specificFiles: [],
   outputFilenameExtension: '.ts',
-  outputFileName: 'index'
+  outputFileName: 'index',
+  bundleAsFunctionForDefaultExportAs: undefined
 }
 
 export const autoExporter = async (
@@ -43,12 +46,27 @@ export const autoExporter = async (
         options.outputFileName || defaultAutoExportConfig.outputFileName,
       outputFilenameExtension:
         options.outputFilenameExtension ||
-        defaultAutoExportConfig.outputFilenameExtension
+        defaultAutoExportConfig.outputFilenameExtension,
+      bundleAsFunctionForDefaultExportAs:
+        options.bundleAsFunctionForDefaultExportAs ||
+        defaultAutoExportConfig.bundleAsFunctionForDefaultExportAs
     }
 
     const fileNameToWriteTo = `${config.outputFileName}${config.outputFilenameExtension}`
 
-    if (config && config.primaryExportFile && config.primaryExportFile !== '') {
+    if (
+      config.bundleAsFunctionForDefaultExportAs &&
+      config.bundleAsFunctionForDefaultExportAs !== ''
+    ) {
+      isCamelCase(config.bundleAsFunctionForDefaultExportAs)
+    }
+
+    if (
+      config &&
+      config.primaryExportFile &&
+      config.primaryExportFile !== '' &&
+      typeof config.bundleAsFunctionForDefaultExportAs !== 'undefined'
+    ) {
       // default export file should never be index
       // all of the specificFiles in the directory will be exported in index.ts
       if (
@@ -108,7 +126,28 @@ export const autoExporter = async (
       exportsList.join('\n')
     )
 
-    logColoredMessage(`\nExports generated in ${fileNameToWriteTo}\n`, 'blue')
+    if (config.bundleAsFunctionForDefaultExportAs && config.rootDir) {
+      logColoredMessage(
+        `\nBundling all modules from ${fileNameToWriteTo} as into one object as a module\n`,
+        'blue'
+      )
+
+      await bundleExportAsFunction({
+        rootDir: config.rootDir,
+        outputFileName: config.outputFileName,
+        outputFilenameExtension: config.outputFilenameExtension,
+        bundleAsFunctionForDefaultExportAs:
+          config.bundleAsFunctionForDefaultExportAs,
+        ...config
+      })
+    } else {
+      logColoredMessage(
+        `\nExporting all functions from ${fileNameToWriteTo} as separate modules\n`,
+        'blue'
+      )
+    }
+
+    logColoredMessage(`\nExports generated in ${fileNameToWriteTo}\n`, 'green')
   } catch (e) {
     console.log(e)
     logColoredMessage(`\nError: ${e}\n`, 'red')

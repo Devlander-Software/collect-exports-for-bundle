@@ -7,19 +7,7 @@ import { getFilenameFromPath } from './get-file-name-from-path'
 import { fileHasValidExtension } from './has-valid-extension'
 import { logColoredMessage } from './log-with-color'
 
-// const fileName = getFilenameFromPath(filepath)
-// const fileContent = fs.readFileSync(filepath, 'utf-8') // Reading the content of the file
-// const relativePath = `./${path
-//   .relative(config.rootDir, filepath)
-//   .replace(/\\/g, '/')}`
-// const withoutExtension = relativePath.substring(
-//   0,
-//   relativePath.lastIndexOf('.')
-// )
-// const componentName = path.basename(filepath, path.extname(filepath))
-// const isPrimaryExportFile = fileName === config.primaryExportFile
-
-interface BuildExportsFromPathParams {
+export interface BuildExportsFromPathParams {
   isPrimaryExportFile: boolean
   fileName: string
   fileContent: string

@@ -4,7 +4,8 @@ interface ModuleExportOptions {
     targetVersion?: 'es6' | 'es5'
     primaryExportFile?: string
     allowedExtensions?: string[]
-    exportMode?: 'named' | 'default' | 'both'
+    exportMode?: 'named' | 'default' | 'both',
+    bundleAsFunctionForDefaultExportAs?: string
     outputFilenameExtension?: '.ts' | '.tsx'
     ignoredExtensions?: string[]
     specificFiles?: string[]
