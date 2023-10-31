@@ -1,6 +1,6 @@
 {
   "name": "@devlander/collect-exports-for-bundle",
-  "version": "1.0.109",
+  "version": "1.0.110",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/cjs/index.d.ts",
@@ -17,7 +17,7 @@
     "check-packages": "npx check-package-dependencies",
     "docs": "typedoc --out ./docs ./src",
     "test": "jest --coverage",
-    "test:example": "cd example && yarn remove @devlander/collect-exports-for-bundle && yarn add './..' && cd .. &&  node example/bootstrap.cjs",
+    "test:example": "node example/bootstrap.cjs",
     "test:snaps": "jest --updateSnapshot",
     "patch": "yarn version --new-version patch",
     "lint": "eslint .",
