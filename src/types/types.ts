@@ -12,6 +12,8 @@
  * @property {'named' | 'default' | 'both'} [exportMode] - Mode of export, whether named, default or both.
  * @property {'.ts' | '.tsx'} [outputFilenameExtension] - File extension for the output file.
  *                                                       Default is '.ts' if not specified.
+ * @property {'.ts' | '.tsx'} [outputFileName] - File name for the output file.
+ *                                                       Default is 'index' if not specified.
  * @property {string[]} [ignoredExtensions] - Extensions of files to be ignored.
  *                                           Defaults are ['.test.tsx', '.stories.tsx', '.test.ts', '.stories.ts'].
  * @property {string[]} [specificFiles] - Only exports the specified files instead of scanning the whole rootDir.
@@ -25,6 +27,7 @@ export interface ModuleExportOptions {
   primaryExportFile?: string
   allowedExtensions?: string[]
   exportMode?: 'named' | 'default' | 'both'
+  outputFileName?: string
   outputFilenameExtension?: '.ts' | '.tsx'
   ignoredExtensions?: string[]
   specificFiles?: string[]

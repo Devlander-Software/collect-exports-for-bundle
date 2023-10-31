@@ -22,11 +22,12 @@ const {autoExporter} = require('@devlander/collect-exports-for-bundle')
      
     autoExporter({
         rootDir: "./",
-        primaryExportFile: 'mainExport.ts',
         allowedExtensions: ['.ts', '.tsx', '.component.tsx', '.component.ts'],
         ignoredExtensions: ['.test.tsx', '.stories.tsx', '.test.ts', '.stories.ts', '.extra.ts'],
         excludedFolders: ['node_modules', "junk"],
     })
+
+
 }
 
 module.exports = {

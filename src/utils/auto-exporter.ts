@@ -18,7 +18,8 @@ const defaultAutoExportConfig: ModuleExportOptions = {
   ],
   excludedFolders: [],
   specificFiles: [],
-  outputFilenameExtension: '.ts'
+  outputFilenameExtension: '.ts',
+  outputFileName: 'index'
 }
 
 export const autoExporter = async (
@@ -38,17 +39,22 @@ export const autoExporter = async (
         options.excludedFolders || defaultAutoExportConfig.excludedFolders,
       specificFiles:
         options.specificFiles || defaultAutoExportConfig.specificFiles,
+      outputFileName:
+        options.outputFileName || defaultAutoExportConfig.outputFileName,
       outputFilenameExtension:
         options.outputFilenameExtension ||
         defaultAutoExportConfig.outputFilenameExtension
     }
 
-    const fileNameToWriteTo = `index${config.outputFilenameExtension}`
+    const fileNameToWriteTo = `${config.outputFileName}${config.outputFilenameExtension}`
 
     if (config && config.primaryExportFile && config.primaryExportFile !== '') {
       // default export file should never be index
       // all of the specificFiles in the directory will be exported in index.ts
-      if (config.primaryExportFile.includes('index')) {
+      if (
+        config.outputFileName &&
+        config.primaryExportFile.includes(config.outputFileName)
+      ) {
         config.primaryExportFile = config.primaryExportFile = ''
       }
     }

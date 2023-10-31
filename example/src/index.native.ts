@@ -3,9 +3,9 @@
  */
 export * from "./files-with-extentions/addSum.native";
 /**
- * TSDoc for addSum.web
+ * TSDoc for header.styles
  */
-export * from "./files-with-extentions/addSum.web";
+export * from "./files-with-extentions/header.styles";
 /**
  * TSDoc for login-user.dto
  */
@@ -22,10 +22,6 @@ export * from "./files-with-extentions/user.props";
  * TSDoc for index.native
  */
 export * from "./index.native";
-/**
- * TSDoc for index.web
- */
-export * from "./index.web";
 /**
  * TSDoc for addSum
  */
