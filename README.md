@@ -1,3 +1,26 @@
+![Devlander Collect Exports For Bundle Header](https://github.com/Devlander-Software/collect-exports-for-bundle/raw/main/media/images/collect-exports-for-bundle-preview.jpg)
+
+
+<a href="https://twitter.com/intent/tweet?button_hashtag=Devlander" target="\_parent">
+  <img alt="#Devlander" src="https://img.shields.io/twitter/url?color=%2308a0e9&label=%23Devlander&style=social&url=https%3A%2F%2Ftwitter.com%2Fintent%2Ftweet%3Fbutton_hashtag%3DDevlander">
+</a><a href="https://bit.ly/devlander-discord-invite" target="\_parent">
+  <img alt="" src="https://img.shields.io/badge/Discord-Devlander-%235865F2" />
+</a><a href="https://github.com/TanStack/query/actions?query=workflow%3A%22react-query+tests%22">
+<img src="https://github.com/TanStack/query/workflows/react-query%20tests/badge.svg" />
+</a><a href="https://www.npmjs.com/package/@devlander/collect-exports-for-bundle" target="\_parent">
+
+  <img alt="" src="https://img.shields.io/npm/dm/@devlander/collect-exports-for-bundle.svg" />
+</a>
+
+<a href="https://github.com/orgs/Devlander-Software/discussions">
+  <img alt="Join the discussion on Github" src="https://img.shields.io/badge/Github%20Discussions%20%26%20Support-Chat%20now!-blue" />
+</a><a href="https://bestofjs.org/projects/tanstack-query">
+</a><a href="https://twitter.com/landonwjohnson" target="\_parent">
+  <img alt="" src="https://img.shields.io/twitter/follow/landonwjohnson.svg?style=social&label=Follow" />
+</a> 
+
+
+
 # Table of contents
 - [Introduction](#introduction)
 - [Features](#features)

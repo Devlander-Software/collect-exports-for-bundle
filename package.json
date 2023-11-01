@@ -8,7 +8,7 @@
   "files": [
     "dist"
   ],
-  "description": "Collects all exports from a package.json's main file and writes them to a file.",
+  "description": "Easily collect all exports from a directory to your index file for bundling.",
   "author": {
     "name": "Landon W. Johnson",
     "url": "https://landonjohnson.dev"
