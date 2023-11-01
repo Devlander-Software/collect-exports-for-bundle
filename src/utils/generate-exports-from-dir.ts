@@ -1,4 +1,4 @@
-import { ModuleExportOptions } from '../types/types'
+import { ModuleExportOptions } from '../types/module-exporter.types'
 import { collectPathsFromDirectories } from './collect-paths-from-directories'
 import { generateExportsFromPaths } from './generator-exports-from-paths'
 import { logColoredMessage } from './log-with-color'

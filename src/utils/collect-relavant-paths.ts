@@ -1,4 +1,4 @@
-import { ModuleExportOptions } from '../types/types'
+import { ModuleExportOptions } from '../types/module-exporter.types'
 import { collectPaths } from './collect-paths'
 import { fileHasValidExtension } from './has-valid-extension'
 import { logColoredMessage } from './log-with-color'
@@ -18,7 +18,6 @@ export async function collectRelevantPaths(
   }
 
   const ignoredExtensions = config.ignoredExtensions || []
-  console.log(`Ignored extensions: ${ignoredExtensions}`)
   if (ignoredExtensions.length) {
     allPaths = allPaths.filter((filePath) => {
       logColoredMessage(

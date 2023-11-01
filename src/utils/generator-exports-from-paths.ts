@@ -1,6 +1,6 @@
 import * as fs from 'fs'
 import path from 'path'
-import { ModuleExportOptions } from '../types/types'
+import { ModuleExportOptions } from '../types/module-exporter.types'
 import { hasDefaultExport, hasNamedExports } from './export-patterns'
 import { extractDefaultExportVariable } from './extract-default-export'
 import { getFilenameFromPath } from './get-file-name-from-path'
@@ -34,7 +34,6 @@ const buildExportsFromPaths = (params: BuildExportsFromPathParams) => {
   logColoredMessage(`Processing included file: ${filepath}...`, 'yellow')
   if (isPrimaryExportFile && hasDefaultExport(fileContent)) {
     const defaultVariable = extractDefaultExportVariable(filepath)
-    console.log('defaultVariable', defaultVariable)
     if (defaultVariable) {
       if (
         !defaultExportString.includes(

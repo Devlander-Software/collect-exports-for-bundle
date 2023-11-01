@@ -1,4 +1,4 @@
-import { ModuleExportOptions } from '../types/types'
+import { ModuleExportOptions } from '../types/module-exporter.types'
 
 export function generateExportStatement(
   componentName: string,

@@ -1,10 +1,9 @@
-import { ModuleExportOptions, TColorValue } from '../types/types'
+import { ModuleExportOptions } from '../types/module-exporter.types'
+import { TColorValue } from '../types/t-color.types'
 import { getFilenameFromPath } from './get-file-name-from-path'
 import { logColoredMessage } from './log-with-color'
 
 const hasFileLogger = (fileName: string, ext: string, color: TColorValue) => {
-  console.log(`${fileName} ends with`)
-  logColoredMessage(`${ext}`, color)
   logColoredMessage(
     `${color === 'red' ? 'Exluding' : 'Including'} file: ${fileName}`,
     color

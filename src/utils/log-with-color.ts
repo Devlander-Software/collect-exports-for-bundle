@@ -1,5 +1,5 @@
 import { blue, green, red, yellow } from 'picocolors'
-import { TColor, TColorValue } from '../types/types'
+import { TColor, TColorValue } from '../types/t-color.types'
 
 const logWithColor = (color: TColor | TColorValue, message: string) => {
   if (color === TColor.green) {

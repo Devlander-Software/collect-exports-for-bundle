@@ -1,6 +1,6 @@
 import * as fs from 'fs'
 import * as path from 'path'
-import { ModuleExportOptions } from '../types/types'
+import { ModuleExportOptions } from '../types/module-exporter.types'
 import { bundleExportAsFunction } from './bundle-export-as-function'
 import { generateExportsFromDir } from './generate-exports-from-dir'
 import { isCamelCase } from './is-camel-case'

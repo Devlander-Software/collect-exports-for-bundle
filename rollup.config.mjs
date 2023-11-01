@@ -72,11 +72,7 @@ const dev = process.env.NODE_ENV !== 'production';
            
         ];
         
-        console.log(pkg.types)
-        console.log(compilerOptions.declarationDir)
-        console.log(`${compilerOptions.declarationDir}/index.d.ts`)
-        console.log(pkg.main)
-        console.log(pkg.module)
+       
         
         const config = [
             {

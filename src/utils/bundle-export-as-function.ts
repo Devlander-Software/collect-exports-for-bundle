@@ -4,6 +4,7 @@ import { ModuleExportOptions } from '../types/module-exporter.types'
 import { collectPathsFromDirectories } from './collect-paths-from-directories'
 import { extractDefaultExportVariable } from './extract-default-export'
 import { getExportedFunctionNames } from './get-exported-function-names'
+import { getExportedTypeDeclarations } from './get-exported-type-declarations'
 import { logColoredMessage } from './log-with-color'
 interface MatchItem {
   path: string
@@ -31,32 +32,54 @@ export const bundleExportAsFunction = async (
     if (!options.bundleAsFunctionForDefaultExportAs) return
 
     const usedFunctionNames: string[] = []
+    const usedFunctionTypes: string[] = []
 
     const matches: MatchItem[] = []
+    const typeMatches: MatchItem[] = []
 
     for (const filePath of filteredPaths) {
       const functionNamesForPath = getExportedFunctionNames(filePath)
-      console.log(functionNamesForPath, 'functionNamesForPath')
+      const typeDeclarationsForPath = getExportedTypeDeclarations(filePath)
 
-      if (!functionNamesForPath) continue
-      functionNamesForPath.forEach((name) => {
-        if (usedFunctionNames.includes(name)) {
-          logColoredMessage(
-            `Duplicate function name: ${name} \n skipping... ${name} \n \n`,
-            'red'
-          )
-        } else {
-          usedFunctionNames.push(name)
-          const existingMatch = matches.find((m) => m.path === filePath)
-          if (existingMatch) {
-            existingMatch.functionNames.push(name)
+      if (!functionNamesForPath && !typeDeclarationsForPath) continue
+      if (functionNamesForPath && functionNamesForPath.length > 0) {
+        functionNamesForPath.forEach((name) => {
+          if (usedFunctionNames.includes(name)) {
+            logColoredMessage(
+              `Duplicate function name: ${name} \n skipping... ${name} \n \n`,
+              'red'
+            )
           } else {
-            matches.push({ path: filePath, functionNames: [name] })
+            usedFunctionNames.push(name)
+            const existingMatch = matches.find((m) => m.path === filePath)
+            if (existingMatch) {
+              existingMatch.functionNames.push(name)
+            } else {
+              matches.push({ path: filePath, functionNames: [name] })
+            }
           }
-        }
-      })
+        })
+      }
+
+      if (typeDeclarationsForPath && typeDeclarationsForPath.length > 0) {
+        typeDeclarationsForPath.forEach((name) => {
+          if (usedFunctionTypes.includes(name)) {
+            logColoredMessage(
+              `Duplicate type name: ${name} \n skipping... ${name} \n \n`,
+              'red'
+            )
+          } else {
+            usedFunctionTypes.push(name)
+            const existingMatch = typeMatches.find((m) => m.path === filePath)
+            if (existingMatch) {
+              existingMatch.functionNames.push(name)
+            } else {
+              typeMatches.push({ path: filePath, functionNames: [name] })
+            }
+          }
+        })
+      }
     }
-    logColoredMessage(`${JSON.stringify(matches)}`, 'blue')
 
     const combinedExports: string[] = []
     const variablesToExport: string[] = []
@@ -66,13 +89,11 @@ export const bundleExportAsFunction = async (
         .relative(options.rootDir, match.path)
         .replace(/\\/g, '/')}`
 
-      console.log(relativePath, 'relativePath')
       const hasDefaultExport = extractDefaultExportVariable(match.path) || ''
       const withoutExtension = relativePath.substring(
         0,
         relativePath.lastIndexOf('.')
       )
-      console.log(withoutExtension, 'hasDefaultExport')
       if (
         hasDefaultExport &&
         typeof hasDefaultExport === 'string' &&
@@ -114,7 +135,25 @@ export const bundleExportAsFunction = async (
       }
     })
 
-    console.log(combinedExports, 'combinedExports')
+    typeMatches.forEach((match) => {
+      const relativePath = `./${path
+        .relative(options.rootDir, match.path)
+        .replace(/\\/g, '/')}`
+
+      const withoutExtension = relativePath.substring(
+        0,
+        relativePath.lastIndexOf('.')
+      )
+      if (match.functionNames.length > 0) {
+        const exportedFunctions =
+          match.functionNames.length > 0
+            ? `{${match.functionNames.join(', ')}}`
+            : ''
+        combinedExports.push(
+          `export ${exportedFunctions} from '${withoutExtension}'`
+        )
+      }
+    })
 
     combinedExports.push(
       `const ${
@@ -135,7 +174,6 @@ export const bundleExportAsFunction = async (
     )
 
     // return combinedExports.join('\n')
-    console.log(filteredPaths, 'filteredPaths')
   } catch (error) {
     console.error('An error occurred:', error)
   }

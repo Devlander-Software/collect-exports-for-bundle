@@ -4,7 +4,7 @@
 /**
  * TSDoc for types
  */
-export * from './types/types'
+export * from './types/module-exporter.types'
 /**
  * TSDoc for auto-exporter
  */

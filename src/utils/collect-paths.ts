@@ -1,6 +1,6 @@
 import * as fs from 'fs/promises' // Use the promise version of the fs module
 import path from 'path'
-import { ModuleExportOptions } from '../types/types'
+import { ModuleExportOptions } from '../types/module-exporter.types'
 
 export async function collectPaths(
   startPath: string,
@@ -14,7 +14,6 @@ export async function collectPaths(
     const stat = await fs.lstat(absolutePath)
 
     if (!stat.isDirectory()) {
-      console.log('Not a directory:', absolutePath)
       return paths
     }
   } catch (error: any) {
@@ -41,13 +40,11 @@ export async function collectPaths(
 
       if (isDirectory) {
         if (config.excludedFolders && config.excludedFolders.includes(file)) {
-          console.log(`Excluding folder: ${file}`)
           continue
         }
         paths = paths.concat(await collectPaths(filename, config)) // Recursive call
       } else {
         if (['index.ts', 'index.tsx'].includes(file)) {
-          console.log(`Excluding file: ${file}`)
           continue
         }
         paths.push(filename)
