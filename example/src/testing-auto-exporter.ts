@@ -1,5 +1,5 @@
 
-interface ModuleExportOptions {
+export interface ModuleExportOptions {
     rootDir?: string
     targetVersion?: 'es6' | 'es5'
     primaryExportFile?: string

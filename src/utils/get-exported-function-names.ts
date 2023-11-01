@@ -1,13 +1,14 @@
 import fs from 'fs'
 import { logColoredMessage } from './log-with-color'
 
-type DeclarationTypes = 'function' | 'const' | 'let' | 'var' | 'class'
+type DeclarationTypes = 'function' | 'const' | 'let' | 'var' | 'class' | 'enum'
 
 const defaultDeclarationKeywords: DeclarationTypes[] = [
   'function',
   'const',
   'let',
   'var',
+  'enum',
   'class'
 ]
 
@@ -29,6 +30,8 @@ export function getExportedFunctionNames(
       const: /export\s+const\s+([a-zA-Z_$][0-9a-zA-Z_$]*)\s*=/g,
       let: /export\s+let\s+([a-zA-Z_$][0-9a-zA-Z_$]*)\s*=/g,
       var: /export\s+var\s+([a-zA-Z_$][0-9a-zA-Z_$]*)\s*=/g,
+      enum: /export\s+enum\s+([a-zA-Z_$][0-9a-zA-Z_$]*)\s*{/g,
+
       class: /export\s+class\s+([a-zA-Z_$][0-9a-zA-Z_$]*)/g
     }
 

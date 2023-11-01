@@ -1,13 +1,9 @@
 import fs from 'fs'
 import { logColoredMessage } from './log-with-color'
 
-type DeclarationTypeTypes = 'type' | 'interface' | 'enum'
+type DeclarationTypeTypes = 'type' | 'interface'
 
-const defaultDeclarationKeywords: DeclarationTypeTypes[] = [
-  'type',
-  'interface',
-  'enum'
-]
+const defaultDeclarationKeywords: DeclarationTypeTypes[] = ['type', 'interface']
 
 export function getExportedTypeDeclarations(
   filePath: string,
@@ -25,8 +21,7 @@ export function getExportedTypeDeclarations(
 
     const patterns = {
       type: /export\s+type\s+([a-zA-Z_$][0-9a-zA-Z_$]*)\s*=/g,
-      interface: /export\s+interface\s+([a-zA-Z_$][0-9a-zA-Z_$]*)\s*{/g,
-      enum: /export\s+enum\s+([a-zA-Z_$][0-9a-zA-Z_$]*)\s*{/g
+      interface: /export\s+interface\s+([a-zA-Z_$][0-9a-zA-Z_$]*)\s*{/g
     }
 
     const typeNames: string[] = []
