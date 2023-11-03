@@ -1,8 +1,19 @@
+import autoExporter from '@devlander/collect-exports-for-bundle';
 import * as fs from 'fs';
 jest.mock('fs');
 
-describe('autoExporter', () => {
 
+
+
+
+
+describe('autoExporter', () => {
+  
+  beforeAll(() => {
+    jest.resetModules();
+    jest.mock('fs');
+  }
+  );
   it('it creates index.ts file with default export ', () => {
     const config = {
         rootDir: ".",
@@ -12,14 +23,13 @@ describe('autoExporter', () => {
         excludedFolders: ['node_modules'],
     }
 
-    const {runAutoExporter} = require('../src/testing-auto-exporter');
 
 
     // Define the configuration for autoExporter
    
 
     // Execute the autoExporter
-     runAutoExporter(config);
+     autoExporter(config);
      const expectedOutput = fs.readFileSync('index.ts', 'utf8');
 
     // Check something about the output
@@ -40,10 +50,17 @@ describe('autoExporter', () => {
 
       // Execute the autoExporter
       runAutoExporter(config);
-      const expectedOutput = fs.readFileSync('index.ts', 'utf8');
+      const expectedOutput = fs.readFileSync('index.ts', 'utf8').toString()
+      let isValidOutput  = (output: string) => {
+        if(output.includes('junk') || output.includes('junk')){
+          return false
+        }
+      } 
+
+      let isValid = isValidOutput(expectedOutput)
 
       // Check something about the output
-      expect(expectedOutput).toContain('export');
+      expect(isValid).toBeTruthy();
 
     } catch (error: any) {
       throw new Error(`Test failed. Error: ${error.message}`);

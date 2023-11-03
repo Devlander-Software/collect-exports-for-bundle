@@ -1,7 +1,7 @@
 import { blue, green, red, yellow } from 'picocolors'
 import { TColor, TColorValue } from '../types/t-color.types'
 
-const logWithColor = (color: TColor | TColorValue, message: string) => {
+const logWithColor = (color: TColor | TColorValue, message: string): void => {
   if (color === TColor.green) {
     console.log(green(message))
   } else if (color === TColor.red) {
@@ -15,14 +15,17 @@ const logWithColor = (color: TColor | TColorValue, message: string) => {
   }
 }
 
-export const logColoredMessage = (message: string, color: TColorValue) => {
+export const logColoredMessage = (
+  message: string,
+  color: TColorValue
+): void => {
   logWithColor(color, message)
 }
 
 export const logMessageBasedOnCondition = (
   message: string,
   condition: boolean
-) => {
+): void => {
   const color: TColor = condition ? TColor.green : TColor.red
   logWithColor(color, message)
 }

@@ -1,3 +1,5 @@
+import { TestOptions } from './test-options.types'
+
 /**
  * Options to configure how modules should be exported.
  *
@@ -12,7 +14,8 @@
  *                                       If will also not bundle up any interfaces, types or enums
  * @property {string[]} [allowedExtensions] - Extensions of files to be exported.
  *                                           Defaults are ['.ts', '.tsx', '.component.tsx', '.component.ts'].
- * @property {'named' | 'default' | 'both'} [exportMode] - Mode of export, whether named, default or both.
+ * @property {'named' | 'default' | 'both'} [exportMode] - Mode of export, whether named, default or both. by default, it is named
+ *
  * @property {'.ts' | '.tsx'} [outputFilenameExtension] - File extension for the output file.
  *                                                       Default is '.ts' if not specified.
  * @property {'.ts' | '.tsx'} [outputFileName] - File name for the output file.
@@ -24,16 +27,72 @@
  * @property {string[]} [excludedFolders] - Folders to be ignored during export.
  *                                          Default is ['node_modules'] if not specified.
  */
-export interface ModuleExportOptions {
+
+export interface BaseModuleExportOptions {
   rootDir?: string
   targetVersion?: 'es6' | 'es5'
-  primaryExportFile?: string
   allowedExtensions?: string[]
   exportMode?: 'named' | 'default' | 'both'
-  bundleAsFunctionForDefaultExportAs?: string
   outputFileName?: string
   outputFilenameExtension?: '.ts' | '.tsx'
   ignoredExtensions?: string[]
   specificFiles?: string[]
   excludedFolders?: string[]
+  testOptions?: TestOptions
+  debug?: boolean
 }
+
+export interface AutoExporterOptions {
+  rootDir: string
+  targetVersion?: 'es6' | 'es5'
+  allowedExtensions: string[]
+  exportMode: 'named' | 'default' | 'both'
+  outputFileName: string
+  outputFilenameExtension: '.ts' | '.tsx'
+  ignoredExtensions: string[]
+  primaryExportFile?: string | undefined
+  specificFiles: string[]
+  excludedFolders: string[]
+  bundleAsFunctionForDefaultExportAs?: string | undefined
+  testOptions?: TestOptions
+  debug: boolean
+}
+
+// These types enforce the constraints when used
+export type ExclusivePrimaryExportFile<
+  T extends {
+    exportMode?: 'named' | 'default' | 'both'
+    primaryExportFile?: string
+  }
+> = T['exportMode'] extends 'named' ? never : T['primaryExportFile']
+
+export type ExclusiveBundleAsFunction<
+  T extends {
+    bundleAsFunctionForDefaultExportAs?: string
+    primaryExportFile?: string
+    exportMode?: 'named' | 'default' | 'both'
+  }
+> = T['exportMode'] extends 'named'
+  ? never
+  : T['bundleAsFunctionForDefaultExportAs']
+
+// Create a type that combines the base options with the conditional ones
+export type ModuleExportOptions = BaseModuleExportOptions & {
+  primaryExportFile?: ExclusivePrimaryExportFile<BaseModuleExportOptions>
+  bundleAsFunctionForDefaultExportAs?: ExclusiveBundleAsFunction<BaseModuleExportOptions>
+}
+
+// // This should pass without errors
+// const options: ModuleExportOptions<{}> = {
+//   rootDir: 'src',
+//   exportMode: 'default',
+//   primaryExportFile: 'main'
+// }
+
+// // This should cause a type error because 'primaryExportFile' should not be used when 'exportMode' is 'named'
+// const optionsWithErrors: ModuleExportOptions<{}> = {
+//   rootDir: 'src',
+//   exportMode: 'named',
+//   primaryExportFile: 'main', // TypeScript Error: Type 'string' is not assignable to type 'never'.
+//   bundleAsFunctionForDefaultExportAs: 'bundleFunction' // TypeScript Error: Type 'string' is not assignable to type 'never'.
+// }

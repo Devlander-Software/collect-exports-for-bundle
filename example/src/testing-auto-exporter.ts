@@ -12,12 +12,11 @@ export interface ModuleExportOptions {
 }
 const runAutoExporter = (config: ModuleExportOptions) => {
   // example/src/testing-auto-exporter.ts
-  const { autoExporter } = require('@devlander/collect-exports-for-bundle')
+  const autoExporter  = require('@devlander/collect-exports-for-bundle').default
 
   const path = require('path')
   const { rootDir } = config
 
-  const correctPath = path.resolve(__dirname, rootDir)
 
   autoExporter({
     rootDir: './',
@@ -29,10 +28,9 @@ const runAutoExporter = (config: ModuleExportOptions) => {
       '.stories.ts',
       '.extra.ts'
     ],
-    excludedFolders: ['node_modules', 'junk']
+    excludedFolders: ['node_modules', 'junk'],
+    ...config
   })
 }
 
-module.exports = {
-  runAutoExporter
-}
+export { runAutoExporter }

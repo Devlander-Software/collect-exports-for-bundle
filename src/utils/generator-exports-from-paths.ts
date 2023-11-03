@@ -1,6 +1,6 @@
 import * as fs from 'fs'
 import path from 'path'
-import { ModuleExportOptions } from '../types/module-exporter.types'
+import { AutoExporterOptions } from '../types/module-exporter.types'
 import { hasDefaultExport, hasNamedExports } from './export-patterns'
 import { extractDefaultExportVariable } from './extract-default-export'
 import { getFilenameFromPath } from './get-file-name-from-path'
@@ -16,10 +16,12 @@ export interface BuildExportsFromPathParams {
   filepath: string
   componentName: string
   defaultExportString: string[]
-  config: ModuleExportOptions
+  config: AutoExporterOptions
 }
 
-const buildExportsFromPaths = (params: BuildExportsFromPathParams) => {
+const buildExportsFromPaths = (
+  params: BuildExportsFromPathParams
+): string[] => {
   const {
     isPrimaryExportFile,
     fileName,
@@ -58,11 +60,13 @@ const buildExportsFromPaths = (params: BuildExportsFromPathParams) => {
     results.push(`/**\n * TSDoc for ${componentName}\n */`)
     results.push(`export * from "${withoutExtension}";`)
   }
+
+  return results
 }
 
 export function generateExportsFromPaths(
   paths: string[],
-  config: ModuleExportOptions
+  config: AutoExporterOptions
 ): string[] {
   logColoredMessage(`Generating exports from provided paths...`, 'green')
   const results: string[] = []

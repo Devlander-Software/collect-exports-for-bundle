@@ -4,10 +4,10 @@
     "project": "./tsconfig.eslint.json",
     "tsconfigRootDir": "./"
   },
- 
+
   "extends": [
     "eslint:recommended",
-    "plugin:prettier/recommended", 
+    "plugin:prettier/recommended",
     "plugin:jest/recommended"
   ],
   "plugins": ["prettier", "@typescript-eslint", "promise", "jest"],
@@ -39,7 +39,9 @@
     "promise/no-return-in-finally": "warn",
     "promise/valid-params": "warn",
     "jest/no-disabled-tests": "off",
-    "jest/no-commented-out-tests": "off"
+    "jest/no-commented-out-tests": "off",
+    "@typescript-eslint/explicit-function-return-type": "error",
+    "@typescript-eslint/explicit-module-boundary-types": "error"
   },
   "env": {
     "node": true,

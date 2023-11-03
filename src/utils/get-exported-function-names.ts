@@ -14,7 +14,8 @@ const defaultDeclarationKeywords: DeclarationTypes[] = [
 
 export function getExportedFunctionNames(
   filePath: string,
-  declarationsToExport?: DeclarationTypes[]
+  declarationsToExport?: DeclarationTypes[],
+  debug?: boolean
 ): string[] | null {
   if (!declarationsToExport) declarationsToExport = defaultDeclarationKeywords
   try {
@@ -48,7 +49,9 @@ export function getExportedFunctionNames(
     }
 
     if (!functionNames.length) {
-      logColoredMessage(`No named exports found in ${filePath}`, 'blue')
+      if (debug) {
+        logColoredMessage(`No named exports found in ${filePath}`, 'blue')
+      }
       return null
     }
 

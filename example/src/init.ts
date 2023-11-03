@@ -1,41 +1,27 @@
 
-const runExporter = () => {
+( () => {
     const path = require('path')
 const correctPath = path.resolve(__dirname, '.')
-    const {autoExporter} = require('@devlander/collect-exports-for-bundle')
+    const autoExporter = require('@devlander/collect-exports-for-bundle').default
 
     const webExtensions = [
-        ".props.web.ts",
-        ".web.ts",
-        ".web.tsx",
-        ".web.types.ts",
-        ".web.enum.ts",
-        ".web.interface.ts",
-        ".test.web.ts",
-        ".test.web.tsx",
+        ".web",
       ]
     
       const nativeExtensions = [
-        ".native.ts",
-        ".native.tsx",
-        ".native.types.ts",
-        ".native.enum.ts",
-        ".native.interface.ts",
-        ".test.native.ts",
-        ".test.native.tsx",
+        ".native",
       ]
     
       const sharedAllowedExtensions = [
         ".ts",
         ".tsx",
-        ".types.ts",
-        ".provider.tsx",
-        ".enum.ts",
-        ".interface.ts",
-        ".props.ts",
-        ".type.ts",
-       
-        ".styles.tsx",
+        ".types",
+        ".provider",
+        ".enum",
+        ".interface",
+        ".props",
+        ".type",
+        ".styles"
       ]
     
       const sharedIgnoredExtensions = [
@@ -96,7 +82,6 @@ autoExporter({
     ],
   });
 
-}
+})()
 
 
-runExporter()

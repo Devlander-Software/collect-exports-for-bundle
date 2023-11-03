@@ -12,7 +12,7 @@
     "noEmit": false,
     "emitDeclarationOnly": true,
     "resolveJsonModule": true,
-    "rootDirs": ["src", "__tests__"],
+    "rootDirs": ["src", "__tests__", "circular-dependency-test"],
     "allowJs": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,

@@ -1,33 +1,45 @@
 import fs from 'fs'
 import path from 'path'
-import { ModuleExportOptions } from '../types/module-exporter.types'
+import { AutoExporterOptions } from '../types/module-exporter.types'
 import { collectPathsFromDirectories } from './collect-paths-from-directories'
+import { discoverFunctionTypes } from './discover-function-types'
 import { extractDefaultExportVariable } from './extract-default-export'
 import { getExportedFunctionNames } from './get-exported-function-names'
 import { getExportedTypeDeclarations } from './get-exported-type-declarations'
 import { logColoredMessage } from './log-with-color'
-interface MatchItem {
+
+export interface MatchItem {
   path: string
   functionNames: string[]
 }
 
-interface BundleExportAsFunctionParams extends Partial<ModuleExportOptions> {
+export interface BundleExportAsFunctionParams
+  extends Partial<AutoExporterOptions> {
   rootDir: string
+  bundleAsFunctionForDefaultExportAs?: string
+  allowedExtensions: string[]
+  ignoredExtensions: string[]
+  excludedFolders: string[]
+  outputFileName: string
+
+  debug: boolean
 }
 
 export const bundleExportAsFunction = async (
   options: BundleExportAsFunctionParams
-) => {
+): Promise<string | void> => {
   try {
+    console.log(options.exportMode)
     const filteredPaths = await collectPathsFromDirectories(
       options.rootDir,
       options
     )
-
-    logColoredMessage(
-      `Starting to bundle modules into ${options.outputFileName}${options.outputFilenameExtension}`,
-      'blue'
-    )
+    if (options.debug) {
+      logColoredMessage(
+        `Starting to bundle modules into ${options.outputFileName}${options.outputFilenameExtension}`,
+        'blue'
+      )
+    }
 
     if (!options.bundleAsFunctionForDefaultExportAs) return
 
@@ -36,6 +48,9 @@ export const bundleExportAsFunction = async (
 
     const matches: MatchItem[] = []
     const typeMatches: MatchItem[] = []
+    const functionTypes = await discoverFunctionTypes(options)
+
+    console.log('functionTypes', functionTypes)
 
     for (const filePath of filteredPaths) {
       const functionNamesForPath = getExportedFunctionNames(filePath)
@@ -49,6 +64,8 @@ export const bundleExportAsFunction = async (
               `Duplicate function name: ${name} \n skipping... ${name} \n \n`,
               'red'
             )
+            // TO DO
+            // check if it has the same type signature
           } else {
             usedFunctionNames.push(name)
             const existingMatch = matches.find((m) => m.path === filePath)
@@ -83,7 +100,7 @@ export const bundleExportAsFunction = async (
 
     const combinedExports: string[] = []
     const variablesToExport: string[] = []
-
+    // handle imports for default export
     matches.forEach((match) => {
       const relativePath = `./${path
         .relative(options.rootDir, match.path)
@@ -106,9 +123,12 @@ export const bundleExportAsFunction = async (
           filteredFunctionNames.length > 0
             ? `, {${filteredFunctionNames.join(', ')}}`
             : ''
-        combinedExports.push(
-          `import ${hasDefaultExport}${exportedFunctions} from '${withoutExtension}'`
-        )
+
+        if (options.exportMode === 'default' || options.exportMode === 'both') {
+          combinedExports.push(
+            `import ${hasDefaultExport}${exportedFunctions} from '${withoutExtension}'`
+          )
+        }
         variablesToExport.push(hasDefaultExport)
         if (filteredFunctionNames.length > 0) {
           filteredFunctionNames.forEach((name) => {
@@ -122,9 +142,12 @@ export const bundleExportAsFunction = async (
           match.functionNames.length > 0
             ? `{${match.functionNames.join(', ')}}`
             : ''
-        combinedExports.push(
-          `import ${exportedFunctions} from '${withoutExtension}'`
-        )
+        if (options.exportMode === 'default' || options.exportMode === 'both') {
+          combinedExports.push(
+            `import ${exportedFunctions} from '${withoutExtension}'`
+          )
+        }
+
         if (match.functionNames.length > 0) {
           match.functionNames.forEach((name) => {
             if (!variablesToExport.includes(name)) {
@@ -134,50 +157,57 @@ export const bundleExportAsFunction = async (
         }
       }
     })
-
-    combinedExports.push(
-      `const ${
-        options.bundleAsFunctionForDefaultExportAs
-      } = {\n  ${variablesToExport.join(',\n  ')}\n}`
-    )
+    if (options.exportMode === 'default' || options.exportMode === 'both') {
+      combinedExports.push(
+        `const ${
+          options.bundleAsFunctionForDefaultExportAs
+        } = {\n  ${variablesToExport.join(',\n  ')}\n}`
+      )
+    }
     variablesToExport.forEach((name) => {
-      const pathForFunctioName = matches.find((m) =>
+      const pathForFunctionName = matches.find((m) =>
         m.functionNames.includes(name)
       )
-      if (!pathForFunctioName) return
+      if (!pathForFunctionName) return
       const relativePath = `./${path
-        .relative(options.rootDir, pathForFunctioName.path)
+        .relative(options.rootDir, pathForFunctionName.path)
         .replace(/\\/g, '/')}`
       const withoutExtension = relativePath.substring(
         0,
         relativePath.lastIndexOf('.')
       )
-      combinedExports.push(`export {${name}} from '${withoutExtension}'`)
-    })
-
-    combinedExports.push(
-      `export default ${options.bundleAsFunctionForDefaultExportAs}`
-    )
-    typeMatches.forEach((match) => {
-      const relativePath = `./${path
-        .relative(options.rootDir, match.path)
-        .replace(/\\/g, '/')}`
-
-      const withoutExtension = relativePath.substring(
-        0,
-        relativePath.lastIndexOf('.')
-      )
-      if (match.functionNames.length > 0) {
-        const exportedFunctions =
-          match.functionNames.length > 0
-            ? `{${match.functionNames.join(', ')}}`
-            : ''
-        combinedExports.push(
-          `export type ${exportedFunctions} from '${withoutExtension}'`
-        )
+      if (options.exportMode === 'named' || options.exportMode === 'both') {
+        combinedExports.push(`export {${name}} from '${withoutExtension}'`)
       }
     })
 
+    if (options.exportMode === 'default' || options.exportMode === 'both') {
+      combinedExports.push(
+        `export default ${options.bundleAsFunctionForDefaultExportAs}`
+      )
+    }
+    if (options.exportMode === 'named' || options.exportMode === 'both') {
+      typeMatches.forEach((match) => {
+        const relativePath = `./${path
+          .relative(options.rootDir, match.path)
+          .replace(/\\/g, '/')}`
+
+        const withoutExtension = relativePath.substring(
+          0,
+          relativePath.lastIndexOf('.')
+        )
+        if (match.functionNames.length > 0) {
+          const exportedFunctions =
+            match.functionNames.length > 0
+              ? `{${match.functionNames.join(', ')}}`
+              : ''
+
+          combinedExports.push(
+            `export type ${exportedFunctions} from '${withoutExtension}'`
+          )
+        }
+      })
+    }
     const fileToRewrite = `${options.outputFileName}${options.outputFilenameExtension}`
 
     fs.unlinkSync(path.join(options.rootDir, fileToRewrite))
@@ -186,8 +216,21 @@ export const bundleExportAsFunction = async (
       path.join(options.rootDir, fileToRewrite),
       combinedExports.join('\n')
     )
+    console.log(options.exportMode)
+    console.log(options.exportMode)
 
-    // return combinedExports.join('\n')
+    console.log(options.exportMode)
+    console.log(options.exportMode)
+    console.log(options.exportMode)
+    console.log(options.exportMode)
+    console.log(options.exportMode)
+    console.log(options.exportMode)
+    console.log(options.exportMode)
+    console.log(options.exportMode)
+    console.log(options.exportMode)
+    console.log(options.exportMode)
+
+    return combinedExports.join('\n')
   } catch (error) {
     console.error('An error occurred:', error)
   }

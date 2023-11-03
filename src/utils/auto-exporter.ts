@@ -5,52 +5,14 @@ import { bundleExportAsFunction } from './bundle-export-as-function'
 import { generateExportsFromDir } from './generate-exports-from-dir'
 import { isCamelCase } from './is-camel-case'
 import { logColoredMessage } from './log-with-color'
+import { modifyConfig } from './modify-config'
 import { simulateProgressBar } from './stimulate-progress-bar'
 
-const defaultAutoExportConfig: ModuleExportOptions = {
-  rootDir: 'src',
-  primaryExportFile: '',
-  allowedExtensions: ['.ts', '.tsx'],
-  ignoredExtensions: [
-    '.test.tsx',
-    '.test.ts',
-    '.stories.tsx',
-    '.stories.ts',
-    '.stories.tsx'
-  ],
-  excludedFolders: [],
-  specificFiles: [],
-  outputFilenameExtension: '.ts',
-  outputFileName: 'index',
-  bundleAsFunctionForDefaultExportAs: undefined
-}
-
-export const autoExporter = async (
+const autoExporter = async (
   options: ModuleExportOptions = {}
 ): Promise<void> => {
   try {
-    const config: ModuleExportOptions = {
-      ...options,
-      rootDir: options.rootDir || defaultAutoExportConfig.rootDir,
-      primaryExportFile:
-        options.primaryExportFile || defaultAutoExportConfig.primaryExportFile,
-      allowedExtensions:
-        options.allowedExtensions || defaultAutoExportConfig.allowedExtensions,
-      ignoredExtensions:
-        options.ignoredExtensions || defaultAutoExportConfig.ignoredExtensions,
-      excludedFolders:
-        options.excludedFolders || defaultAutoExportConfig.excludedFolders,
-      specificFiles:
-        options.specificFiles || defaultAutoExportConfig.specificFiles,
-      outputFileName:
-        options.outputFileName || defaultAutoExportConfig.outputFileName,
-      outputFilenameExtension:
-        options.outputFilenameExtension ||
-        defaultAutoExportConfig.outputFilenameExtension,
-      bundleAsFunctionForDefaultExportAs:
-        options.bundleAsFunctionForDefaultExportAs ||
-        defaultAutoExportConfig.bundleAsFunctionForDefaultExportAs
-    }
+    const config = await modifyConfig(options)
 
     const fileNameToWriteTo = `${config.outputFileName}${config.outputFilenameExtension}`
 
@@ -127,24 +89,23 @@ export const autoExporter = async (
     )
 
     if (config.bundleAsFunctionForDefaultExportAs && config.rootDir) {
-      logColoredMessage(
-        `\nBundling all modules from ${fileNameToWriteTo} as into one object as a module\n`,
-        'blue'
-      )
+      if (config.debug) {
+        logColoredMessage(
+          `\nBundling all modules from ${fileNameToWriteTo} as into one object as a module\n`,
+          'blue'
+        )
+      }
 
       await bundleExportAsFunction({
-        rootDir: config.rootDir,
-        outputFileName: config.outputFileName,
-        outputFilenameExtension: config.outputFilenameExtension,
-        bundleAsFunctionForDefaultExportAs:
-          config.bundleAsFunctionForDefaultExportAs,
         ...config
       })
     } else {
-      logColoredMessage(
-        `\nExporting all functions from ${fileNameToWriteTo} as separate modules\n`,
-        'blue'
-      )
+      if (config.debug) {
+        logColoredMessage(
+          `\nExporting all functions from ${fileNameToWriteTo} as separate modules\n`,
+          'blue'
+        )
+      }
     }
 
     logColoredMessage(`\nExports generated in ${fileNameToWriteTo}\n`, 'green')

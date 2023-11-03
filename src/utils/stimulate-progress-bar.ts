@@ -10,7 +10,7 @@ export const simulateProgressBar = (
   message: string,
   total: number,
   current: number
-) => {
+): void => {
   const percentage = ((current / total) * 100).toFixed(2)
   const progressBar = `[${'='.repeat(current)}${' '.repeat(
     total - current

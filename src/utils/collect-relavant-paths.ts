@@ -1,11 +1,11 @@
-import { ModuleExportOptions } from '../types/module-exporter.types'
+import { AutoExporterOptions } from '../types/module-exporter.types'
 import { collectPaths } from './collect-paths'
 import { fileHasValidExtension } from './has-valid-extension'
 import { logColoredMessage } from './log-with-color'
 
 export async function collectRelevantPaths(
   rootDir: string,
-  config: ModuleExportOptions
+  config: AutoExporterOptions
 ): Promise<string[]> {
   const path = require('path')
   let allPaths = await collectPaths(rootDir, config)
