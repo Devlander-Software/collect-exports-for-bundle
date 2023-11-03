@@ -1,6 +1,6 @@
 {
   "name": "@devlander/collect-exports-for-bundle",
-  "version": "1.1.40",
+  "version": "1.1.41",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/cjs/index.d.ts",
@@ -32,7 +32,7 @@
     "buildESM": "tsc",
     "buildCJS": "rollup -c",
     "timeout": "delay 5",
-    "build": "yarn run docs && npx rimraf ./dist && yarn run timeout && yarn run format && yarn run typecheck && yarn run buildESM && yarn run buildCJS && yarn run test:example &&  yarn run patch"
+    "build": "yarn run docs && npx rimraf ./dist && npx rimraf ./typings && yarn run timeout && yarn run format && yarn run typecheck && yarn run buildESM && yarn run buildCJS && yarn run test:example &&  yarn run patch"
   },
   "license": "MIT",
   "dependencies": {
