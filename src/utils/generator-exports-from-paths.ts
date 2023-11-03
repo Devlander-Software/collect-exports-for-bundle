@@ -33,7 +33,9 @@ const buildExportsFromPaths = (
     results,
     config
   } = params
-  logColoredMessage(`Processing included file: ${filepath}...`, 'yellow')
+  if (config.debug) {
+    logColoredMessage(`Processing included file: ${filepath}...`, 'yellow')
+  }
   if (isPrimaryExportFile && hasDefaultExport(fileContent)) {
     const defaultVariable = extractDefaultExportVariable(filepath)
     if (defaultVariable) {

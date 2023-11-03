@@ -12,14 +12,14 @@
     "noEmit": false,
     "emitDeclarationOnly": true,
     "resolveJsonModule": true,
-    "rootDirs": ["src", "__tests__", "circular-dependency-test"],
+    "rootDirs": ["src"],
     "allowJs": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
     "types": ["node", "@types/jest"],
     "allowSyntheticDefaultImports": true
   },
-  "include": ["./src/**/*.ts", "**/*.test.ts"],
+  "include": ["./src/**/*.ts", "src/**/*"],
   "exclude": [
     "rollup.config.mjs",
     "node_modules",

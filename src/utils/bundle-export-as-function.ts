@@ -16,7 +16,7 @@ export interface MatchItem {
 export interface BundleExportAsFunctionParams
   extends Partial<AutoExporterOptions> {
   rootDir: string
-  bundleAsFunctionForDefaultExportAs?: string
+  bundleAsObjectForDefaultExport?: string
   allowedExtensions: string[]
   ignoredExtensions: string[]
   excludedFolders: string[]
@@ -29,7 +29,6 @@ export const bundleExportAsFunction = async (
   options: BundleExportAsFunctionParams
 ): Promise<string | void> => {
   try {
-    console.log(options.exportMode)
     const filteredPaths = await collectPathsFromDirectories(
       options.rootDir,
       options
@@ -41,16 +40,17 @@ export const bundleExportAsFunction = async (
       )
     }
 
-    if (!options.bundleAsFunctionForDefaultExportAs) return
+    if (!options.bundleAsObjectForDefaultExport) return
 
     const usedFunctionNames: string[] = []
     const usedFunctionTypes: string[] = []
 
     const matches: MatchItem[] = []
     const typeMatches: MatchItem[] = []
-    const functionTypes = await discoverFunctionTypes(options)
-
-    console.log('functionTypes', functionTypes)
+    if (options.debug) {
+      const functionTypes = await discoverFunctionTypes(options)
+      console.log(functionTypes)
+    }
 
     for (const filePath of filteredPaths) {
       const functionNamesForPath = getExportedFunctionNames(filePath)
@@ -160,7 +160,7 @@ export const bundleExportAsFunction = async (
     if (options.exportMode === 'default' || options.exportMode === 'both') {
       combinedExports.push(
         `const ${
-          options.bundleAsFunctionForDefaultExportAs
+          options.bundleAsObjectForDefaultExport
         } = {\n  ${variablesToExport.join(',\n  ')}\n}`
       )
     }
@@ -183,7 +183,7 @@ export const bundleExportAsFunction = async (
 
     if (options.exportMode === 'default' || options.exportMode === 'both') {
       combinedExports.push(
-        `export default ${options.bundleAsFunctionForDefaultExportAs}`
+        `export default ${options.bundleAsObjectForDefaultExport}`
       )
     }
     if (options.exportMode === 'named' || options.exportMode === 'both') {
@@ -216,19 +216,7 @@ export const bundleExportAsFunction = async (
       path.join(options.rootDir, fileToRewrite),
       combinedExports.join('\n')
     )
-    console.log(options.exportMode)
-    console.log(options.exportMode)
-
-    console.log(options.exportMode)
-    console.log(options.exportMode)
-    console.log(options.exportMode)
-    console.log(options.exportMode)
-    console.log(options.exportMode)
-    console.log(options.exportMode)
-    console.log(options.exportMode)
-    console.log(options.exportMode)
-    console.log(options.exportMode)
-    console.log(options.exportMode)
+ 
 
     return combinedExports.join('\n')
   } catch (error) {

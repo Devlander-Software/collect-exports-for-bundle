@@ -18,7 +18,6 @@ export const getExtensions = (
   const parsed = parseComplexExtensions(extensions)
   console.log('\n')
   console.log('\n')
-  console.log('inside of get-extensions.ts')
   if (debug) {
     logColoredMessage(`parsed: ${JSON.stringify(parsed)}`, 'yellow')
     console.log('\n')

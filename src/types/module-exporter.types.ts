@@ -53,7 +53,7 @@ export interface AutoExporterOptions {
   primaryExportFile?: string | undefined
   specificFiles: string[]
   excludedFolders: string[]
-  bundleAsFunctionForDefaultExportAs?: string | undefined
+  bundleAsObjectForDefaultExport?: string | undefined
   testOptions?: TestOptions
   debug: boolean
 }
@@ -79,20 +79,6 @@ export type ExclusiveBundleAsFunction<
 // Create a type that combines the base options with the conditional ones
 export type ModuleExportOptions = BaseModuleExportOptions & {
   primaryExportFile?: ExclusivePrimaryExportFile<BaseModuleExportOptions>
-  bundleAsFunctionForDefaultExportAs?: ExclusiveBundleAsFunction<BaseModuleExportOptions>
+  bundleAsObjectForDefaultExport?: ExclusiveBundleAsFunction<BaseModuleExportOptions>
 }
 
-// // This should pass without errors
-// const options: ModuleExportOptions<{}> = {
-//   rootDir: 'src',
-//   exportMode: 'default',
-//   primaryExportFile: 'main'
-// }
-
-// // This should cause a type error because 'primaryExportFile' should not be used when 'exportMode' is 'named'
-// const optionsWithErrors: ModuleExportOptions<{}> = {
-//   rootDir: 'src',
-//   exportMode: 'named',
-//   primaryExportFile: 'main', // TypeScript Error: Type 'string' is not assignable to type 'never'.
-//   bundleAsFunctionForDefaultExportAs: 'bundleFunction' // TypeScript Error: Type 'string' is not assignable to type 'never'.
-// }

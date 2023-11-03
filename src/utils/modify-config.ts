@@ -1,6 +1,6 @@
 import {
-  AutoExporterOptions,
-  ModuleExportOptions
+    AutoExporterOptions,
+    ModuleExportOptions
 } from '../types/module-exporter.types'
 import { getExtensions } from './get-extensions'
 
@@ -22,7 +22,7 @@ export const modifyConfig = async (
     specificFiles: [],
     outputFilenameExtension: '.ts',
     outputFileName: 'index',
-    bundleAsFunctionForDefaultExportAs: undefined,
+    bundleAsObjectForDefaultExport: undefined,
     debug: false,
     exportMode: 'named'
   }
@@ -42,8 +42,6 @@ export const modifyConfig = async (
     defaultAutoExportConfig.debug
   )
 
-  console.log('allowedExt', allowedExt)
-  console.log('ignored extensions before', ignoredExt)
 
   const modifiedConfig: AutoExporterOptions = {
     ...options,
@@ -63,11 +61,11 @@ export const modifyConfig = async (
     outputFilenameExtension:
       options.outputFilenameExtension ||
       defaultAutoExportConfig.outputFilenameExtension,
-    bundleAsFunctionForDefaultExportAs:
-      options.bundleAsFunctionForDefaultExportAs &&
-      typeof options.bundleAsFunctionForDefaultExportAs === 'string'
-        ? options.bundleAsFunctionForDefaultExportAs
-        : defaultAutoExportConfig.bundleAsFunctionForDefaultExportAs,
+    bundleAsObjectForDefaultExport:
+      options.bundleAsObjectForDefaultExport &&
+      typeof options.bundleAsObjectForDefaultExport === 'string'
+        ? options.bundleAsObjectForDefaultExport
+        : defaultAutoExportConfig.bundleAsObjectForDefaultExport,
     debug: defaultAutoExportConfig.debug,
     exportMode: options.exportMode || defaultAutoExportConfig.exportMode,
     testOptions: options.testOptions || defaultAutoExportConfig.testOptions

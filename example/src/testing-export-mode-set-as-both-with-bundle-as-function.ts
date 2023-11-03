@@ -1,0 +1,6 @@
+export {addSumExtraWeb} from './files-with-extentions/addSum.web'
+export {variablesIDoNotWant} from './junk/somejunk'
+export {addSum} from './math-functions/addSum'
+export {getPercentage} from './math-functions/getPercentage'
+export {multiplyBy} from './math-functions/multipleBy'
+export type {ModuleExportOptions, TestOptions, BaseModuleExportOptions, AutoExporterOptions} from './testing-auto-exporter'

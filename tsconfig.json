@@ -19,9 +19,11 @@
     "types": ["node", "@types/jest"],
     "allowSyntheticDefaultImports": true
   },
-  "include": ["src/**/*", "src/run-jest-coverage.ts"],
+  "include": ["./src/**/*", "src/run-jest-coverage.ts"],
   "exclude": [
+    "example/src/**/*",
     "example",
+    "example/**/*",
     "rollup.config.mjs",
     "node_modules",
     "**/*.spec.ts",

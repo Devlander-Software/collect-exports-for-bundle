@@ -17,17 +17,17 @@ const autoExporter = async (
     const fileNameToWriteTo = `${config.outputFileName}${config.outputFilenameExtension}`
 
     if (
-      config.bundleAsFunctionForDefaultExportAs &&
-      config.bundleAsFunctionForDefaultExportAs !== ''
+      config.bundleAsObjectForDefaultExport &&
+      config.bundleAsObjectForDefaultExport !== ''
     ) {
-      isCamelCase(config.bundleAsFunctionForDefaultExportAs)
+      isCamelCase(config.bundleAsObjectForDefaultExport)
     }
 
     if (
       config &&
       config.primaryExportFile &&
       config.primaryExportFile !== '' &&
-      typeof config.bundleAsFunctionForDefaultExportAs !== 'undefined'
+      typeof config.bundleAsObjectForDefaultExport !== 'undefined'
     ) {
       // default export file should never be index
       // all of the specificFiles in the directory will be exported in index.ts
@@ -88,7 +88,7 @@ const autoExporter = async (
       exportsList.join('\n')
     )
 
-    if (config.bundleAsFunctionForDefaultExportAs && config.rootDir) {
+    if (config.bundleAsObjectForDefaultExport && config.rootDir) {
       if (config.debug) {
         logColoredMessage(
           `\nBundling all modules from ${fileNameToWriteTo} as into one object as a module\n`,
