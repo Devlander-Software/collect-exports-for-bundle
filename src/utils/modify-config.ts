@@ -2,7 +2,6 @@ import {
   AutoExporterOptions,
   ModuleExportOptions
 } from '../types/module-exporter.types'
-import { checkForCircularDeps } from './check-for-circular-deps'
 import { getExtensions } from './get-extensions'
 
 export const modifyConfig = async (
@@ -73,10 +72,6 @@ export const modifyConfig = async (
     exportMode: options.exportMode || defaultAutoExportConfig.exportMode,
     testOptions: options.testOptions || defaultAutoExportConfig.testOptions
   }
-
-  const circularDeps = await checkForCircularDeps(modifiedConfig)
-
-  console.log('circularDeps', circularDeps)
 
   return modifiedConfig
 }
