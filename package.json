@@ -1,6 +1,6 @@
 {
   "name": "@devlander/collect-exports-for-bundle",
-  "version": "1.1.60",
+  "version": "1.1.61",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/cjs/index.d.ts",
@@ -16,6 +16,7 @@
   "keywords": [
     "export and bundle",
     "landon johnson",
+    "design system",
     "landon w johnson",
     "devlander"
   ],
