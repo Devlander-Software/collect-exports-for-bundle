@@ -1,6 +1,6 @@
 {
   "name": "@devlander/collect-exports-for-bundle",
-  "version": "0.1.39",
+  "version": "0.1.41",
   "main": "dist/cjs/index.js",
   "browser": "dist/umd/index.js",
   "module": "dist/esm/index.js",
@@ -19,6 +19,9 @@
     "export and bundle",
     "landon johnson",
     "design system",
+    "rollup",
+    "storybook",
+    "typescript",
     "landon w johnson",
     "devlander"
   ],
@@ -30,7 +33,7 @@
     "test:example": "node example/bootstrap.cjs",
     "test:snaps": "jest --updateSnapshot",
     "patch": "yarn version --new-version patch",
-    "lint": "eslint .",
+    "lint": "eslint './src/**/*.ts' --fix",
     "format": "eslint './src/**/*.ts' --fix && prettier --write './src/**/*.ts'",
     "typecheck": "tsc --project tsconfig.json --noEmit --emitDeclarationOnly false",
     "buildESM": "tsc",
