@@ -8,7 +8,6 @@ import { dts } from "rollup-plugin-dts";
 import nodePolyfills from "rollup-plugin-polyfill-node";
 
 const packageJson = JSON.parse(fs.readFileSync("./package.json", "utf-8"));
-const tsconfigJson = JSON.parse(fs.readFileSync("./tsconfig.json", "utf-8"));
 
 const extensions = [".js", ".jsx", ".ts", ".tsx", ".web.js", ".native.js"];
 

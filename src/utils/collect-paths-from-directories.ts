@@ -6,11 +6,30 @@ import { hasDefaultExport, hasNamedExports } from './export-patterns'
 import { fileHasValidExtension } from './has-valid-extension'
 import { logColoredMessage } from './log-with-color'
 
+export type CollectPathsFromDirectoriesParams = {
+  (startPath: string, config: AutoExporterOptions): Promise<string[]>
+}
+
+export interface ConfigForCollectPathsFromDirectories
+  extends Partial<AutoExporterOptions>,
+    Partial<BundleExportAsFunctionParams> {
+  debug: boolean
+  specificFiles?: string[]
+  ignoredExtensions?: string[]
+  excludedFolders?: string[]
+  bundleAsObjectForDefaultExport?: string
+  outputFileName?: string
+  rootDir?: string
+}
+
 export async function collectPathsFromDirectories(
   startPath: string,
-  config: AutoExporterOptions | BundleExportAsFunctionParams,
+  config: ConfigForCollectPathsFromDirectories,
   message?: string
 ): Promise<string[]> {
+  if (!config.rootDir) {
+    config.rootDir = startPath
+  }
   if (message) {
     logColoredMessage(message, 'blue')
   }

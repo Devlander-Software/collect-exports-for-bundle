@@ -26,6 +26,10 @@
   <img alt="" src="https://img.shields.io/twitter/follow/landonwjohnson.svg?style=social&label=Follow" />
 </a> 
 
+<a href="https://wakatime.com/i/landonwjohnson" target="\_parent">
+  <img alt="" src="https://wakatime.com/badge/user/bd50b6c5-e0ca-4937-83b3-ab2d13adbc73/project/018b459c-3fa7-454f-94e5-e85da6e4d8a4.svg" />
+</a> 
+
 
 
 # Table of contents
@@ -38,7 +42,7 @@
   - [Default Exports](#default-exports)
   - [Collecting files from the Root folder](#collecting-files-from-the-root-folder)
   - [Collecting files within a directory](#collecting-files-within-a-directory)
-  - [Using the CLI](#collecting-files-using-the-cli)
+  - [Helper Functions](helper-functions)
 - [To do](#to-do)
 - [Future Plans](#future-plans)
 - [Connect with me on Social](#social)
@@ -61,7 +65,7 @@ The primary motivation behind the creation of the **Collect Exports For Bundle S
 3. **Saving Time and Increasing Efficiency:**
    - In today's agile development environment, every moment counts. Manually writing export statements, especially in projects with a vast number of files, can be tedious and error-prone. This package was designed to alleviate this pain point, allowing developers to focus more on writing code and less on the intricacies of managing exports.
 
-By addressing these challenges, the **Collect Exports For Bundle Script** offers a valuable toolset that promotes best practices, enhances productivity, and ensures consistency across projects.
+By addressing these challenges, the **Collect Exports For Bundle Script** offers a valuable tool set that promotes best practices, enhances productivity, and ensures consistency across projects.
 
 
 
@@ -94,19 +98,18 @@ yarn add @devlander/collect-exports-for-bundle
 ```
 
 ## Usage
-After installation, you can use the Collect Exports For Bundle Script in two primary ways: Programmatically or through the command line.
+After installation, you can use the Collect Exports For Bundle Script in two primary ways: Programmatically
 
 ### Programmatically:
 First, require or import the **autoExporter** function from the installed module and call it with an options object:
 
 ```javascript
 const { autoExporter } = require("@devlander/collect-exports-for-bundle");
-
-autoExporter({
-  directory: "src",
-  includeExtensions: [".ts", ".tsx"],
-  excludeExtensions: [".test.ts"],
-});
+  autoExporter({
+    rootDir: "src",
+    allowedExtensions: [".ts", ".tsx"],
+    ignoredExtensions: [".test.ts"],
+  });
 ```
 
 
@@ -114,7 +117,8 @@ autoExporter({
 This utility is built in TypeScript, tailored for seamless integration with other TypeScript packages.
 
 ### Default Exports
-Control your package's exports by choosing a ***default export***. This ensures that when your package compiles, you'll have full command over your ***default export*** and the ***exports*** you need to ***destructure***:
+Control your package's exports by choosing a ***default export***. This ensures that when your package compiles, you'll have full command over your ***default export*** and the ***exports*** you need to ***destructure***.
+Below are examples of packages with default and named exports 
 
 #### A package with a default export:
 
@@ -129,143 +133,109 @@ import { otherThingsInYourPackage } from "package-name"
 ```
 
 ## Collecting files from the Root folder
-This tool can be effectively utilized in both ***GitHub repositories*** and ***gists***. For ***GitHub gists***, particularly when building modules and compiling from the project's root where there isn't a specific src folder, the files and **excludeFolders** parameters in the configuration become essential.
+This tool can be effectively utilized in both ***GitHub repositories*** and ***gists***. For ***GitHub gists***, particularly when building modules and compiling from the project's root where there isn't a specific src folder, the files and **excludedFolders** parameters in the configuration become essential.
 
 #### Example Configuration:
 
 ```typescript
+const autoExporter = require("@devlander/collect-exports-for-bundle").default
 
-import {
-    AutoExporterOptions,
-    autoExporter,
-} from "@devlander/collect-exports-for-bundle";
-
-const main = () => {
-    const configForAutoExporter: AutoExporterOptions = {
-        directory: "./",
-        excludeExtensions: [".d.ts", ".test.ts", ".test.tsx"],
-        includeExtensions: [".ts"],
-        excludeFolder: ["node_modules", "typings", "dist"],
-        defaultExportFile: "somefile.ts",
-    };
-
-    autoExporter(configForAutoExporter);
+const init = () => {
+  autoExporter({
+    rootDir: "./src",
+    outputFilenameExtension: ".ts",
+    outputFileName: "index",
+    exportMode: "both",
+    primaryExportFile: "main.ts",
+    allowedExtensions: [".enum.ts", ".component.tsx", ".type.ts", ".type.tsx"], 
+    ignoredExtensions: [".test.ts", ".test.tsx", ".stories.tsx"],
+  });
 };
 
-main();
+init();
+
 ```
 ### Collecting files within a directory
-You can also configure the tool to specifically collect files within a particular directory.
+You can also configure the tool to specifically collect files within a particular directory using the **specificFiles** property. 
+In this example, **main.ts** and **isEmpty.ts** would be the only files searched for an export
 
 #### Example Configuration:
 
 ```typescript
-import {
-    AutoExporterOptions,
-    autoExporter,
-} from "@devlander/collect-exports-for-bundle";
+const autoExporter = require("@devlander/collect-exports-for-bundle").default
 
-const main = () => {
+const init = () => {
     const configForAutoExporter: AutoExporterOptions = {
-        directory: "src",
-        excludeExtensions: [".d.ts", ".test.ts", ".test.tsx", ".stories.tsx"],
-        includeExtensions: [".ts", ".component.tsx", ".styles.tsx"],
-        defaultExportFile: "app.ts",
+        rootDir: "src",
+        specificFiles: ["main.ts", "isEmpty.ts"]
     };
 
     autoExporter(configForAutoExporter);
 };
 
-main();
+init();
 ```
 
-### Command Line Interface (CLI) Usage
 
-Once you've installed the **Collect Exports For Bundle Script**, you can utilize its command-line interface to generate export statements without having to integrate it programmatically into your projects.
+## Helper functions 
 
-### Basic Usage:
+### Collect Paths From Directories 
+**collectPathsFromDirectories** takes in **allowedExtensions**, **ignoredExtensions**, **specificFiles**, **debug** and **excludedFolders**.
+This function returns paths that have valid file extensions for your directory 
 
-Run the script without any arguments to be prompted with a series of questions that will guide you in setting up your configuration:
+#### Example 
+```typescript
+const {collectPathsFromDirectories} = require("@devlander/collect-exports-for-bundle").default
 
-```bash
-$ collect-files-and-export
+
+const validPaths: string[] = await collectPathsFromDirectories("./src", {
+  allowedExtensions: [".component.tsx", ".tsx", ".ts"],
+  ignoredExtensions: [".spec.tsx", ".test.tsx"],
+  specificFiles: [],
+  debug: false,
+  excludedFolders: ["node_modules", "dist", "build"]
+})
+
 ```
-You'll be asked about:
 
-- The directory to scan.
-- The default export file name (if any).
-- File extensions to include or exclude.
-- Folders to exclude.
-- Specific file paths to include.
+### Create Extensions 
+**createExtensions** takes in a **word**, a list of **words**, and **fileExtensions**
+and will return a list of file extensions with combinations of the three. 
+This function returns paths that have valid file extensions for your directory 
 
+#### Example 
+```typescript
+const {createExtensions} = require("@devlander/collect-exports-for-bundle")
 
-### Advanced Usage:
-For those familiar with the tool's configuration options, you can pass them directly as command-line arguments:
+const webExtensions = createExtensions(
+  "web",
+  ["props", "type", "types", "interface", "enum"],
+  [".tsx", ".ts"]
+);
 
-```bash
-$ collect-files-and-export --directory=src --defaultExportFile=app.ts --includeExtensions=.ts,.tsx --excludeExtensions=.test.ts,.test.tsx
+// Output for createExtensions
+ [
+  '.web.tsx',           '.web.ts',
+  '.web.props.tsx',     '.props.web.tsx',
+  '.web.props.ts',      '.props.web.ts',
+  '.web.type.tsx',      '.type.web.tsx',
+  '.web.type.ts',       '.type.web.ts',
+  '.web.types.tsx',     '.types.web.tsx',
+  '.web.types.ts',      '.types.web.ts',
+  '.web.interface.tsx', '.interface.web.tsx',
+  '.web.interface.ts',  '.interface.web.ts',
+  '.web.enum.tsx',      '.enum.web.tsx',
+  '.web.enum.ts',       '.enum.web.ts'
+]
+
 ```
-This provides a faster way for advanced users to leverage the tool without going through the interactive prompts.
 
-### Integrating with GitHub Actions:
-You can easily integrate the CLI tool with your GitHub Actions workflow. This allows for automated generation of export statements as part of your CI/CD pipeline. Refer to the GitHub Actions documentation for more details on setting up custom workflows with third-party tools.
-## Integration with GitHub Actions
 
-Leverage the power of automation by integrating the **Collect Exports For Bundle Script** directly into your GitHub Actions workflows. This way, whenever changes are pushed to your repository or certain conditions are met, GitHub Actions can automatically execute the tool to generate export statements for you.
 
-### Example Workflow:
-
-Here's an example `.yml` configuration for a GitHub Action workflow that automatically runs the script upon each push to the main branch:
-
-```yaml
-name: Auto-Generate Exports
-
-on:
-  push:
-    branches:
-      - main
-
-jobs:
-  generate-exports:
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '16'
-
-    - name: Install dependencies
-      run: |
-        npm install
-
-    - name: Install Collect Exports For Bundle Script
-      run: |
-        npm install gist:2ca297f86cf9e25ae2fcc01752f80908
-
-    - name: Run script
-      run: |
-        npx collect-files-and-export --directory=src --defaultExportFile=app.ts --includeExtensions=.ts,.tsx --excludeExtensions=.test.ts,.test.tsx
-
-    - name: Commit changes
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git add -A
-        git commit -m "Automatically updated exports using Collect Exports For Bundle Script"
-        git push
-```
 
 ## To do
- [] - Write tests for **generateExportsFromDir**
- [] - Write tests for **randomTypeScriptFileContent**
-
-
-## Future Plans
-This utility is currently hosted as a ***GitHub gist***. However, as it evolves and if it outgrows the gist, it may transition into a full-fledged package.
+ [] - Create cli
+ [] - Create in depth tests for each function 
 
 
 ## Connect with me on social 

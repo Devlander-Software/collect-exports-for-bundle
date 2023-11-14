@@ -20,7 +20,7 @@ export interface BundleExportAsFunctionParams
   allowedExtensions: string[]
   ignoredExtensions: string[]
   excludedFolders: string[]
-  outputFileName: string
+  outputFileName?: string
 
   debug: boolean
 }

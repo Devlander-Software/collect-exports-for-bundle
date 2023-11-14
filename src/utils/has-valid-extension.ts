@@ -1,6 +1,7 @@
 import { AutoExporterOptions } from '../types/module-exporter.types'
 import { TColorValue } from '../types/t-color.types'
 import { BundleExportAsFunctionParams } from './bundle-export-as-function'
+import { ConfigForCollectPathsFromDirectories } from './collect-paths-from-directories'
 import { getFilenameFromPath } from './get-file-name-from-path'
 import { logColoredMessage } from './log-with-color'
 import { parseComplexExtensionFromPath } from './parse-complex-extension-from-path'
@@ -74,7 +75,10 @@ function isValidExtension(
 
 export function fileHasValidExtension(
   filePath: string,
-  config: AutoExporterOptions | BundleExportAsFunctionParams
+  config:
+    | AutoExporterOptions
+    | BundleExportAsFunctionParams
+    | ConfigForCollectPathsFromDirectories
 ): boolean {
   const ignoredExtensions = config.ignoredExtensions || []
   const allowedExtensions = config.allowedExtensions || []
