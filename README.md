@@ -104,7 +104,7 @@ After installation, you can use the Collect Exports For Bundle Script in two pri
 First, require or import the **autoExporter** function from the installed module and call it with an options object:
 
 ```javascript
-const { autoExporter } = require("@devlander/collect-exports-for-bundle");
+const autoExporter  = require("@devlander/collect-exports-for-bundle").default
   autoExporter({
     rootDir: "src",
     allowedExtensions: [".ts", ".tsx"],

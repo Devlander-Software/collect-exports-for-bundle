@@ -13,7 +13,7 @@ export type CollectPathsFromDirectoriesParams = {
 export interface ConfigForCollectPathsFromDirectories
   extends Partial<AutoExporterOptions>,
     Partial<BundleExportAsFunctionParams> {
-  debug: boolean
+  debug?: boolean
   specificFiles?: string[]
   ignoredExtensions?: string[]
   excludedFolders?: string[]
