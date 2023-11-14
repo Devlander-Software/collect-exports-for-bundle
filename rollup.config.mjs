@@ -4,6 +4,7 @@ import json from "@rollup/plugin-json";
 import { nodeResolve } from "@rollup/plugin-node-resolve";
 import typescript from "@rollup/plugin-typescript";
 import fs from "fs";
+import { dts } from "rollup-plugin-dts";
 import nodePolyfills from "rollup-plugin-polyfill-node";
 
 const packageJson = JSON.parse(fs.readFileSync("./package.json", "utf-8"));
@@ -18,6 +19,12 @@ const external = [
   // Add more peer dependencies here
 ];
 
+const treeshake = {
+  moduleSideEffects: false,
+  propertyReadSideEffects: false,
+  tryCatchDeoptimization: false
+};
+
 const makeExternalPredicate = externalArr => {
   if (externalArr.length === 0) {
     return () => false;
@@ -26,13 +33,18 @@ const makeExternalPredicate = externalArr => {
   return id => pattern.test(id);
 };
 
-export default {
+export default [{
   input: "src/index.ts", // Your entry point
   output: [
     {
-      file: packageJson.main, // UMD build
+      file: packageJson.browser, // UMD build
       format: "umd",
       name: "CollectExportsForBundle", // Replace with your library's name
+      sourcemap: true,
+    },
+    {
+      file: packageJson.main, // UMD build
+      format: "cjs",
       sourcemap: true,
     },
     {
@@ -66,4 +78,14 @@ export default {
     json(),
     // terser(), // Use terser for minification
   ],
-};
+},
+{
+  treeshake,
+
+  input: packageJson.types,
+  output: [{ file: 'dist/index.d.ts', format: 'esm' }],
+  plugins: [dts()],
+},
+
+]
+  
