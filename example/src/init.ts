@@ -1,11 +1,24 @@
 
 
-( () => {
+( async () => {
     const createExtensions = require('@devlander/collect-exports-for-bundle').createExtensions
     const autoExporter = require('@devlander/collect-exports-for-bundle').default
     const path = require('path')
     const correctPath = path.resolve(__dirname, '.')
 
+    const {collectPathsFromDirectories} = require('@devlander/collect-exports-for-bundle')
+
+
+    // testing out collect paths from directories
+    const validPaths = await collectPathsFromDirectories(correctPath, {
+      allowedExtensions: createExtensions("web", [], [".ts", ".tsx"]),
+      ignoredExtensions: [
+        ...createExtensions("native", ["test", "stories", "component"], [".ts", ".tsx"])
+      ],
+
+    })
+
+    console.log(validPaths, 'validPaths')
 
     const configsToRun = [
         // Test for default exports

@@ -92,9 +92,10 @@ export type ModuleExportOptions = BaseModuleExportOptions & {
 const runAutoExporter = (config: ModuleExportOptions) => {
   // example/src/testing-auto-exporter.ts
   const autoExporter  = require('@devlander/collect-exports-for-bundle').default
-
   const path = require('path')
   const { rootDir } = config
+
+
 
 
   autoExporter({
