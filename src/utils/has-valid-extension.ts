@@ -21,7 +21,7 @@ const hasFileLogger = (
   return
 }
 
-function notValidExtension(
+export function notValidExtension(
   filePath: string,
   ignoredExtensions: string[],
   debug?: boolean
@@ -47,7 +47,7 @@ function notValidExtension(
   return false
 }
 
-function isValidExtension(
+export function isValidExtension(
   filePath: string,
   allowedExtensions: string[],
   debug?: boolean

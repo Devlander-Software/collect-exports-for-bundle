@@ -42,7 +42,7 @@
   - [Default Exports](#default-exports)
   - [Collecting files from the Root folder](#collecting-files-from-the-root-folder)
   - [Collecting files within a directory](#collecting-files-within-a-directory)
-  - [Helper Functions](helper-functions)
+- [Helper Functions](#helper-functions)
 - [To do](#to-do)
 - [Future Plans](#future-plans)
 - [Connect with me on Social](#social)
@@ -213,7 +213,7 @@ const webExtensions = createExtensions(
   [".tsx", ".ts"]
 );
 
-// Output for createExtensions
+// Output for webExtensions
  [
   '.web.tsx',           '.web.ts',
   '.web.props.tsx',     '.props.web.tsx',
