@@ -15,7 +15,7 @@ export async function collectPathsFromDirectories(
     logColoredMessage(message, 'blue')
   }
   logColoredMessage(
-    `Starting export generation from directory... ${startPath}  
+    `Collecting paths from directory... ${startPath}  
     `,
     'green'
   )

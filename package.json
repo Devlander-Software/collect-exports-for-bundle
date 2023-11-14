@@ -6,7 +6,8 @@
   "types": "dist/cjs/index.d.ts",
   "type": "commonjs",
   "files": [
-    "dist"
+    "dist",
+    "typings"
   ],
   "description": "Easily collect all exports from a directory to your index file for bundling.",
   "author": {

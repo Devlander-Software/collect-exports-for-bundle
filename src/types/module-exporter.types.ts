@@ -81,4 +81,3 @@ export type ModuleExportOptions = BaseModuleExportOptions & {
   primaryExportFile?: ExclusivePrimaryExportFile<BaseModuleExportOptions>
   bundleAsObjectForDefaultExport?: ExclusiveBundleAsFunction<BaseModuleExportOptions>
 }
-

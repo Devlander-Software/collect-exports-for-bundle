@@ -1,6 +1,40 @@
-export {addSumExtraWeb} from './files-with-extentions/addSum.web'
-export {variablesIDoNotWant} from './junk/somejunk'
-export {addSum} from './math-functions/addSum'
-export {getPercentage} from './math-functions/getPercentage'
-export {multiplyBy} from './math-functions/multipleBy'
-export type {ModuleExportOptions, TestOptions, BaseModuleExportOptions, AutoExporterOptions} from './testing-auto-exporter'
+/**
+ * TSDoc for addSum.web
+ */
+export * from "./files-with-extentions/addSum.web";
+/**
+ * TSDoc for index.web
+ */
+export * from "./index.web";
+/**
+ * TSDoc for somejunk
+ */
+export * from "./junk/somejunk";
+/**
+ * TSDoc for addSum
+ */
+export * from "./math-functions/addSum";
+/**
+ * TSDoc for getPercentage
+ */
+export * from "./math-functions/getPercentage";
+/**
+ * TSDoc for multipleBy
+ */
+export * from "./math-functions/multipleBy";
+/**
+ * TSDoc for testing-auto-exporter
+ */
+export * from "./testing-auto-exporter";
+/**
+ * TSDoc for testing-export-mode-set-as-both-with-bundle-as-function
+ */
+export * from "./testing-export-mode-set-as-both-with-bundle-as-function";
+/**
+ * TSDoc for handle-color
+ */
+export * from "./utils/theme-functions/handle-color";
+/**
+ * TSDoc for theme
+ */
+export * from "./utils/theme-functions/theme";

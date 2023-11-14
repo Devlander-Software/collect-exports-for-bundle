@@ -216,7 +216,6 @@ export const bundleExportAsFunction = async (
       path.join(options.rootDir, fileToRewrite),
       combinedExports.join('\n')
     )
- 
 
     return combinedExports.join('\n')
   } catch (error) {

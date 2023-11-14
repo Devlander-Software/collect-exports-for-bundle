@@ -1,4 +1,4 @@
-import * as fs from 'fs/promises'; // Use the promise version of the fs module
+import * as fs from 'fs/promises' // Use the promise version of the fs module
 import path from 'path'
 import { AutoExporterOptions } from '../types/module-exporter.types'
 import { BundleExportAsFunctionParams } from './bundle-export-as-function'
@@ -52,7 +52,7 @@ export async function collectPaths(
         }
         const fileName = parseComplexExtensionFromPath(filename)
         const validFile = fileHasValidExtension(fileName, config)
-        
+
         if (!validFile) {
           continue
         }

@@ -16,9 +16,13 @@
   <img alt="Join the discussion on Github" src="https://img.shields.io/badge/Github%20Discussions%20%26%20Support-Chat%20now!-blue" />
 </a>
 
+<a href="https://bit.ly/3zg6mBG">
+  <img alt="Join Devlander on Twitch" src="https://img.shields.io/twitch/status/twitch" />
+</a>
 
 
-<a href="https://twitter.com/landonwjohnson" target="\_parent">
+
+<a href="https://bit.ly/landonwjohnson-on-twitter" target="\_parent">
   <img alt="" src="https://img.shields.io/twitter/follow/landonwjohnson.svg?style=social&label=Follow" />
 </a> 
 

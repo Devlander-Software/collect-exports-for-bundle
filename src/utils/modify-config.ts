@@ -1,6 +1,6 @@
 import {
-    AutoExporterOptions,
-    ModuleExportOptions
+  AutoExporterOptions,
+  ModuleExportOptions
 } from '../types/module-exporter.types'
 import { getExtensions } from './get-extensions'
 
@@ -41,7 +41,6 @@ export const modifyConfig = async (
     allowedExt,
     defaultAutoExportConfig.debug
   )
-
 
   const modifiedConfig: AutoExporterOptions = {
     ...options,
