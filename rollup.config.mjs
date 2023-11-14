@@ -1,4 +1,3 @@
-import alias from "@rollup/plugin-alias";
 import babel from "@rollup/plugin-babel";
 import commonjs from "@rollup/plugin-commonjs";
 import json from "@rollup/plugin-json";
@@ -6,7 +5,6 @@ import { nodeResolve } from "@rollup/plugin-node-resolve";
 import typescript from "@rollup/plugin-typescript";
 import fs from "fs";
 import nodePolyfills from "rollup-plugin-polyfill-node";
-import { terser } from "rollup-plugin-terser";
 
 const packageJson = JSON.parse(fs.readFileSync("./package.json", "utf-8"));
 const tsconfigJson = JSON.parse(fs.readFileSync("./tsconfig.json", "utf-8"));
@@ -15,9 +13,8 @@ const extensions = [".js", ".jsx", ".ts", ".tsx", ".web.js", ".native.js"];
 
 // Exclude certain dependencies from being bundled
 const external = [
-  "react",
-  "react-dom",
-  "react-native",
+  "fs",
+  "picocolors"
   // Add more peer dependencies here
 ];
 
@@ -35,11 +32,7 @@ export default {
     {
       file: packageJson.main, // UMD build
       format: "umd",
-      name: "YourLibName", // Replace with your library's name
-      globals: {
-        react: "React",
-        "react-native": "ReactNative",
-      },
+      name: "CollectExportsForBundle", // Replace with your library's name
       sourcemap: true,
     },
     {
@@ -50,11 +43,7 @@ export default {
   ],
   external: makeExternalPredicate(external),
   plugins: [
-    alias({
-      entries: [
-        // Define aliases if you have some
-      ],
-    }),
+  
     nodeResolve({
       extensions,
       preferBuiltins: true,
@@ -69,13 +58,12 @@ export default {
       exclude: /node_modules/,
       presets: [
         "@babel/preset-env",
-        "@babel/preset-react",
         "@babel/preset-typescript",
       ],
     }),
     typescript({ tsconfig: "./tsconfig.json" }),
     nodePolyfills(),
     json(),
-    terser(), // Use terser for minification
+    // terser(), // Use terser for minification
   ],
 };

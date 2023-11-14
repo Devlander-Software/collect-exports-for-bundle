@@ -27,10 +27,6 @@ export * from "./math-functions/multipleBy";
  */
 export * from "./testing-auto-exporter";
 /**
- * TSDoc for testing-export-mode-set-as-both-with-bundle-as-function
- */
-export * from "./testing-export-mode-set-as-both-with-bundle-as-function";
-/**
  * TSDoc for handle-color
  */
 export * from "./utils/theme-functions/handle-color";
