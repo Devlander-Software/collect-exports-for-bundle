@@ -16,7 +16,7 @@
         ...createExtensions("native", ["test", "stories", "component"], [".ts", ".tsx"])
       ],
 
-    })
+    })  
 
     console.log(validPaths, 'validPaths')
 
