@@ -1,4 +1,5 @@
 {
+  "compileOnSave": true,
   "compilerOptions": {
     "target": "ESNext",
     "module": "ESNext",
@@ -24,6 +25,7 @@
     "example/src/**/*",
     "example",
     "example/**/*",
+    "yarn-linker-handler.js",
     "rollup.config.mjs",
     "node_modules",
     "**/*.spec.ts",

@@ -1,6 +1,8 @@
 {
+  "compileOnSave": true,
+
   "extends": "./tsconfig.json",
-  "include": ["./src/**/*"],
+  "include": ["./src/**/*", "yarn-linker-handler.js", "rollup.config.mjs"],
   "exclude": [
     "**/node_modules/**",
     "**/example/**/*",
