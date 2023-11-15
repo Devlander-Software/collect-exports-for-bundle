@@ -234,9 +234,11 @@ const webExtensions = createExtensions(
 
 
 ## To do
- [] - Create cli
- [] - Create in depth tests for each function 
- [] - Detect Circular dependencies 
+ - [] Create cli
+ - [] Create in depth tests for each function 
+ - [] Detect Circular dependencies
+ - [] Write tests for deep nesting with large file directories
+ - [] Have a result output showing which directories it went through, and which directories it skipped, same with functions
 
 
 ## Connect with me on social 
