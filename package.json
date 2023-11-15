@@ -1,6 +1,6 @@
 {
   "name": "@devlander/collect-exports-for-bundle",
-  "version": "0.1.46",
+  "version": "0.1.41",
   "main": "dist/cjs/index.js",
   "browser": "dist/umd/index.js",
   "module": "dist/esm/index.js",
@@ -30,7 +30,6 @@
     "check-packages": "npx check-package-dependencies",
     "docs": "typedoc --out ./docs ./src",
     "test": "yarn run link-packages  && node ./example/bootstrap.cjs && jest --coverage",
-    
     "link-packages": "node ./yarn-link-handler.js",
     "test:snaps": "jest --updateSnapshot",
     "patch": "yarn version --new-version patch",
