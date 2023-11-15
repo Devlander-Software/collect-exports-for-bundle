@@ -15,6 +15,7 @@
       ignoredExtensions: [
         ...createExtensions("native", ["test", "stories", "component"], [".ts", ".tsx"])
       ],
+      debug: true
 
     })  
 

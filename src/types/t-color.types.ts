@@ -8,7 +8,9 @@ export enum TColor {
   green = 'green',
   red = 'red',
   blue = 'blue',
-  yellow = 'yellow'
+  yellow = 'yellow',
+  bold = 'bold',
+  magenta = 'magenta'
 }
 
 export type TColorValue = keyof typeof TColor

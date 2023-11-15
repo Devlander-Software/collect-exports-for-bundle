@@ -236,6 +236,7 @@ const webExtensions = createExtensions(
 ## To do
  [] - Create cli
  [] - Create in depth tests for each function 
+ [] - Detect Circular dependencies 
 
 
 ## Connect with me on social 

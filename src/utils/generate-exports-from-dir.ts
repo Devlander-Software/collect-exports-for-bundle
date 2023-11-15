@@ -7,8 +7,14 @@ export async function generateExportsFromDir(
   startPath: string,
   config: AutoExporterOptions
 ): Promise<string[]> {
-  logColoredMessage(`Starting export generation from directory...`, 'green')
-  const filteredPaths = await collectPathsFromDirectories(startPath, config)
+  try {
+    logColoredMessage(`Starting export generation from directory...`, 'green')
 
-  return generateExportsFromPaths(filteredPaths, config)
+    const filteredPaths = await collectPathsFromDirectories(startPath, config)
+    return generateExportsFromPaths(filteredPaths, config)
+  } catch (error: any) {
+    logColoredMessage(`Error generating exports from directory...`, 'red')
+    logColoredMessage(error.toString(), 'red')
+    return []
+  }
 }

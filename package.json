@@ -29,8 +29,9 @@
     "prepare": "yarn run build",
     "check-packages": "npx check-package-dependencies",
     "docs": "typedoc --out ./docs ./src",
-    "test": "jest --coverage",
-    "test:example": "node example/bootstrap.cjs",
+    "test": "yarn run link-packages  && node ./example/bootstrap.cjs && jest --coverage",
+    
+    "link-packages": "node ./yarn-link-handler.js",
     "test:snaps": "jest --updateSnapshot",
     "patch": "yarn version --new-version patch",
     "lint": "eslint './src/**/*.ts' --fix",
