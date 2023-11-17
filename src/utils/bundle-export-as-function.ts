@@ -1,9 +1,12 @@
 import fs from 'fs'
 import path from 'path'
-import { AutoExporterOptions } from '../types/module-exporter.types'
+import { AutoExporterOptions, Results } from '../types/module-exporter.types'
 import { collectPathsFromDirectories } from './collect-paths-from-directories'
+import { createDurationComment } from './create-duration-comment'
+import { createTitleComment } from './create-title-comment'
 import { discoverFunctionTypes } from './discover-function-types'
 import { extractDefaultExportVariable } from './extract-default-export'
+import { getDuration } from './get-duration'
 import { getExportedFunctionNames } from './get-exported-function-names'
 import { getExportedTypeDeclarations } from './get-exported-type-declarations'
 import { logColoredMessage } from './log-with-color'
@@ -19,6 +22,7 @@ export interface BundleExportAsFunctionParams
   bundleAsObjectForDefaultExport?: string
   allowedExtensions: string[]
   ignoredExtensions: string[]
+  results: Results
   excludedFolders: string[]
   outputFileName?: string
 
@@ -207,6 +211,29 @@ export const bundleExportAsFunction = async (
           )
         }
       })
+    }
+
+    if (options.title || options.description) {
+      const commentForFile = createTitleComment(
+        options.title || '',
+        options.description || ''
+      )
+      combinedExports.push(commentForFile)
+    }
+
+    if (options.results && options.results.startTime) {
+      const endedAt = Date.now()
+
+      options.results.endTime = endedAt
+
+      options.results.duration = getDuration(options.results.startTime, endedAt)
+
+      const durationComment = createDurationComment(
+        options.results.startTime,
+        endedAt
+      )
+
+      combinedExports.push(durationComment)
     }
     const fileToRewrite = `${options.outputFileName}${options.outputFilenameExtension}`
 

@@ -1,4 +1,4 @@
-import { blue, green, red, yellow } from 'picocolors'
+import { blue, green, magenta, red, yellow } from 'picocolors'
 import { TColor, TColorValue } from '../types/t-color.types'
 
 const logWithColor = (color: TColor | TColorValue, message: string): void => {
@@ -8,6 +8,8 @@ const logWithColor = (color: TColor | TColorValue, message: string): void => {
     console.log(red(message))
   } else if (color === TColor.blue) {
     console.log(blue(message))
+  } else if (color === TColor.magenta) {
+    console.log(magenta(message))
   } else if (color === TColor.yellow) {
     console.log(yellow(message))
   } else {
@@ -28,4 +30,14 @@ export const logMessageBasedOnCondition = (
 ): void => {
   const color: TColor = condition ? TColor.green : TColor.red
   logWithColor(color, message)
+}
+
+export const logFailedMessage = (
+  functionName: string,
+  error: string | object | any
+): void => {
+  if (typeof error !== 'string') {
+    error = error.toString()
+  }
+  logColoredMessage(`Failed at: ${functionName}: ${error}`, TColor.red)
 }

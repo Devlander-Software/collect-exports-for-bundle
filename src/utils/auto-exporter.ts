@@ -75,6 +75,12 @@ const autoExporter = async (
       TOTAL_STEPS,
       currentStep++
     )
+
+    // TO DO
+    // after this function runs
+    // it should have updated the resuls object in the config
+    // which would have updated values for includedExports, excludedExports,
+    // includedFolders, excludedFolders, includedFiles, excludedFiles
     const exportsList = await generateExportsFromDir(config.rootDir, config)
 
     simulateProgressBar(
@@ -95,7 +101,11 @@ const autoExporter = async (
           'blue'
         )
       }
-
+      // TO DO
+      // after this function runs
+      // it should have updated the resuls object in the config
+      // which would have updated values for includedExports, excludedExports,
+      // includedFolders, excludedFolders, includedFiles, excludedFiles
       await bundleExportAsFunction({
         ...config
       })
@@ -108,6 +118,12 @@ const autoExporter = async (
       }
     }
 
+    if (config.debug) {
+      logColoredMessage(
+        `\n${JSON.stringify(config.results, null, 2)}`,
+        'yellow'
+      )
+    }
     logColoredMessage(`\nExports generated in ${fileNameToWriteTo}\n`, 'green')
   } catch (e) {
     console.log(e)

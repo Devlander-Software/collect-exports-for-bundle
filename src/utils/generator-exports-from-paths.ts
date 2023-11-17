@@ -1,8 +1,11 @@
 import * as fs from 'fs'
 import path from 'path'
 import { AutoExporterOptions } from '../types/module-exporter.types'
+import { createDurationComment } from './create-duration-comment'
+import { createTitleComment } from './create-title-comment'
 import { hasDefaultExport, hasNamedExports } from './export-patterns'
 import { extractDefaultExportVariable } from './extract-default-export'
+import { getDuration } from './get-duration'
 import { getFilenameFromPath } from './get-file-name-from-path'
 import { fileHasValidExtension } from './has-valid-extension'
 import { logColoredMessage } from './log-with-color'
@@ -89,19 +92,41 @@ export function generateExportsFromPaths(
     )
     const componentName = path.basename(filepath, path.extname(filepath))
     const isPrimaryExportFile = fileName === config.primaryExportFile
-
-    buildExportsFromPaths({
-      isPrimaryExportFile,
-      fileName,
-      fileContent,
-      withoutExtension,
-      filepath,
-      componentName,
-      defaultExportString,
-      results,
-      config
-    })
+    if (fileName) {
+      buildExportsFromPaths({
+        isPrimaryExportFile,
+        fileName,
+        fileContent,
+        withoutExtension,
+        filepath,
+        componentName,
+        defaultExportString,
+        results,
+        config
+      })
+    }
   }
 
-  return [...results, ...defaultExportString]
+  const commentTitleForFile =
+    config.title && config.description
+      ? createTitleComment(config.title || '', config.description || '')
+      : ''
+
+  const endedAt = new Date().getTime()
+
+  config.results.endTime = endedAt
+
+  config.results.duration = getDuration(config.results.startTime, endedAt)
+
+  const durationComment = createDurationComment(
+    config.results.startTime,
+    endedAt
+  )
+
+  return [
+    ...results,
+    ...defaultExportString,
+    commentTitleForFile,
+    durationComment
+  ]
 }

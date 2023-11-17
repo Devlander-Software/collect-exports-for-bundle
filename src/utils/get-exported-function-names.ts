@@ -1,5 +1,6 @@
 import fs from 'fs'
 import { logColoredMessage } from './log-with-color'
+import { regexDefinitions } from './regex-definitions'
 
 type DeclarationTypes = 'function' | 'const' | 'let' | 'var' | 'class' | 'enum'
 
@@ -27,13 +28,13 @@ export function getExportedFunctionNames(
     const fileContent = fs.readFileSync(filePath, 'utf8')
 
     const patterns = {
-      function: /export\s+function\s+([a-zA-Z_$][0-9a-zA-Z_$]*)/g,
-      const: /export\s+const\s+([a-zA-Z_$][0-9a-zA-Z_$]*)\s*=/g,
-      let: /export\s+let\s+([a-zA-Z_$][0-9a-zA-Z_$]*)\s*=/g,
-      var: /export\s+var\s+([a-zA-Z_$][0-9a-zA-Z_$]*)\s*=/g,
-      enum: /export\s+enum\s+([a-zA-Z_$][0-9a-zA-Z_$]*)\s*{/g,
+      function: regexDefinitions.matchesFunctionExport,
+      const: regexDefinitions.matchesConstExport,
+      let: regexDefinitions.matchesLetExport,
+      var: regexDefinitions.matchesVarExport,
+      enum: regexDefinitions.matchesEnumExport,
 
-      class: /export\s+class\s+([a-zA-Z_$][0-9a-zA-Z_$]*)/g
+      class: regexDefinitions.matchesClassExport
     }
 
     const functionNames: string[] = []

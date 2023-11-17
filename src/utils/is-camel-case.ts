@@ -1,10 +1,15 @@
 import { logColoredMessage } from './log-with-color'
+import { regexDefinitions } from './regex-definitions'
 
 export function isCamelCase(str: string, debug?: boolean): boolean {
-  // Checking if the string is in camelCase
-  const camelCaseRegex = /^[a-z][a-zA-Z0-9]*$/
+  regexDefinitions
 
-  if (!camelCaseRegex.test(str)) {
+  if (
+    !regexDefinitions.isCamelCase.test(str) ||
+    regexDefinitions.containsUnderscore.test(str) ||
+    regexDefinitions.isDashCase.test(str) ||
+    regexDefinitions.containsSpecialChar.test(str)
+  ) {
     if (debug) {
       logColoredMessage(`${str} is not in camelCase.`, 'red')
     }

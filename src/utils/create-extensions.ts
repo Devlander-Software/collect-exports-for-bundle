@@ -95,5 +95,3 @@ export const createExtensions: CreateExtensions = (
   // Convert the Set to an Array before returning
   return Array.from(combinedExtensions)
 }
-
-export default createExtensions

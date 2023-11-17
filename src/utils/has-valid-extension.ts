@@ -5,6 +5,7 @@ import { ConfigForCollectPathsFromDirectories } from './collect-paths-from-direc
 import { getFilenameFromPath } from './get-file-name-from-path'
 import { logColoredMessage } from './log-with-color'
 import { parseComplexExtensionFromPath } from './parse-complex-extension-from-path'
+import { ResultItemType, pushToResults } from './push-to-results'
 
 const hasFileLogger = (
   fileName: string,
@@ -83,9 +84,19 @@ export function fileHasValidExtension(
   const ignoredExtensions = config.ignoredExtensions || []
   const allowedExtensions = config.allowedExtensions || []
   const specificFiles = config.specificFiles || []
-  const nameOfFile = getFilenameFromPath(filePath)
+  const excludeSpecificFiles = config.excludeSpecificFiles || []
 
-  if (config.debug) {
+  console.log(filePath, 'filePath')
+
+  const nameOfFile = getFilenameFromPath(filePath)
+  const nameOfFileIsString = typeof nameOfFile === 'string'
+  console.log(nameOfFile, 'nameOfFile')
+
+  if (nameOfFileIsString && excludeSpecificFiles.includes(nameOfFile)) {
+    return false
+  }
+
+  if (config.debug && nameOfFileIsString) {
     if (
       ignoredExtensions &&
       ignoredExtensions.length > 0 &&
@@ -96,7 +107,11 @@ export function fileHasValidExtension(
       // because we filter out the ignoredExtensions
       // from the allowedExtensions in modifyConfig
       // but just in case, we'll throw an error
-      if (ignoredExtensions.some((ext) => allowedExtensions.includes(ext))) {
+      const commonExtensions = ignoredExtensions.filter((ext) =>
+        allowedExtensions.includes(ext)
+      )
+
+      if (commonExtensions.length > 0) {
         logColoredMessage(
           `this is the ignoredExtensions: ${ignoredExtensions}`,
           'red'
@@ -106,21 +121,55 @@ export function fileHasValidExtension(
           'green'
         )
         throw new Error(
-          `You cannot have an extension in both ignoredExtensions and allowedExtensions. `
+          `You cannot have an extension in both ignoredExtensions and allowedExtensions. Common extensions: ${commonExtensions.join(
+            ', '
+          )}`
         )
       }
     }
   }
 
-  if (specificFiles.length > 0) {
+  if (config.debug && nameOfFileIsString) {
+    logColoredMessage(
+      `these are files to exclude ${JSON.stringify(
+        excludeSpecificFiles,
+        null,
+        2
+      )}`,
+      'magenta'
+    )
+  }
+
+  if (excludeSpecificFiles.length > 0 && nameOfFileIsString) {
+    if (nameOfFileIsString && excludeSpecificFiles.includes(nameOfFile)) {
+      if (config.results) {
+        config.results = pushToResults(
+          config.results,
+          ResultItemType.ExcludedFile,
+          {
+            nameOrPath: nameOfFile,
+            reason: [`it is in the excludeSpecificFiles array`]
+          }
+        )
+      }
+      return false
+    }
+  } else if (specificFiles.length > 0 && nameOfFileIsString) {
     if (specificFiles.includes(nameOfFile)) {
       return true
     } else {
       return false
     }
-  } else if (notValidExtension(nameOfFile, ignoredExtensions, config.debug)) {
+  }
+
+  if (
+    nameOfFileIsString &&
+    notValidExtension(nameOfFile, ignoredExtensions, config.debug)
+  ) {
     return false
-  } else {
+  } else if (nameOfFileIsString) {
     return isValidExtension(nameOfFile, allowedExtensions, config.debug)
+  } else {
+    return false
   }
 }

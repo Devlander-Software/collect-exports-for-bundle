@@ -1,10 +1,10 @@
 import * as fs from 'fs'
-import { AutoExporterOptions } from '../types/module-exporter.types'
+import { AutoExporterOptions, Results } from '../types/module-exporter.types'
 import { BundleExportAsFunctionParams } from './bundle-export-as-function'
 import { collectPaths } from './collect-paths'
 import { hasDefaultExport, hasNamedExports } from './export-patterns'
 import { fileHasValidExtension } from './has-valid-extension'
-import { logColoredMessage } from './log-with-color'
+import { logColoredMessage, logFailedMessage } from './log-with-color'
 
 export type CollectPathsFromDirectoriesParams = {
   (startPath: string, config: AutoExporterOptions): Promise<string[]>
@@ -16,6 +16,7 @@ export interface ConfigForCollectPathsFromDirectories
   debug?: boolean
   specificFiles?: string[]
   ignoredExtensions?: string[]
+  results?: Results
   excludedFolders?: string[]
   bundleAsObjectForDefaultExport?: string
   outputFileName?: string
@@ -72,7 +73,7 @@ export async function collectPathsFromDirectories(
 
     return filteredPaths
   } catch (err: any) {
-    logColoredMessage(`Error collecting paths: ${err.toString()}`, 'red')
+    logFailedMessage('collectPathsFromDirectories', err)
 
     return []
   }

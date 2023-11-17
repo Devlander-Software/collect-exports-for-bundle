@@ -4,3 +4,6 @@ export * from './utils/collect-paths'
 export * from './utils/collect-paths-from-directories'
 export * from './utils/create-extensions'
 export * from './utils/export-patterns'
+export * from './utils/get-extensions'
+
+export * from './utils/to-camel-case'

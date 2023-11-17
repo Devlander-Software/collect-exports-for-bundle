@@ -48,7 +48,6 @@ export const discoverFunctionTypes: DiscoverFunctionTypes = async (
         ts.ScriptTarget.Latest,
         true // set parent pointers in nodes, necessary for navigating up the tree
       )
-      //   console.log('sourceFile', sourceFile)
 
       const checker = program.getTypeChecker()
 

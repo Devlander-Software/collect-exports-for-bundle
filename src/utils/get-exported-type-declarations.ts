@@ -1,5 +1,6 @@
 import fs from 'fs'
 import { logColoredMessage } from './log-with-color'
+import { regexDefinitions } from './regex-definitions'
 
 type DeclarationTypeTypes = 'type' | 'interface'
 
@@ -20,8 +21,8 @@ export function getExportedTypeDeclarations(
     const fileContent = fs.readFileSync(filePath, 'utf8')
 
     const patterns = {
-      type: /export\s+type\s+([a-zA-Z_$][0-9a-zA-Z_$]*)\s*=/g,
-      interface: /export\s+interface\s+([a-zA-Z_$][0-9a-zA-Z_$]*)\s*{/g
+      type: regexDefinitions.matchesTypeExport,
+      interface: regexDefinitions.matchesInterfaceExport
     }
 
     const typeNames: string[] = []

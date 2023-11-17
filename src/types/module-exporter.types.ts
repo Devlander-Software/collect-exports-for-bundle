@@ -5,6 +5,11 @@ import { TestOptions } from './test-options.types'
  *
  * @property {string} [rootDir] - The directory that will be scanned for files to export.
  *                               Default is 'src' if not specified.
+ * 
+ * @property {string} [title] - This is optional, but it will be used to describe the file in the generated index file
+
+* @property {string} [description] - This is optional, but it will be used to describe the file in the generated index file
+ *                               and leave a comment in the file
  * @property {'es6' | 'es5'} [targetVersion] - Format of the output index file.
  *                                            Default is 'es6' if not specified.
  * @property {string} [primaryExportFile] - The file that will be exported as default.
@@ -24,6 +29,7 @@ import { TestOptions } from './test-options.types'
  *                                           Defaults are ['.test.tsx', '.stories.tsx', '.test.ts', '.stories.ts'].
  * @property {string[]} [specificFiles] - Only exports the specified files instead of scanning the whole rootDir.
  *                                        By default, it scans all files in rootDir with allowedExtensions.
+ * @property {string[]} [excludeSpecificFiles] - Excludes specific files from being exported.
  * @property {string[]} [excludedFolders] - Folders to be ignored during export.
  *                                          Default is ['node_modules'] if not specified.
  */
@@ -38,8 +44,37 @@ export interface BaseModuleExportOptions {
   ignoredExtensions?: string[]
   specificFiles?: string[]
   excludedFolders?: string[]
+  excludeSpecificFiles?: string[]
   testOptions?: TestOptions
   debug?: boolean
+  description?: string
+  title?: string
+}
+
+export interface ResultItem {
+  nameOrPath: string
+  reason: string[]
+}
+
+export interface Results {
+  title: string
+  description: string
+  includedFolders: ResultItem[]
+  includedFiles: ResultItem[]
+  excludedFolders: ResultItem[]
+  excludedFiles: ResultItem[]
+  includedExports: ResultItem[]
+  excludedExports: ResultItem[]
+  startTime: number
+  endTime: number
+  duration: string
+  withParameters: {
+    ignoredExtensions: string[]
+    allowedExtensions: string[]
+    excludedFolders: string[]
+    specificFiles: string[]
+    rootDir: string
+  }
 }
 
 export interface AutoExporterOptions {
@@ -52,10 +87,15 @@ export interface AutoExporterOptions {
   ignoredExtensions: string[]
   primaryExportFile?: string | undefined
   specificFiles: string[]
+  excludeSpecificFiles: string[]
+
   excludedFolders: string[]
   bundleAsObjectForDefaultExport?: string | undefined
   testOptions?: TestOptions
   debug: boolean
+  description?: string
+  title?: string
+  results: Results
 }
 
 // These types enforce the constraints when used
