@@ -10,7 +10,12 @@ export enum TColor {
   blue = 'blue',
   yellow = 'yellow',
   bold = 'bold',
-  magenta = 'magenta'
+  magenta = 'magenta',
+  bgWhite = 'bgWhite',
+  bgRed = 'bgRed',
+  bgGreen = 'bgGreen',
+  bgBlack = 'bgBlack',
+  bgBlue = 'bgBlue'
 }
 
 export type TColorValue = keyof typeof TColor

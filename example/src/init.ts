@@ -50,11 +50,11 @@ const createConfigForPackage = (packageName: string): CompleteAutoExportConfig[]
     return createExtensions(folder, words, extensions);
   }
 
-  const webExtensions = createExtensionsWrapper("web", allowedWords, [".ts", ".tsx"]);
-  const nativeExtensions = createExtensionsWrapper("native", allowedWords, [".ts", ".tsx"]);
+  const webExtensions = [".ts", ".tsx", ...createExtensionsWrapper("web", allowedWords, [".ts", ".tsx"])];
+  const nativeExtensions = [".ts", ".tsx", ...createExtensionsWrapper("native", allowedWords, [".ts", ".tsx"])]
   const crossPlatformExtensions = [...webExtensions, ...nativeExtensions];
 
-  const ignoredExtensions = [...createExtensionsWrapper("", ignoredWords, [".ts", ".tsx", ".json", ".js", ".mjs", ".jsx"]), ...nativeExtensions, ...webExtensions];
+  const ignoredExtensions = [...createExtensionsWrapper("", ignoredWords, [".json", ".js", ".mjs", ".jsx"])];
   const excludedFolders = ["node_modules", "build", "typings", "dist"];
 
   const foldersToExcludeOnNative = [...excludedFolders, "web"];
@@ -68,42 +68,42 @@ const createConfigForPackage = (packageName: string): CompleteAutoExportConfig[]
    
   });
   const items: AutoExportPartialOptions[] = [
-    {
-      packageName,
-      title: `${packageName} - Auto Export Native Default Exports for bundleAsObjectForDefaultExport`,
-      description: `This is for exporting the native index file`,
-      outputFilenameExtension: ".ts",
-      exportMode: "default",
+    // {
+    //   packageName,
+    //   title: `${packageName} - Auto Export Native Default Exports for bundleAsObjectForDefaultExport`,
+    //   description: `This is for exporting the native index file`,
+    //   outputFilenameExtension: ".ts",
+    //   exportMode: "default",
       
-      outputFileName: `${packageName}_${FoldersForResults.native}_${FileNamePartOne.defaultExports}_${FileNamePartOne.bundleAsObjectForDefaultExport}`,
-      allowedExtensions: nativeExtensions,
-      excludedFolders: foldersToExcludeOnNative,
-      bundleAsFunctionForDefaultExportAs: `${toCamelCase(packageName)}exportAndBundleNative`,
-      ignoredExtensions: ignoredExtensions
-    },
-    {
-      packageName,
-      title: `${packageName} - Auto Export Native Named Exports for bundleAsObjectForDefaultExport`,
-      description: `This is for exporting the native index file`,
-      outputFilenameExtension: ".ts",
-      exportMode: "named",
-      outputFileName: `${packageName}_${FoldersForResults.native}_${FileNamePartOne.namedExports}`,
-      allowedExtensions: nativeExtensions,
-      excludedFolders: foldersToExcludeOnNative,
-      bundleAsFunctionForDefaultExportAs: `${toCamelCase(packageName)}exportAndBundleNativeNamedExports`,
-      ignoredExtensions: ignoredExtensions
-    },
-    {
-      packageName,
-      title: `${packageName} - Auto Export Web Named Exports`,
-      description: `This is for exporting the web index file`,
-      outputFilenameExtension: ".ts",
-      exportMode: "named",
-      outputFileName: `${packageName}_${FoldersForResults.web}_${FileNamePartOne.namedExports}`,
-      allowedExtensions: webExtensions,
-      excludedFolders: foldersToExcludeOnWeb,
-      ignoredExtensions: ignoredExtensions
-    },
+    //   outputFileName: `${packageName}_${FoldersForResults.native}_${FileNamePartOne.defaultExports}_${FileNamePartOne.bundleAsObjectForDefaultExport}`,
+    //   allowedExtensions: nativeExtensions,
+    //   excludedFolders: foldersToExcludeOnNative,
+    //   bundleAsFunctionForDefaultExportAs: `${toCamelCase(packageName)}exportAndBundleNative`,
+    //   ignoredExtensions: ignoredExtensions
+    // },
+    // {
+    //   packageName,
+    //   title: `${packageName} - Auto Export Native Named Exports for bundleAsObjectForDefaultExport`,
+    //   description: `This is for exporting the native index file`,
+    //   outputFilenameExtension: ".ts",
+    //   exportMode: "named",
+    //   outputFileName: `${packageName}_${FoldersForResults.native}_${FileNamePartOne.namedExports}`,
+    //   allowedExtensions: nativeExtensions,
+    //   excludedFolders: foldersToExcludeOnNative,
+    //   bundleAsFunctionForDefaultExportAs: `${toCamelCase(packageName)}exportAndBundleNativeNamedExports`,
+    //   ignoredExtensions: ignoredExtensions
+    // },
+    // {
+    //   packageName,
+    //   title: `${packageName} - Auto Export Web Named Exports`,
+    //   description: `This is for exporting the web index file`,
+    //   outputFilenameExtension: ".ts",
+    //   exportMode: "named",
+    //   outputFileName: `${packageName}_${FoldersForResults.web}_${FileNamePartOne.namedExports}`,
+    //   allowedExtensions: webExtensions,
+    //   excludedFolders: foldersToExcludeOnWeb,
+    //   ignoredExtensions: ignoredExtensions
+    // },
     {
       packageName,
       title: `${packageName} - Auto Export Web for both Named and Default Exports`,
@@ -117,7 +117,7 @@ const createConfigForPackage = (packageName: string): CompleteAutoExportConfig[]
     },
     {
       packageName,
-      debug: true,
+      
       title: `${packageName} - Normal Auto Export`,
       description: `This is for exporting the normal index file`,
       outputFilenameExtension: ".ts",
@@ -159,6 +159,7 @@ const createConfigForPackage = (packageName: string): CompleteAutoExportConfig[]
         const validPaths = await collectPathsFromDirectories(config.rootDir, {
           allowedExtensions: config.allowedExtensions,
           ignoredExtensions: config.ignoredExtensions,
+          excludedFolders: config.excludedFolders,
           debug: config.debug ?? false
         });
 

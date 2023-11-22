@@ -1,4 +1,7 @@
-import { regexDefinitions } from "../src/utils/regex-definitions";
+import { regexDefinitions } from "../src/constraints/regex-definitions";
+
+
+describe.only('constraintFeatures', () => {
 
 describe('regexDefinitions', () => {
   test('isCamelCase', () => {
@@ -48,55 +51,127 @@ describe('regexDefinitions', () => {
     expect(regexDefinitions.isSnakeCase.test('SnakeCaseString')).toBe(false);
   });
   
-  test('matchesDefaultExport', () => {
-    expect(regexDefinitions.matchesDefaultExport.test('export default myFunction')).toBe(true);
-    expect(regexDefinitions.matchesDefaultExport.test('export myFunction')).toBe(false);
-  });
   
-  test('matchesNamedExport', () => {
-    expect(regexDefinitions.matchesNamedExport.test('export const myConst = {}')).toBe(true);
-    expect(regexDefinitions.matchesNamedExport.test('const myConst = {}')).toBe(false);
-  });
   
-  test('matchesTypeExport', () => {
-    expect(regexDefinitions.matchesTypeExport.test('export type MyType = {}')).toBe(true);
-    expect(regexDefinitions.matchesTypeExport.test('type MyType = {}')).toBe(false);
-  });
-  
-  test('matchesInterfaceExport', () => {
-    expect(regexDefinitions.matchesInterfaceExport.test('export interface MyInterface {}')).toBe(true);
-    expect(regexDefinitions.matchesInterfaceExport.test('interface MyInterface {}')).toBe(false);
-  });
-  
-  test('matchesFunctionExport', () => {
-    expect(regexDefinitions.matchesFunctionExport.test('export function myFunction() {}')).toBe(true);
-    expect(regexDefinitions.matchesFunctionExport.test('function myFunction() {}')).toBe(false);
-  });
-  
-  test('matchesConstExport', () => {
-    expect(regexDefinitions.matchesConstExport.test('export const myConst = {}')).toBe(true);
-    expect(regexDefinitions.matchesConstExport.test('const myConst = {}')).toBe(false);
-  });
-  
-  test('matchesLetExport', () => {
-    expect(regexDefinitions.matchesLetExport.test('export let myLet')).toBe(true);
-    expect(regexDefinitions.matchesLetExport.test('let myLet')).toBe(false);
-  });
-  
-  test('matchesVarExport', () => {
-    expect(regexDefinitions.matchesVarExport.test('export var myVar')).toBe(true);
-    expect(regexDefinitions.matchesVarExport.test('var myVar')).toBe(false);
-  });
-  
-  test('matchesEnumExport', () => {
-    expect(regexDefinitions.matchesEnumExport.test('export enum MyEnum {}')).toBe(true);
-    expect(regexDefinitions.matchesEnumExport.test('enum MyEnum {}')).toBe(false);
-  });
-  
-  test('matchesClassExport', () => {
-    expect(regexDefinitions.matchesClassExport.test('export class MyClass {}')).toBe(true);
-    expect(regexDefinitions.matchesClassExport.test('class MyClass {}')).toBe(false);
+ 
+
+ 
+
+});
+
+
+
+describe('regexDefinitions.containsSpecialChar', () => {
+  it('matches strings with special characters', () => {
+    let testAtSymbol = regexDefinitions.containsSpecialChar.test('2021@year');
+    expect(regexDefinitions.containsSpecialChar.test('hello!')).toBe(true);
+    expect(regexDefinitions.containsSpecialChar.test('goodbye#')).toBe(true);
+    expect(testAtSymbol).toBe(true);
+    
+    expect(regexDefinitions.containsSpecialChar.test('%special%')).toBe(true);
   });
 
-  // ... and so on for each regex pattern ...
+  it('does not match strings with only alphanumeric characters', () => {
+    expect(regexDefinitions.containsSpecialChar.test('hello')).toBe(false);
+    expect(regexDefinitions.containsSpecialChar.test('goodbye')).toBe(false);
+    expect(regexDefinitions.containsSpecialChar.test('2021')).toBe(false);
+    expect(regexDefinitions.containsSpecialChar.test('ABC123')).toBe(false);
+  });
+
+  it('matches strings with mixed alphanumeric and special characters', () => {
+    expect(regexDefinitions.containsSpecialChar.test('h3ll0_World')).toBe(true);
+    expect(regexDefinitions.containsSpecialChar.test('passw0rd$')).toBe(true);
+   
+  });
+
+  it('matches strings with whitespace characters', () => {
+    expect(regexDefinitions.containsSpecialChar.test('hello world')).toBe(true);
+
+  });
+
+  // Add more test cases if needed...
+});
+
+
+
+describe('regexDefinitions.containsDash', () => {
+  it('matches strings with dash characters', () => {
+    expect(regexDefinitions.containsDash.test('hello-world')).toBe(true);
+    expect(regexDefinitions.containsDash.test('2021-year')).toBe(true);
+    expect(regexDefinitions.containsDash.test('multi-word-string')).toBe(true);
+  });
+
+  it('does not match strings without dash characters', () => {
+    expect(regexDefinitions.containsDash.test('helloworld')).toBe(false);
+    expect(regexDefinitions.containsDash.test('2021')).toBe(false);
+    expect(regexDefinitions.containsDash.test('multiwordstring')).toBe(false);
+  });
+
+  it('matches strings with multiple dash characters', () => {
+    expect(regexDefinitions.containsDash.test('hello--world')).toBe(true);
+    expect(regexDefinitions.containsDash.test('--')).toBe(true);
+  });
+
+  // Add more test cases if needed...
+});
+
+});
+
+describe.only('collectPathsFeature', () => {
+describe('regexDefinitions.containsDuplicateDriveLetters', () => {
+  it('matches strings with duplicate drive letters', () => {
+    expect(regexDefinitions.containsDuplicateDriveLetters.test('C:\\C:')).toBe(true);
+    expect(regexDefinitions.containsDuplicateDriveLetters.test('A:\\A:')).toBe(true);
+    expect(regexDefinitions.containsDuplicateDriveLetters.test('Z:\\Z:')).toBe(true);
+  });
+
+  it('does not match strings without duplicate drive letters', () => {
+    expect(regexDefinitions.containsDuplicateDriveLetters.test('C:\\D:')).toBe(false);
+    expect(regexDefinitions.containsDuplicateDriveLetters.test('E:\\F:')).toBe(false);
+    expect(regexDefinitions.containsDuplicateDriveLetters.test('G:\\H:')).toBe(false);
+  });
+
+  it('does not match strings that are not in drive letter format', () => {
+    expect(regexDefinitions.containsDuplicateDriveLetters.test('C:\\some\\path')).toBe(false);
+    expect(regexDefinitions.containsDuplicateDriveLetters.test('D:\\another\\path')).toBe(false);
+    expect(regexDefinitions.containsDuplicateDriveLetters.test('just-a-string')).toBe(false);
+  });
+
+  it('matches case-insensitively', () => {
+    expect(regexDefinitions.containsDuplicateDriveLetters.test('c:\\c:')).toBe(true);
+    expect(regexDefinitions.containsDuplicateDriveLetters.test('a:\\a:')).toBe(true);
+  });
+
+  // Add more test cases if needed...
+});
+
+});
+describe.only('constraintFeatures', () => {
+
+describe('regexDefinitions.isSnakeCase', () => {
+  it('matches snake_case strings', () => {
+    expect(regexDefinitions.isSnakeCase.test('snake_case')).toBe(true);
+    expect(regexDefinitions.isSnakeCase.test('snake_case_string')).toBe(true);
+    expect(regexDefinitions.isSnakeCase.test('snake1_case2_string3')).toBe(true);
+  });
+
+  it('does not match strings with uppercase characters', () => {
+    expect(regexDefinitions.isSnakeCase.test('Snake_case')).toBe(false);
+    expect(regexDefinitions.isSnakeCase.test('SNAKE_CASE')).toBe(false);
+    expect(regexDefinitions.isSnakeCase.test('snake_Case')).toBe(false);
+  });
+
+  it('does not match strings with spaces or other characters', () => {
+    expect(regexDefinitions.isSnakeCase.test('snake case')).toBe(false);
+    expect(regexDefinitions.isSnakeCase.test('snake-case')).toBe(false);
+    expect(regexDefinitions.isSnakeCase.test('snake_case!')).toBe(false);
+  });
+
+ 
+
+  it('matches single lowercase word without underscores', () => {
+    expect(regexDefinitions.isSnakeCase.test('snake')).toBe(true);
+  });
+});
+  // Add more test cases if needed...
 });

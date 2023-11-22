@@ -1,10 +1,10 @@
-import { isCamelCase } from '../src/utils/is-camel-case';
-import { toCamelCase } from '../src/utils/to-camel-case';
+import { toCamelCase } from '../src/conversions/to-camel-case';
+
+describe.only('conversionFeatures', () => {
 
 describe('toCamelCase', () => {
   it('should return the string as is if it is already in camelCase', () => {
     const input = 'alreadyCamelCase';
-    expect(isCamelCase(input)).toBe(true); // Ensure the mock works as expected
     expect(toCamelCase(input)).toBe('alreadyCamelCase');
   });
 
@@ -33,4 +33,6 @@ describe('toCamelCase', () => {
   });
 
   // More tests can be added for other scenarios and edge cases
-});
+})
+
+})

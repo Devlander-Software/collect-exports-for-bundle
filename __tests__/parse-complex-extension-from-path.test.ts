@@ -1,23 +1,41 @@
 // parseComplexExtensionFromPath.test.ts
-import { parseComplexExtensionFromPath } from '../src/utils/parse-complex-extension-from-path';
+import { parseComplexExtensionFromPath } from '../src/extensions/parse-complex-extension-from-path';
+import { pathWithDirectory, pathWithNoExtension, pathWithTypesExtension } from './shared.test';
+
+
+describe.only('extensionFeatures', () => {
 
 describe('parseComplexExtensionFromPath', () => {
   it('should extract complex extensions correctly', () => {
-    const filePath = "./files/hey/there/what/is/up-hello1265.schoolbus.yellow.ts";
-    const expectedExtension = ".schoolbus.yellow.ts";
-    expect(parseComplexExtensionFromPath(filePath)).toBe(expectedExtension);
+
+
+    const expectedExtension = ".types.ts";
+    const {extension, fileName, folderName} = parseComplexExtensionFromPath(pathWithTypesExtension);
+    expect(extension).toBe(expectedExtension);
+    expect(extension).not.toBe(".types");
+    expect(extension).not.toBe(".ts");
+    expect(fileName).toBe("t-color.types.ts");
+    expect(folderName).toBe(undefined);
   });
 
   it('should handle file paths without an extension', () => {
-    const filePath = "./files/hey/there/what/is/up-hello1265";
-    const expectedExtension = "";
-    expect(parseComplexExtensionFromPath(filePath)).toBe(expectedExtension);
+    const {extension, fileName, folderName} = parseComplexExtensionFromPath(pathWithNoExtension);
+    expect(extension).toBe(undefined);
+    expect(fileName).toBe("info");
+    expect(folderName).toBe(undefined);
   });
 
-  it('should throw an error for a file path without a filename', () => {
-    const filePath = "./files/hey/there/what/is/";
-    expect(() => parseComplexExtensionFromPath(filePath)).toThrow('No file name found in the provided file path.');
+  it('Should handle directory names', () => {
+   
+   
+    const {extension, fileName, folderName} = parseComplexExtensionFromPath(pathWithDirectory);
+    expect(extension).toBe(undefined);
+    expect(fileName).toBe(undefined);
+    expect(folderName).toBe("types");
   });
 
   // Add more test cases as needed for different scenarios
-});
+})
+
+
+})

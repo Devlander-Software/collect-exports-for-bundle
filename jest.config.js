@@ -8,14 +8,15 @@ module.exports = {
     '^.+\\.ts$': ['ts-jest', {
       // Your ts-jest configuration goes here
       // Example:
-      tsconfig: 'path/to/your/tsconfig.json'
+      tsconfig: './tsconfig.json'
     }]
   },
   // Handling ESM modules in node_modules
   transformIgnorePatterns: [
-    // Update this regular expression to include any specific node modules that need to be transformed.
     'node_modules/(?!(inquirer)/)',
     'examples/(?!()/)',
+    'example/packages/(?!()/)',
+    '!src/for-tests/node_modules/', // Include the path to your specific folder here.
   ],
   testMatch: [
     "<rootDir>/__tests__/**/*.(test|spec).(ts|tsx|js|jsx)",

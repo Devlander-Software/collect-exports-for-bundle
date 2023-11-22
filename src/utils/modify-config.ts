@@ -1,8 +1,9 @@
+import { getExtensions } from '../extensions/get-extensions'
 import {
   AutoExporterOptions,
   ModuleExportOptions
 } from '../types/module-exporter.types'
-import { getExtensions } from './get-extensions'
+import { logMessageForFunction } from './log-with-color'
 
 export const modifyConfig = async (
   options: ModuleExportOptions
@@ -18,7 +19,7 @@ export const modifyConfig = async (
       '.stories.ts',
       '.stories.tsx'
     ],
-    excludedFolders: [],
+    excludedFolders: ['node_modules', '.github', '.storybook'],
     specificFiles: [],
     outputFilenameExtension: '.ts',
     outputFileName: 'index',
@@ -75,8 +76,7 @@ export const modifyConfig = async (
         : defaultAutoExportConfig.primaryExportFile,
     allowedExtensions: allowedExt,
     ignoredExtensions: ignoredExt,
-    excludedFolders:
-      options.excludedFolders || defaultAutoExportConfig.excludedFolders,
+    excludedFolders: [...defaultAutoExportConfig.excludedFolders],
     specificFiles:
       options.specificFiles || defaultAutoExportConfig.specificFiles,
     outputFileName:
@@ -110,6 +110,13 @@ export const modifyConfig = async (
     }
   }
 
+  if (options.excludedFolders) {
+    modifiedConfig.excludedFolders = [
+      ...defaultAutoExportConfig.excludedFolders,
+      ...options.excludedFolders
+    ]
+  }
+
   if (options.title) {
     modifiedConfig.title = options.title
   }
@@ -117,6 +124,10 @@ export const modifyConfig = async (
   if (options.description) {
     modifiedConfig.description = options.description
   }
+  logMessageForFunction('modifyConfig', {
+    options,
+    modifiedConfig
+  })
 
   return modifiedConfig
 }

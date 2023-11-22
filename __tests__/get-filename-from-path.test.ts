@@ -1,4 +1,7 @@
 import { getFilenameFromPath } from '../src/utils/get-file-name-from-path';
+import { fileWithJsonPath, nativeExtensionPath, pathWithNoExtension, webExtensionPath } from './shared.test';
+
+describe.only('collectPathsFeature', () => {
 
 describe('getFilenameFromPath', () => {
   test('extracts filename without extension from a Unix-like path', () => {
@@ -6,9 +9,11 @@ describe('getFilenameFromPath', () => {
     expect(getFilenameFromPath(path)).toBe('get-cli-permissions');
   });
 
-  test('extracts filename without extension from a Windows path', () => {
-    const path = 'C:\\Users\\lj___\\collect-exports-for-bundle\\example\\src\\packages\\@devlander\\package-json-helper\\get-cli-permissions.js';
-    expect(getFilenameFromPath(path)).toBe('get-cli-permissions');
+  test('extracts filename without full extension', () => {
+    
+    let result = getFilenameFromPath(fileWithJsonPath);;
+    expect(result).toBe('example');
+
   });
 
   test('returns undefined for a path with no filename', () => {
@@ -17,13 +22,18 @@ describe('getFilenameFromPath', () => {
   });
 
   test('handles file names without an extension', () => {
-    const path = '/user/dev/project/README';
-    expect(getFilenameFromPath(path)).toBe('README');
+    const path = pathWithNoExtension
+
+    let result = getFilenameFromPath(path);
+    expect(result).toBe('info');
+    
   });
 
   test('handles empty path', () => {
     const path = '';
-    expect(getFilenameFromPath(path)).toBe(undefined);
+    let result = getFilenameFromPath(path);
+    expect(result).toBe(undefined);
+
   });
 
   test('handles paths ending with a dot', () => {
@@ -32,7 +42,15 @@ describe('getFilenameFromPath', () => {
   });
 
   test('handles filenames with multiple dots', () => {
-    const path = '/user/dev/project/file.name.js';
-    expect(getFilenameFromPath(path)).toBe('file');
+   
+    let nativeResult = getFilenameFromPath(nativeExtensionPath);
+
+    expect(nativeResult).toBe('myfile');
+
+    let webResult = getFilenameFromPath(webExtensionPath);
+    expect(webResult).toBe('myfile');
   });
 });
+
+
+})

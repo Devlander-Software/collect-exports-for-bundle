@@ -1,6 +1,10 @@
-import { correctDuplicateDriveLetters } from '../src/utils/correct-duplicate-drive-letters';
+import { correctDuplicateDriveLetters } from '../src/conversions/correct-duplicate-drive-letters';
 
+
+describe.only('collectPathsFeature', () => {
 describe('correctDuplicateDriveLetters', () => {
+
+
   it('removes duplicated drive letters', () => {
     const path = "C:\\C:\\Users\\example";
     expect(correctDuplicateDriveLetters(path)).toBe("C:\\Users\\example");
@@ -23,3 +27,6 @@ describe('correctDuplicateDriveLetters', () => {
 
   // Additional tests can be added for other scenarios and edge cases
 });
+
+
+} )

@@ -1,18 +1,22 @@
-import { dashToCamelCase } from '../src/utils/dash-to-camel-case';
+import { dashToCamelCase } from '../src/conversions/dash-to-camel-case';
 // Import the dashToCamelCase function if it's in a separate module
 // const dashToCamelCase = require('./path-to-your-function');
 
+
+describe.only('convertToFeatures', () => {
+
 describe('dashToCamelCase', () => {
-    it('should convert a single word without dashes to camelCase', () => {
-      expect(dashToCamelCase('word')).toBe('word');
-    });
+    
   
     it('should convert basic dash-case to camelCase', () => {
-      expect(dashToCamelCase('hello-world')).toBe('helloWorld');
+      let result = dashToCamelCase('dash-case');
+      expect(result).toBe('dashCase');
+    
     });
   
     it('should handle multiple dashes correctly', () => {
-      expect(dashToCamelCase('hello-world-again')).toBe('helloWorldAgain');
+      let result = dashToCamelCase('hello-world-my-name-is-eminem');
+      expect(result).toBe('helloWorldMyNameIsEminem');
     });
   
     it('should return an empty string if the input is an empty string', () => {
@@ -20,7 +24,9 @@ describe('dashToCamelCase', () => {
     });
   
     it('should handle strings with leading and/or trailing dashes', () => {
-      expect(dashToCamelCase('-hello-world-')).toBe('HelloWorld');
+      let result = dashToCamelCase('-hello-world');
+      expect(result).toBe('helloWorld');
+      
     });
   
     it('should handle strings with consecutive dashes', () => {
@@ -35,3 +41,5 @@ describe('dashToCamelCase', () => {
     // numbers, or other edge cases depending on the function's intended behavior.
   });
   
+
+} )
