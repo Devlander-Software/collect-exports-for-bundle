@@ -71,7 +71,42 @@ const createConfigForPackage = (packageName: string): CompleteAutoExportConfig[]
    
   });
   const items: AutoExportPartialOptions[] = [
-   
+    {
+      packageName,
+      title: `${packageName} - Auto Export Native Default Exports for bundleAsObjectForDefaultExport`,
+      description: `This is for exporting the native index file`,
+      outputFilenameExtension: ".ts",
+      exportMode: "default",
+      
+      outputFileName: `${packageName}_${FoldersForResults.native}_${FileNamePartOne.defaultExports}_${FileNamePartOne.bundleAsObjectForDefaultExport}`,
+      allowedExtensions: nativeExtensions,
+      excludedFolders: foldersToExcludeOnNative,
+      bundleAsFunctionForDefaultExportAs: `${toCamelCase(packageName)}exportAndBundleNative`,
+      ignoredExtensions: ignoredExtensions
+    },
+    {
+      packageName,
+      title: `${packageName} - Auto Export Native Named Exports for bundleAsObjectForDefaultExport`,
+      description: `This is for exporting the native index file`,
+      outputFilenameExtension: ".ts",
+      exportMode: "named",
+      outputFileName: `${packageName}_${FoldersForResults.native}_${FileNamePartOne.namedExports}`,
+      allowedExtensions: nativeExtensions,
+      excludedFolders: foldersToExcludeOnNative,
+      bundleAsFunctionForDefaultExportAs: `${toCamelCase(packageName)}exportAndBundleNativeNamedExports`,
+      ignoredExtensions: ignoredExtensions
+    },
+    {
+      packageName,
+      title: `${packageName} - Auto Export Web Named Exports`,
+      description: `This is for exporting the web index file`,
+      outputFilenameExtension: ".ts",
+      exportMode: "named",
+      outputFileName: `${packageName}_${FoldersForResults.web}_${FileNamePartOne.namedExports}`,
+      allowedExtensions: webExtensions,
+      excludedFolders: foldersToExcludeOnWeb,
+      ignoredExtensions: ignoredExtensions
+    },
  
     {
       packageName,
@@ -80,7 +115,7 @@ const createConfigForPackage = (packageName: string): CompleteAutoExportConfig[]
       description: `This is for exporting the normal index file`,
       outputFilenameExtension: ".ts",
       excludeSpecificFiles: filesToExclude,
-      outputFileName: `${packageName}_exports`,
+      outputFileName: `${packageName}_${FoldersForResults.normal}_${FileNamePartOne.defaultAndNamedExports}`,
       allowedExtensions: crossPlatformExtensions,
       excludedFolders: excludedFolders,
       ignoredExtensions: ignoredExtensions
