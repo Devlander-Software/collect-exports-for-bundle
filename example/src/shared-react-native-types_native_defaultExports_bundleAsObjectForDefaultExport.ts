@@ -95,8 +95,8 @@ export {videoTimeStampToSeconds} from './packages/@devlander/shared-react-native
    */
   
 /**
-   * Start Time: 11/27/2023, 3:19:55 PM
-   * End Time: 11/27/2023, 3:19:56 PM
-   * Duration: 0h 0m 0s 293ms
+   * Start Time: 11/27/2023, 3:21:52 PM
+   * End Time: 11/27/2023, 3:21:53 PM
+   * Duration: 0h 0m 0s 279ms
    */
   

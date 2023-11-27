@@ -10,7 +10,7 @@ describe('getFileContent', () => {
   });
 
   it('should return an empty string for a non-existent file', () => {
-    const result = getFileContent('non-existent.txt');
+    const result = getFileContent('somefile/somepath/non-existent.txt');
     expect(result).toBe('');
   });
 
