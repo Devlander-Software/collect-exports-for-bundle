@@ -6,7 +6,7 @@ log
 # Node modules
 node_modules/
 
-typings
+typings/
 node_modules
 coverage
 .dist
@@ -38,3 +38,8 @@ yarn-error.log*
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+
+
+# Include nodemodules folder in for test folder in src
+!src/for-tests/node_modules

@@ -3,9 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "main": "src/index.ts",
+
   "scripts": {
     "test": "jest",
-    "start": "node bootstrap.cjs"
+    "check-submodules": "cd .. && node -e \"require('os').platform() === 'win32' ? require('child_process').execSync('powershell -ExecutionPolicy Bypass -File ./check-submodules/check-submodules.ps1', {stdio: 'inherit'}) : require('child_process').execSync('bash ./check-submodules/check-submodules.sh', {stdio: 'inherit'});\" ",
+
+    "start": "yarn run check-modules && node bootstrap.cjs"
   },
   "author": "",
   "license": "ISC",

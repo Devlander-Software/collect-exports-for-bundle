@@ -10,6 +10,7 @@
     "dist",
     "example/**/*", // This pattern should instruct ESLint to ignore everything in the example directory
     "**/*.spec.ts",
+    "__tests__/**/*",
     "*.d.ts",
     "typings"
   ],

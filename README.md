@@ -1,4 +1,4 @@
-![Devlander Collect Exports For Bundle Header](https://github.com/Devlander-Software/collect-exports-for-bundle/raw/main/media/images/collect-exports-for-bundle-preview.jpg)
+![Devlander Collect Exports For Bundle Header](https://github.com/Devlander-Software/collect-exports-for-bundle/raw/main/media/images/collect-exports-for-bundle-preview-rounded.png)
 
 
 <a href="https://twitter.com/intent/tweet?button_hashtag=Devlander" target="\_parent">
@@ -239,6 +239,21 @@ const webExtensions = createExtensions(
  - [] Detect Circular dependencies
  - [] Write tests for deep nesting with large file directories
  - [] Have a result output showing which directories it went through, and which directories it skipped, same with functions
+
+
+// updates for git
+// improved tests for example folder
+// using real life sub modules for tests in example folder
+// you can now pass in a title and description to the config for a comment to be left, which is useful for troubleshooting
+// got duration from when the script starts, and when it ends, which is useful for troubleshooting
+// wrote test for regex match functions
+
+
+
+// TODO 
+// results will collect all the directories and filenames 
+// while going through the scripts
+// at the very very end
 
 
 ## Connect with me on social 
