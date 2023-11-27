@@ -19,13 +19,15 @@ export const regexDefinitions = {
   matchesDefaultExport: /export default (\w+)/,
   matchesNamedExport:
     /export\s+(const|let|var|type|enum|interface|class|function)\s+[a-zA-Z_$][0-9a-zA-Z_$]*|{\s*[a-zA-Z_$][0-9a-zA-Z_$]*\s*}/,
-  matchesTypeExport: /export\s+type\s+([a-zA-Z_$][0-9a-zA-Z_$]*)\s*=/g,
+  matchesTypeExport: /export\s+type\s+([a-zA-Z_$][0-9a-zA-Z_$]*)(\s*=|\s+)/g,
+
   matchesInterfaceExport:
-    /export\s+interface\s+([a-zA-Z_$][0-9a-zA-Z_$]*)\s*{/g,
+    /export\s+interface\s+([a-zA-Z_$][0-9a-zA-Z_$]*)\s*{[\s\S]*?}/g,
   matchesFunctionExport: /export\s+function\s+([a-zA-Z_$][0-9a-zA-Z_$]*)/g,
   matchesConstExport: /export\s+const\s+([a-zA-Z_$][0-9a-zA-Z_$]*)\s*=/g,
   matchesLetExport: /export\s+let\s+([a-zA-Z_$][0-9a-zA-Z_$]*)\s*=/g,
   matchesVarExport: /export\s+var\s+([a-zA-Z_$][0-9a-zA-Z_$]*)\s*=/g,
-  matchesEnumExport: /export\s+enum\s+([a-zA-Z_$][0-9a-zA-Z_$]*)\s*{/g,
+
+  matchesEnumExport: /export\s+enum\s+([a-zA-Z_$][0-9a-zA-Z_$]*)\s*{[\s\S]*?}/g,
   matchesClassExport: /export\s+class\s+([a-zA-Z_$][0-9a-zA-Z_$]*)/g
 }

@@ -16,6 +16,8 @@ describe('getAbsolutePath', () => {
       allowedExtensions: [".ts"],
     });
 
+
+    console.log(result, 'this is result for absolute path')
     const doesPathForTestsInclude = pathToForTests.includes("src/for-tests");
     expect(doesPathForTestsInclude).toBe(true);
     expect(result).toHaveProperty('absolutePath');
@@ -39,6 +41,8 @@ describe('getAbsolutePath', () => {
       ignoredExtensions: [".native.ts", ".web.ts", ".yellowbus.school.ts"],
       allowedExtensions: [".ts"],
     });
+
+    console.log(result, 'this is result for excludedFolders')
 
     expect(result).toHaveProperty('paths');
 

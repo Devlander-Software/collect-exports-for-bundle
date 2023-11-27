@@ -1,5 +1,6 @@
 import * as fs from 'fs/promises'
 import path from 'path'
+import { isFilePath } from '../../constraints/is-file-path'
 import { correctDuplicateDriveLetters } from '../../conversions/correct-duplicate-drive-letters'
 import { Results } from '../../types/module-exporter.types'
 import {
@@ -25,6 +26,7 @@ export const getAbsolutePath = async (
     logColoredMessage(`Corrected path to ${myPath}`, 'blue')
 
     const pathsToTry = [
+      myPath,
       path.normalize(path.resolve(startPath)),
       correctDuplicateDriveLetters(path.normalize(path.resolve(startPath))),
       `./${startPath}/`,
@@ -37,44 +39,46 @@ export const getAbsolutePath = async (
     let absolutePath
 
     for (const pathToTry of pathsToTry) {
-      if (config.debug) {
-        logColoredMessage(`Checking path: ${pathToTry}`, 'magenta')
-      }
+      if (isFilePath(pathToTry)) {
+        if (config.debug) {
+          logColoredMessage(`Checking path: ${pathToTry}`, 'magenta')
+        }
 
-      try {
-        const stat = await fs.lstat(pathToTry)
-        if (stat.isDirectory()) {
-          const relativePath = path.relative(startPath, pathToTry)
-          const isInExcludedFolder = config.excludedFolders?.some(
-            (excludedFolder) =>
-              relativePath.includes(path.normalize(excludedFolder))
-          )
+        try {
+          const stat = await fs.lstat(pathToTry)
+          if (stat.isDirectory()) {
+            const relativePath = path.relative(startPath, pathToTry)
+            const isInExcludedFolder = config.excludedFolders?.some(
+              (excludedFolder) =>
+                relativePath.includes(path.normalize(excludedFolder))
+            )
 
-          if (!isInExcludedFolder) {
-            if (config.debug) {
-              logMessageForFunction(
-                'getAbsolutePath',
-                { isInExcludedFolder, relativePath, pathToTry },
-                'Adding to validPaths'
-              )
-            }
-            validPaths.push(pathToTry)
-            if (!absolutePath) {
-              absolutePath = pathToTry
-            }
-          } else {
-            if (config.debug) {
-              logMessageForFunction(
-                'getAbsolutePath',
-                { isInExcludedFolder, relativePath, pathToTry },
-                'Not adding to validPaths'
-              )
+            if (!isInExcludedFolder) {
+              if (config.debug) {
+                logMessageForFunction(
+                  'getAbsolutePath',
+                  { isInExcludedFolder, relativePath, pathToTry },
+                  'Adding to validPaths'
+                )
+              }
+              validPaths.push(pathToTry)
+              if (!absolutePath) {
+                absolutePath = pathToTry
+              }
+            } else {
+              if (config.debug) {
+                logMessageForFunction(
+                  'getAbsolutePath',
+                  { isInExcludedFolder, relativePath, pathToTry },
+                  'Not adding to validPaths'
+                )
+              }
             }
           }
-        }
-      } catch (error) {
-        if (config.debug) {
-          logColoredMessage(`Error accessing path: ${pathToTry}`, 'red')
+        } catch (error) {
+          if (config.debug) {
+            logColoredMessage(`Error accessing path: ${pathToTry}`, 'red')
+          }
         }
       }
     }

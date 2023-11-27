@@ -30,7 +30,7 @@
     "check-submodules": "node -e \"require('os').platform() === 'win32' ? require('child_process').execSync('powershell -ExecutionPolicy Bypass -File ./check-submodules/check-submodules.ps1', {stdio: 'inherit'}) : require('child_process').execSync('bash ./check-submodules/check-submodules.sh', {stdio: 'inherit'});\"",
     "check-packages": "npx check-package-dependencies",
     "docs": "typedoc --out ./docs ./src",
-    "test": "yarn run link-packages && yarn run check-submodules && node ./example/bootstrap.cjs && yarn run  jest ",
+    "test": "yarn run link-packages && yarn run check-submodules && node ./example/bootstrap.cjs && yarn run  jest --verbose --no-cache --coverage",
     "link-packages": "yarn run format && yarn run typecheck && yarn run build && node ./yarn-link-handler.js",
     "test:snaps": "jest --updateSnapshot",
     "patch": "yarn version --new-version patch",

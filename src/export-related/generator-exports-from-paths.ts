@@ -10,18 +10,20 @@ import {
   logColoredMessage,
   logMessageForFunction
 } from '../utils/log-with-color'
+import { createExportMatches } from './create-export-matches'
 import { extractDefaultExportVariable } from './extract-default-export'
 import { hasDefaultExport } from './has-default-export'
-import { hasNamedExports } from './has-named-exports'
 
 export interface BuildExportsFromPathParams {
   isPrimaryExportFile: boolean
   fileName: string
   fileContent: string
   results: string[]
+  usedFunctionTypes: Set<string>
   withoutExtension: string
   filepath: string
   componentName: string
+  usedFunctionNames: Set<string>
   defaultExportString: string[]
   config: AutoExporterOptions
 }
@@ -34,15 +36,23 @@ const buildExportsFromPaths = (
     fileName,
     fileContent,
     withoutExtension,
+    usedFunctionTypes,
     filepath,
     defaultExportString,
     componentName,
     results,
+    usedFunctionNames,
     config
   } = params
   if (config.debug) {
     logColoredMessage(`Processing included file: ${filepath}...`, 'yellow')
   }
+
+  const exportsFromFile = createExportMatches(
+    [filepath],
+    usedFunctionNames,
+    usedFunctionTypes
+  )
   if (isPrimaryExportFile && hasDefaultExport(fileContent)) {
     const defaultVariable = extractDefaultExportVariable(filepath)
     if (defaultVariable) {
@@ -64,10 +74,35 @@ const buildExportsFromPaths = (
     }
   } else if (
     fileHasValidExtension(filepath, config) &&
-    hasNamedExports(fileContent)
+    exportsFromFile.length > 0
   ) {
-    results.push(`/**\n * TSDoc for ${componentName}\n */`)
-    results.push(`export * from "${withoutExtension}";`)
+    const matchItem = exportsFromFile[0]
+    if (
+      matchItem &&
+      matchItem.functionNames &&
+      matchItem.functionNames.length > 0
+    ) {
+      const exportedFunctions =
+        matchItem.functionNames.length > 0
+          ? `{${matchItem.functionNames.join(', ')}}`
+          : ''
+
+      results.push(`export ${exportedFunctions} from '${withoutExtension}'`)
+    }
+    if (
+      matchItem &&
+      matchItem.functionTypes &&
+      matchItem.functionTypes.length > 0
+    ) {
+      const exportedFunctions =
+        matchItem.functionTypes.length > 0
+          ? `{${matchItem.functionTypes.join(', ')}}`
+          : ''
+
+      results.push(
+        `export type ${exportedFunctions} from '${withoutExtension}'`
+      )
+    }
   }
 
   return results
@@ -77,6 +112,9 @@ export function generateExportsFromPaths(
   paths: string[],
   config: AutoExporterOptions
 ): string[] {
+  const usedFunctionNames: Set<string> = new Set()
+  const usedFunctionTypes: Set<string> = new Set()
+
   if (config.debug) {
     logMessageForFunction('generateExportsFromPaths', { paths })
   }
@@ -116,6 +154,8 @@ export function generateExportsFromPaths(
         withoutExtension,
         filepath,
         componentName,
+        usedFunctionNames,
+        usedFunctionTypes,
         defaultExportString,
         results,
         config

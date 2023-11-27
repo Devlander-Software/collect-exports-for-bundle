@@ -2,13 +2,16 @@ import fs from 'fs'
 import path from 'path'
 import { createDurationComment } from '../comments/create-duration-comment'
 import { createTitleComment } from '../comments/create-title-comment'
-import { discoverFunctionTypes } from '../export-related/discover-function-types'
+
 import { extractDefaultExportVariable } from '../export-related/extract-default-export'
-import { getExportedFunctionNames } from '../export-related/get-exported-function-names'
-import { getExportedTypeDeclarations } from '../export-related/get-exported-type-declarations'
+import { getExportedFunctionNamesByFilePath } from '../export-related/get-exported-function-names-by-filepath'
+import { getExportedTypeDeclarationsByFilePath } from '../export-related/get-exported-type-declarations-by-filepath'
 import { AutoExporterOptions, Results } from '../types/module-exporter.types'
 import { getDuration } from '../utils/get-duration'
-import { logColoredMessage } from '../utils/log-with-color'
+import {
+  logColoredMessage,
+  logMessageForFunction
+} from '../utils/log-with-color'
 import { collectPathsFromDirectories } from './collect-paths/collect-paths-from-directories'
 
 export interface MatchItem {
@@ -51,14 +54,11 @@ export const bundleExportAsFunction = async (
 
     const matches: MatchItem[] = []
     const typeMatches: MatchItem[] = []
-    if (options.debug) {
-      const functionTypes = await discoverFunctionTypes(options)
-      console.log(functionTypes)
-    }
 
     for (const filePath of filteredPaths) {
-      const functionNamesForPath = getExportedFunctionNames(filePath)
-      const typeDeclarationsForPath = getExportedTypeDeclarations(filePath)
+      const functionNamesForPath = getExportedFunctionNamesByFilePath(filePath)
+      const typeDeclarationsForPath =
+        getExportedTypeDeclarationsByFilePath(filePath)
 
       if (!functionNamesForPath && !typeDeclarationsForPath) continue
       if (functionNamesForPath && functionNamesForPath.length > 0) {
@@ -239,10 +239,16 @@ export const bundleExportAsFunction = async (
 
     fs.unlinkSync(path.join(options.rootDir, fileToRewrite))
 
-    fs.writeFileSync(
-      path.join(options.rootDir, fileToRewrite),
-      combinedExports.join('\n')
-    )
+    if (options.rootDir && fileToRewrite) {
+      fs.writeFileSync(
+        path.join(options.rootDir, fileToRewrite),
+        combinedExports.join('\n')
+      )
+    }
+
+    if (options.debug) {
+      logMessageForFunction('bundleExportAsFunction', combinedExports)
+    }
 
     return combinedExports.join('\n')
   } catch (error) {

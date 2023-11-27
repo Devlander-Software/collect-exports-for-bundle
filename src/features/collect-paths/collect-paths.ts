@@ -1,6 +1,8 @@
 import * as fs from 'fs/promises'
 import path from 'path'
-import { isValidExtension } from '../../extensions/is-valid-extension'
+import { bgBlack, bgGreen, bgRed, blue, bold, white } from 'picocolors'
+import { isFilePath } from '../../constraints/is-file-path'
+import { fileHasValidExtension } from '../../extensions/has-valid-extension'
 import { AutoExporterOptions } from '../../types/module-exporter.types'
 import { logMessageForFunction } from '../../utils/log-with-color'
 import { ResultItemType, pushToResults } from '../../utils/push-to-results'
@@ -8,7 +10,6 @@ import { BundleExportAsFunctionParams } from '../bundle-export-as-function'
 import { getAbsolutePath } from './absolute-path'
 import { ConfigForCollectPathsFromDirectories } from './collect-paths-from-directories'
 import { getCachedDirectory } from './get-cached-directory'
-
 export async function collectPaths(
   startPath: string,
   config:
@@ -16,6 +17,9 @@ export async function collectPaths(
     | BundleExportAsFunctionParams
     | ConfigForCollectPathsFromDirectories
 ): Promise<string[]> {
+  if (isFilePath(startPath) === false) {
+    return []
+  }
   console.log(`Collecting paths from: ${startPath}`)
   let paths: string[] = []
   let absolutePath: string | undefined = undefined
@@ -31,7 +35,20 @@ export async function collectPaths(
   absolutePath = resultFromGetAbsolutePath.absolutePath ?? undefined
 
   if (!absolutePath) {
-    console.log(`No absolute path found for: ${startPath}`)
+    if (!paths.length) {
+      console.log(
+        `${bgBlack(white(bold('No absolute path found for')))}: ${bgRed(
+          white(bold(startPath))
+        )}`
+      )
+    } else {
+      console.log(
+        `${bgBlack(white(bold('Paths collected')))} for ${blue(
+          `${startPath}`
+        )}: ${bgGreen(white(bold(paths.join(', '))))}`
+      )
+    }
+
     return paths
   }
 
@@ -40,13 +57,9 @@ export async function collectPaths(
     console.log(`Files in directory '${absolutePath}': ${files.join(', ')}`)
 
     for (const file of files) {
-      const filename = path.join(absolutePath, file)
-      if (config.debug) {
-        logMessageForFunction('collectPaths', { files })
-        logMessageForFunction('collectPaths', { filename })
-      }
+      const filepath = path.join(absolutePath, file)
 
-      const isDirectory = await getCachedDirectory(filename)
+      const isDirectory = await getCachedDirectory(filepath)
       if (config.debug) {
         logMessageForFunction('collectPaths', { isDirectory })
       }
@@ -56,7 +69,7 @@ export async function collectPaths(
           if (config.debug) {
             logMessageForFunction(
               'collectPaths',
-              { filename },
+              { filepath, file },
               'directory included'
             )
           }
@@ -64,7 +77,12 @@ export async function collectPaths(
             config.results = pushToResults(
               config.results,
               ResultItemType.ExcludedFolder,
-              { nameOrPath: filename, reason: ['Directory is excluded'] }
+              {
+                nameOrPath: filepath,
+                reason: [
+                  `Directory is excluded because ${file} was in excludedFolders `
+                ]
+              }
             )
           }
           continue
@@ -73,68 +91,74 @@ export async function collectPaths(
             config.results = pushToResults(
               config.results,
               ResultItemType.IncludedFolder,
-              { nameOrPath: filename, reason: ['Directory is included'] }
+              {
+                nameOrPath: filepath,
+                reason: [
+                  `Directory is included because it was not included in excluded Folders`
+                ]
+              }
             )
           }
-          paths = paths.concat(await collectPaths(filename, config))
+          paths = paths.concat(await collectPaths(filepath, config))
         }
       } else {
         if (['index.ts', 'index.tsx'].includes(file)) {
-          console.log(`Skipping index file: ${filename}`)
+          console.log(`Skipping index file: ${filepath}`)
           continue
         }
 
-        const validFile = isValidExtension(
-          file,
-          config && config.allowedExtensions ? config.allowedExtensions : [],
-          config.debug
+        const validFile = fileHasValidExtension(
+          filepath,
+          config as AutoExporterOptions
         )
 
-        if (!validFile) {
-          logMessageForFunction(
-            'collectPaths',
-            { filename },
-            'invalid file',
-            'bgRed'
-          )
-          if (config.ignoredExtensions) {
+        if (validFile === false) {
+          if (config.ignoredExtensions && config.debug) {
             const ignoredExtensions = config.ignoredExtensions
             logMessageForFunction(
               'collectPaths',
-              { ignoredExtensions, filename },
-              'valid file',
-              'bgGreen'
+              { ignoredExtensions, filepath },
+              'invalid file',
+              'bgRed'
             )
+          } else {
+            // console.log ignoredExtensions and the highlight just the extension in red if it can find it
+
+            console.log(`Skipping file: ${filepath} because because it has an invalid extension which was found in ignoredExtensions \n
+
+            `)
           }
 
-          if (config.results) {
+          if (config.results && validFile === false) {
             config.results = pushToResults(
               config.results,
               ResultItemType.ExcludedFile,
-              { nameOrPath: filename, reason: ['File has invalid extension'] }
+              { nameOrPath: filepath, reason: ['File has invalid extension'] }
             )
           }
           continue
-        } else {
-          if (config.allowedExtensions) {
+        } else if (validFile === true) {
+          if (config.allowedExtensions && config.debug) {
             const allowedExtensions = config.allowedExtensions
 
             logMessageForFunction(
               'collectPaths',
-              { filename, allowedExtensions },
+              { filepath, allowedExtensions },
               'valid file',
               'bgGreen'
             )
+          } else {
+            console.log(`Adding file to paths: ${filepath}`)
           }
-          console.log(`Adding file to paths: ${filename}`)
+
           if (config.results) {
             config.results = pushToResults(
               config.results,
               ResultItemType.IncludedFile,
-              { nameOrPath: filename, reason: ['File has valid extension'] }
+              { nameOrPath: filepath, reason: ['File has valid extension'] }
             )
           }
-          paths.push(filename)
+          paths.push(filepath)
         }
       }
     }

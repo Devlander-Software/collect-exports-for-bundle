@@ -1,6 +1,6 @@
 import { isDashCase } from '../src/constraints/is-dash-case';
 
-describe.only('constraintFeatures', () => {
+describe('constraintFeatures', () => {
 
 describe('isDashCase', () => {
   it('returns true for a dash-case string', () => {

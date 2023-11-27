@@ -2,9 +2,9 @@ import { fileHasValidExtension } from "../src/extensions/has-valid-extension";
 import { nativeExtensionPath, pathWithNoExtension, webExtensionPath } from "./shared.test";
 
 
-describe.only('extensionFeatures', () => {
 
-describe('fileHasValidExtension', () => {
+
+describe.only('fileHasValidExtension', () => {
 
    
     it('should return false for an explicitly excluded file', () => {
@@ -38,4 +38,3 @@ describe('fileHasValidExtension', () => {
   });
   
 
-})

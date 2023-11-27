@@ -1,7 +1,7 @@
 import { processDirectoryContents } from "../src/features/collect-paths/process-directory-contents";
 import { pathToForTests } from "./shared.test";
 
-describe.only('collectPathsFeature', () => {
+describe('collectPathsFeature', () => {
 
 describe('processDirectoryContents', () => {
   it('should process contents of a directory correctly', async () => {

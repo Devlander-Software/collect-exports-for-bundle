@@ -1,7 +1,7 @@
 import { getFilenameFromPath } from '../src/utils/get-file-name-from-path';
 import { fileWithJsonPath, nativeExtensionPath, pathWithNoExtension, webExtensionPath } from './shared.test';
 
-describe.only('collectPathsFeature', () => {
+describe('collectPathsFeature', () => {
 
 describe('getFilenameFromPath', () => {
   test('extracts filename without extension from a Unix-like path', () => {

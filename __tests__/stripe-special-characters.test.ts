@@ -1,5 +1,5 @@
 import { stripSpecialCharacters } from '../src/conversions/stripe-special-characters';
-describe.only('conversionFeatures', () => {
+describe('conversionFeatures', () => {
 
 describe('stripSpecialCharacters', () => {
   it('removes special characters from a string', () => {

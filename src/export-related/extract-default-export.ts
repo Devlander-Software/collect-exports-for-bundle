@@ -1,6 +1,9 @@
 import { regexDefinitions } from '../constraints/regex-definitions'
 import { getFileContent } from '../utils/get-file-content'
-import { logColoredMessage } from '../utils/log-with-color'
+import {
+  logColoredMessage,
+  logMessageForFunction
+} from '../utils/log-with-color'
 
 /**
  * Extracts the default export variable from a file.
@@ -14,7 +17,11 @@ export function extractDefaultExportVariable(filepath: string): string | null {
     const defaultExportMatch = fileContent.match(
       regexDefinitions.matchesDefaultExport
     )
-    return defaultExportMatch ? defaultExportMatch[1] : null
+
+    const result =
+      defaultExportMatch && defaultExportMatch[1] ? defaultExportMatch[1] : null
+    logMessageForFunction('extractDefaultExportVariable', { result })
+    return result
   } catch (e) {
     return null
   }

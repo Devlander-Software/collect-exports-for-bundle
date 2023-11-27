@@ -1,7 +1,7 @@
 import { getDuration } from '../src/utils/get-duration';
 
 
-describe.only('convertToFeatures', () => {
+describe('convertToFeatures', () => {
 describe('getDuration', () => {
   it('calculates duration correctly for valid times', () => {
     const oneHourMs = 3600000; // 1 hour in milliseconds

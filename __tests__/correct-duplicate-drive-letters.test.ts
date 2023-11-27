@@ -1,7 +1,7 @@
 import { correctDuplicateDriveLetters } from '../src/conversions/correct-duplicate-drive-letters';
 
 
-describe.only('collectPathsFeature', () => {
+describe('collectPathsFeature', () => {
 describe('correctDuplicateDriveLetters', () => {
 
 

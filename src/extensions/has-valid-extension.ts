@@ -1,3 +1,4 @@
+import { isFilePath } from '../constraints/is-file-path'
 import { BundleExportAsFunctionParams } from '../features/bundle-export-as-function'
 import { ConfigForCollectPathsFromDirectories } from '../features/collect-paths/collect-paths-from-directories'
 import { AutoExporterOptions } from '../types/module-exporter.types'
@@ -13,6 +14,13 @@ export function fileHasValidExtension(
     | BundleExportAsFunctionParams
     | ConfigForCollectPathsFromDirectories
 ): boolean {
+  console.log(filePath, 'this is filePath inside of fileHasValidExtension')
+  console.log(config.allowedExtensions, 'this is config.allowedExtensions')
+  console.log(config.ignoredExtensions, 'this is config.ignoredExtensions')
+
+  if (filePath && isFilePath(filePath) === false) {
+    return false
+  }
   // Early return for non-string file names
   const nameOfFile = getFilenameFromPath(filePath)
   if (typeof nameOfFile !== 'string') {
@@ -49,7 +57,7 @@ export function fileHasValidExtension(
 
   // Check for invalid extension
   if (
-    notValidExtension(nameOfFile, config.ignoredExtensions || [], config.debug)
+    notValidExtension(filePath, config.ignoredExtensions || [], config.debug)
   ) {
     debugLog(`File with invalid extension`, { nameOfFile })
     return false
@@ -57,7 +65,7 @@ export function fileHasValidExtension(
 
   // Check for valid extension
   if (
-    isValidExtension(nameOfFile, config.allowedExtensions || [], config.debug)
+    isValidExtension(filePath, config.allowedExtensions || [], config.debug)
   ) {
     debugLog(`File with valid extension`, { nameOfFile })
 

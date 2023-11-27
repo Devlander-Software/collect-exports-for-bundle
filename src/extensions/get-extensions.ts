@@ -74,9 +74,12 @@ export const getExtensions = (
           'blue'
         )
       }
-      createdExtensions = createdExtensions.filter(
-        (ext: string) => !extensionsFilteredByWords.includes(ext)
-      )
+
+      extensionsFilteredByWords.forEach((word) => {
+        if (createdExtensions.includes(word)) {
+          createdExtensions = createdExtensions.filter((ext) => ext !== word)
+        }
+      })
 
       if (debug) {
         logColoredMessage(
@@ -100,8 +103,11 @@ export const getExtensions = (
       console.log('\n')
       console.log('\n')
     }
-
-    return createdExtensions
+    if (createdExtensions) {
+      return createdExtensions
+    } else {
+      return []
+    }
   } catch (e) {
     logFailedMessage('getExtensions', e)
 

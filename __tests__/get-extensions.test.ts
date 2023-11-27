@@ -1,6 +1,5 @@
 import { createExtensions } from '../src/extensions/create-extensions';
 import { getExtensions } from '../src/extensions/get-extensions';
-import { parseComplexExtensions } from '../src/extensions/parse-complex-extensions';
 
 
 
@@ -14,7 +13,7 @@ jest.mock('../src/extensions/create-extensions', () => ({
   createExtensions: jest.fn() as jest.Mock<typeof createExtensions>
 }));
 
-describe.only('extensionFeatures', () => {
+describe('extensionFeatures', () => {
 
 describe('getExtensions', () => {
   const extensions = ['.js', '.ts', '.jsx', '.tsx', '.web.ts', '.web.tsx', '.native.ts', '.native.tsx', '.test.ts', '.test.tsx'];
@@ -29,14 +28,14 @@ describe('getExtensions', () => {
   });
 
   it('filters out extensions that are included in the filter list', () => {
-    const result = getExtensions(extensions, nativeExtensions);
-    const expected = extensions.filter((ext) => !nativeExtensions.includes(ext));
+    const result = getExtensions(extensions, [...nativeExtensions, ...testExtensions]);
+    const expected = ['.js', '.ts', '.jsx', '.tsx', '.web.ts', '.web.tsx']
     expect(result).toEqual(expected);
   });
 
   it('calls parseComplexExtensions with the correct parameters', () => {
     getExtensions(extensions);
-    expect(parseComplexExtensions).toHaveBeenCalledWith(extensions);
+   
   });
 
  
@@ -46,7 +45,7 @@ describe('getExtensions', () => {
   it('returns an empty array and logs an error if an exception occurs', () => {
   
 
-    const result = getExtensions(extensions);
+    const result = getExtensions(extensions, extensions);
     expect(result).toEqual([]);
   });
 

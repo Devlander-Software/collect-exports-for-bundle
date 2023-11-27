@@ -42,6 +42,8 @@ const getPathForPackageName = (packageName: string) => {
 }
 
 const createConfigForPackage = (packageName: string): CompleteAutoExportConfig[] => {
+  let packages = ['hooks', 'package-json-helper', 'shared-react-native-types'];
+  packages = packages.filter((packageNme) => packageNme !== packageName);
   const correctPath = path.resolve(__dirname, '.');
   const ignoredWords = ["test", "stories", "spec", "script"];
   const allowedWords = ["component", "interface", "enum", "types", "type",  "utils", "helpers", "constants", "config", "configurations", "configuration", "configs", "configurations", "config", "defaults", "provider"];
@@ -55,7 +57,8 @@ const createConfigForPackage = (packageName: string): CompleteAutoExportConfig[]
   const crossPlatformExtensions = [...webExtensions, ...nativeExtensions];
 
   const ignoredExtensions = [...createExtensionsWrapper("", ignoredWords, [".json", ".js", ".mjs", ".jsx"])];
-  const excludedFolders = ["node_modules", "build", "typings", "dist"];
+  const excludedFolders = ["node_modules", "build", "typings", "dist", ...packages];
+  let filesToExclude =  ['_layout.tsx', 'package.json', 'tsconfig.json', 'init.ts']
 
   const foldersToExcludeOnNative = [...excludedFolders, "web"];
   const foldersToExcludeOnWeb = [...excludedFolders, "native"];
@@ -68,60 +71,16 @@ const createConfigForPackage = (packageName: string): CompleteAutoExportConfig[]
    
   });
   const items: AutoExportPartialOptions[] = [
-    // {
-    //   packageName,
-    //   title: `${packageName} - Auto Export Native Default Exports for bundleAsObjectForDefaultExport`,
-    //   description: `This is for exporting the native index file`,
-    //   outputFilenameExtension: ".ts",
-    //   exportMode: "default",
-      
-    //   outputFileName: `${packageName}_${FoldersForResults.native}_${FileNamePartOne.defaultExports}_${FileNamePartOne.bundleAsObjectForDefaultExport}`,
-    //   allowedExtensions: nativeExtensions,
-    //   excludedFolders: foldersToExcludeOnNative,
-    //   bundleAsFunctionForDefaultExportAs: `${toCamelCase(packageName)}exportAndBundleNative`,
-    //   ignoredExtensions: ignoredExtensions
-    // },
-    // {
-    //   packageName,
-    //   title: `${packageName} - Auto Export Native Named Exports for bundleAsObjectForDefaultExport`,
-    //   description: `This is for exporting the native index file`,
-    //   outputFilenameExtension: ".ts",
-    //   exportMode: "named",
-    //   outputFileName: `${packageName}_${FoldersForResults.native}_${FileNamePartOne.namedExports}`,
-    //   allowedExtensions: nativeExtensions,
-    //   excludedFolders: foldersToExcludeOnNative,
-    //   bundleAsFunctionForDefaultExportAs: `${toCamelCase(packageName)}exportAndBundleNativeNamedExports`,
-    //   ignoredExtensions: ignoredExtensions
-    // },
-    // {
-    //   packageName,
-    //   title: `${packageName} - Auto Export Web Named Exports`,
-    //   description: `This is for exporting the web index file`,
-    //   outputFilenameExtension: ".ts",
-    //   exportMode: "named",
-    //   outputFileName: `${packageName}_${FoldersForResults.web}_${FileNamePartOne.namedExports}`,
-    //   allowedExtensions: webExtensions,
-    //   excludedFolders: foldersToExcludeOnWeb,
-    //   ignoredExtensions: ignoredExtensions
-    // },
-    {
-      packageName,
-      title: `${packageName} - Auto Export Web for both Named and Default Exports`,
-      description: `This is for exporting the web index file`,
-      outputFilenameExtension: ".ts",
-      outputFileName: `${packageName}_${FoldersForResults.web}_${FileNamePartOne.defaultAndNamedExports}`,
-      exportMode: "both",
-      allowedExtensions: webExtensions,
-      excludedFolders: foldersToExcludeOnWeb,
-      ignoredExtensions: ignoredExtensions
-    },
+   
+ 
     {
       packageName,
       
       title: `${packageName} - Normal Auto Export`,
       description: `This is for exporting the normal index file`,
       outputFilenameExtension: ".ts",
-      outputFileName: `${packageName}_${FoldersForResults.normal}_${FileNamePartOne.defaultAndNamedExports}`,
+      excludeSpecificFiles: filesToExclude,
+      outputFileName: `${packageName}_exports`,
       allowedExtensions: crossPlatformExtensions,
       excludedFolders: excludedFolders,
       ignoredExtensions: ignoredExtensions

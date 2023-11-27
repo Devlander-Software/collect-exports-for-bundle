@@ -17,7 +17,12 @@ export async function getPathsWithExports(
     const distinctPaths = [...new Set(paths)] // Remove duplicates using Set
 
     const filteredPaths = distinctPaths.filter((path) => {
+      console.log(path, 'this is path inside of distinct paths')
       const hasValidExtension = fileHasValidExtension(path, config)
+      console.log(
+        hasValidExtension,
+        'this is hasValidExtension within getPathsWithExports'
+      )
       if (config.debug) {
         logMessageForFunction(
           'getPathsWithExports',
@@ -32,17 +37,28 @@ export async function getPathsWithExports(
         // check to see if the file has either a default export or named exports
         // if it doesn't, it's not a valid file
         const fileOutput = getFileContent(path).toString()
-        console.log(fileOutput, 'this is file output')
+
         if (config.debug) {
           logMessageForFunction(
             'getPathsWithExports',
             {
               fileOutput
             },
+            'this is file since file has valid extension',
             'yellow'
           )
         }
         const noExports = hasNoExports(fileOutput, config.debug)
+        if (config.debug) {
+          logMessageForFunction(
+            'getPathsWithExports',
+            {
+              noExports
+            },
+            'this is noExports',
+            'yellow'
+          )
+        }
 
         if (!noExports) {
           // get the directory from the path

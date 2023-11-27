@@ -1,6 +1,6 @@
 import { toCamelCase } from '../src/conversions/to-camel-case';
 
-describe.only('conversionFeatures', () => {
+describe('conversionFeatures', () => {
 
 describe('toCamelCase', () => {
   it('should return the string as is if it is already in camelCase', () => {

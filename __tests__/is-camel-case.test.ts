@@ -1,6 +1,6 @@
 import { isCamelCase } from '../src/constraints/is-camel-case';
 
-describe.only('constraintFeatures', () => {
+describe('constraintFeatures', () => {
 
 describe('isCamelCase', () => {
   it('returns true for a camelCase string', () => {

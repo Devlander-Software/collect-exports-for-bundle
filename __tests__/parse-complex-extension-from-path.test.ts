@@ -3,7 +3,7 @@ import { parseComplexExtensionFromPath } from '../src/extensions/parse-complex-e
 import { pathWithDirectory, pathWithNoExtension, pathWithTypesExtension } from './shared.test';
 
 
-describe.only('extensionFeatures', () => {
+describe('extensionFeatures', () => {
 
 describe('parseComplexExtensionFromPath', () => {
   it('should extract complex extensions correctly', () => {

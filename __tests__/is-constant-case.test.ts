@@ -1,6 +1,6 @@
 import { isConstantCase } from '../src/constraints/is-constant-case';
 
-describe.only('constraintFeatures', () => {
+describe('constraintFeatures', () => {
 
 describe('isConstantCase', () => {
   it('returns true for a CONSTANT_CASE string', () => {

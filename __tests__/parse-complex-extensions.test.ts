@@ -1,7 +1,7 @@
 import { parseComplexExtensions } from '../src/extensions/parse-complex-extensions';
 
 
-describe.only('extensionFeatures', () => {
+describe('extensionFeatures', () => {
 
 describe('parseComplexExtensions', () => {
   it('correctly parses extensions with single words', () => {

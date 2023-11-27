@@ -3,7 +3,7 @@ import { dashToCamelCase } from '../src/conversions/dash-to-camel-case';
 // const dashToCamelCase = require('./path-to-your-function');
 
 
-describe.only('convertToFeatures', () => {
+describe('convertToFeatures', () => {
 
 describe('dashToCamelCase', () => {
     

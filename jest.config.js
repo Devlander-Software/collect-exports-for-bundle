@@ -28,6 +28,7 @@ module.exports = {
   moduleNameMapper: {
     // Use this section to specify mocks for certain node_modules, if necessary.
   },
+  silent: false,
 
   // ... rest of your jest config.
 }

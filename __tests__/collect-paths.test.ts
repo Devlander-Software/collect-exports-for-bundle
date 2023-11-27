@@ -10,7 +10,7 @@ const collectPathsForTestsOne = () => collectPaths(pathToForTests, {
   allowedExtensions: [".ts"],
 });
 
-describe.only('collectPathsFeature', () => {
+describe('collectPathsFeature', () => {
   describe('collectPaths', () => {
   
     it('should return the correct absolute path and tried paths', async () => {

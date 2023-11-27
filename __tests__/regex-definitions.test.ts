@@ -1,7 +1,7 @@
 import { regexDefinitions } from "../src/constraints/regex-definitions";
 
 
-describe.only('constraintFeatures', () => {
+describe('constraintFeatures', () => {
 
 describe('regexDefinitions', () => {
   test('isCamelCase', () => {
@@ -85,7 +85,8 @@ describe('regexDefinitions.containsSpecialChar', () => {
   });
 
   it('matches strings with whitespace characters', () => {
-    expect(regexDefinitions.containsSpecialChar.test('hello world')).toBe(true);
+    let result= regexDefinitions.containsSpecialChar.test('hello world')
+    expect(result).toBe(true);
 
   });
 
@@ -117,7 +118,7 @@ describe('regexDefinitions.containsDash', () => {
 
 });
 
-describe.only('collectPathsFeature', () => {
+describe('collectPathsFeature', () => {
 describe('regexDefinitions.containsDuplicateDriveLetters', () => {
   it('matches strings with duplicate drive letters', () => {
     expect(regexDefinitions.containsDuplicateDriveLetters.test('C:\\C:')).toBe(true);
@@ -146,7 +147,7 @@ describe('regexDefinitions.containsDuplicateDriveLetters', () => {
 });
 
 });
-describe.only('constraintFeatures', () => {
+describe('constraintFeatures', () => {
 
 describe('regexDefinitions.isSnakeCase', () => {
   it('matches snake_case strings', () => {
@@ -175,3 +176,4 @@ describe('regexDefinitions.isSnakeCase', () => {
 });
   // Add more test cases if needed...
 });
+
