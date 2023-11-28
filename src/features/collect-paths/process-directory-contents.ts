@@ -1,5 +1,6 @@
 import * as fs from 'fs/promises'
 import path from 'path'
+import { bgRed, blue, green } from 'picocolors'
 import { fileHasValidExtension } from '../../extensions/has-valid-extension'
 import { parseComplexExtensionFromPath } from '../../extensions/parse-complex-extension-from-path'
 import { AutoExporterOptions } from '../../types/module-exporter.types'
@@ -67,7 +68,7 @@ export async function processDirectoryContents(
         ? fileHasValidExtension(fileName, config)
         : false
       if (config.debug) {
-        console.log(`Valid file: ${validFile} in processDirectoryContents`)
+        green(`Valid file: ${validFile} in processDirectoryContents`)
       }
 
       if (!validFile) {
@@ -79,15 +80,13 @@ export async function processDirectoryContents(
           )
         }
         if (config.debug) {
-          console.log(`Invalid file in processDirectoryContents ${filename}`)
+          bgRed(`Invalid file in processDirectoryContents ${filename}`)
         }
         continue
       }
 
       if (config.debug) {
-        console.log(
-          `Pushing filename to paths in processDirectoryContents ${filename}`
-        )
+        blue(`ushing filename to paths in processDirectoryContents ${filename}`)
       }
       if (config.results) {
         config.results = pushToResults(

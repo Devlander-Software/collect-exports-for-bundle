@@ -11,7 +11,6 @@ export const getFileContent = (filePath: string): string => {
       return ''
     } else {
       const result = fs.readFileSync(filePath, 'utf8')
-      console.log(result)
       if (result) {
         return result
       } else {

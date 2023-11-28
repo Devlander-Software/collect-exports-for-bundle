@@ -1,12 +1,14 @@
 import * as fs from 'fs/promises'
 import path from 'path'
+import { red } from 'picocolors'
 import { isFilePath } from '../../constraints/is-file-path'
 import { correctDuplicateDriveLetters } from '../../conversions/correct-duplicate-drive-letters'
+import { removeFoldersFromPaths } from '../../export-related/remove-folders-from-paths'
 import { Results } from '../../types/module-exporter.types'
 import {
-    logColoredMessage,
-    logFailedMessage,
-    logMessageForFunction
+  logColoredMessage,
+  logFailedMessage,
+  logMessageForFunction
 } from '../../utils/log-with-color'
 
 export const getAbsolutePath = async (
@@ -25,14 +27,18 @@ export const getAbsolutePath = async (
     myPath = correctDuplicateDriveLetters(myPath)
     logColoredMessage(`Corrected path to ${myPath}`, 'blue')
 
-    const pathsToTry = [
+    let pathsToTry = [
       myPath,
       path.normalize(path.resolve(startPath)),
       correctDuplicateDriveLetters(path.normalize(path.resolve(startPath))),
       `./${startPath}/`,
       `${startPath}/`
     ]
+    if (config && config.excludedFolders) {
+      red(`${config.excludedFolders} is excluded`)
 
+      pathsToTry = removeFoldersFromPaths(pathsToTry, config.excludedFolders)
+    }
     logMessageForFunction('getAbsolutePath', { pathsToTry, config })
 
     const validPaths = []
@@ -92,7 +98,7 @@ export const getAbsolutePath = async (
     if (config.debug) {
       logFailedMessage('getAbsolutePath', error)
     }
-    console.error(`Error accessing path: ${errorMessage}`)
+    red(`Error accessing path: ${errorMessage}`)
     return { paths: [] }
   }
 }

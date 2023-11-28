@@ -19,9 +19,12 @@ describe('parseComplexExtensionFromPath', () => {
   });
 
   it('should handle file paths without an extension', () => {
+    console.log(pathWithNoExtension, 'pathWithNoExtension')
     const {extension, fileName, folderName} = parseComplexExtensionFromPath(pathWithNoExtension);
+    console.log(extension, fileName, folderName, 'extension, fileName, folderName')
     expect(extension).toBe(undefined);
     expect(fileName).toBe("info");
+    expect(folderName).not.toBe("info");
     expect(folderName).toBe(undefined);
   });
 
@@ -31,11 +34,14 @@ describe('parseComplexExtensionFromPath', () => {
     const {extension, fileName, folderName} = parseComplexExtensionFromPath(pathWithDirectory);
     expect(extension).toBe(undefined);
     expect(fileName).toBe(undefined);
+    expect(fileName).not.toBe("types");
+
     expect(folderName).toBe("types");
   });
 
-  // Add more test cases as needed for different scenarios
 })
+
+
 
 
 })

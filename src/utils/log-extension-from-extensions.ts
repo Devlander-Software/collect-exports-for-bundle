@@ -18,24 +18,23 @@ export const logExtensionFromExtensions = (
   }
 
   const parsedExtension = parseComplexExtensionFromPath(filePath)
-  console.log(parsedExtension, 'parsedExtension')
   if (
     !parsedExtension.extension ||
     !parsedExtension ||
     typeof parsedExtension.extension === 'undefined'
   ) {
-    console.log(
-      `logExtensionFromExtensions: ${filePath} has no valid extension`
-    )
-  } else {
+    red(`logExtensionFromExtensions: ${filePath} has no valid extension`)
+  } else if (parsedExtension && parsedExtension.extension) {
     const { extension } = parsedExtension
-    // Log each extension, highlight the matched extension based on the condition
-    console.log(`@${bgBlack(white(bold(message || '')))}
+
+    bgBlack(
+      `${white(bold(`@${message}` || '@'))}
       ${extensions
         .map((ext) =>
           ext === extension ? (condition ? green(ext) : red(ext)) : ext
         )
         .join(', ')}
-    `) // Joining array elements for better readability
+      `
+    )
   }
 }

@@ -3,6 +3,7 @@ import { logColoredMessage } from '../utils/log-with-color'
 type ParsedExtensionsResult = {
   words: string[]
   extensions: string[]
+  baseFileNames: string[]
 }
 
 export function parseComplexExtensions(
@@ -47,6 +48,7 @@ export function parseComplexExtensions(
   // Convert the Sets to Arrays before returning
   return {
     words: Array.from(wordSet),
-    extensions: Array.from(extensionSet)
+    extensions: Array.from(extensionSet),
+    baseFileNames: []
   }
 }

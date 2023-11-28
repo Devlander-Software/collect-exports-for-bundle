@@ -1,6 +1,7 @@
 import fs from 'fs'
 import { isFilePath } from '../constraints/is-file-path'
 import { logColoredMessage, logFailedMessage } from '../utils/log-with-color'
+import { parseComplexExtensionFromFile } from './parse-complex-extension-from-file'
 
 export function parseComplexExtensionFromPath(
   filePath: string,
@@ -9,17 +10,21 @@ export function parseComplexExtensionFromPath(
   extension?: string | undefined
   fileName?: string | undefined
   folderName?: string | undefined
+  baseFileName?: string | undefined
 } {
-  const payload: {
+  let payload: {
     extension?: string | undefined
     folderName?: string | undefined
     fileName?: string | undefined
+    words?: string[]
+    baseFileName?: string | undefined
   } = {
     extension: undefined,
     fileName: undefined,
-    folderName: undefined
+    folderName: undefined,
+    baseFileName: undefined,
+    words: undefined
   }
-  console.log(filePath, 'filePath inside of parseComplexExtensionFromPath')
 
   if (debug) {
     logColoredMessage(`Checking Path: ${filePath}`, 'yellow')
@@ -35,19 +40,10 @@ export function parseComplexExtensionFromPath(
       if (!fileName) {
         throw new Error('No file name found in the provided file path.')
       } else {
-        payload.fileName = fileName
-
-        // Match everything from the first dot to the end of the string
-        const match = fileName.match(/\..*$/)
-        const extension = match && match[0] ? match[0] : ''
-
-        if (debug) {
-          logColoredMessage(`Extracted Extension: ${extension}`, 'yellow')
-        }
-
-        if (extension) {
-          payload.extension = extension
-        }
+        payload = parseComplexExtensionFromFile(fileName, {
+          debug,
+          forceIsFilePath: true
+        })
       }
     } else {
       if (debug) {

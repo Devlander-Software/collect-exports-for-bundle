@@ -15,8 +15,8 @@ export {logColoredMessage, logError, logMessageBasedOnCondition} from './package
    */
   
 /**
-   * Start Time: 11/28/2023, 11:15:24 AM
-   * End Time: 11/28/2023, 11:15:24 AM
-   * Duration: 0h 0m 0s 25ms
+   * Start Time: 11/28/2023, 2:37:10 PM
+   * End Time: 11/28/2023, 2:37:10 PM
+   * Duration: 0h 0m 0s 15ms
    */
   
