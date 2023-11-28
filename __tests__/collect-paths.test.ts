@@ -28,7 +28,7 @@ describe('collectPathsFeature', () => {
 
 
 
-    it("it should not return paths with node_modules or typings since they are in excludedFolders", async () => {
+    it("node_modules and typings should not be in result from collect paths", async () => {
       const result = await collectPaths(pathToForTests, { 
         debug: false, 
         excludedFolders: ["node_modules", "typings"],
@@ -36,13 +36,13 @@ describe('collectPathsFeature', () => {
         allowedExtensions: [".ts"],
       });
 
-      console.log(result, 'this is result for excludedFolders')
+      console.log(result, 'this is result for excludedFolders WTF')
       expect(result).toBeInstanceOf(Array);
 
       let wordsToCheck = ["node_modules", "typings"];
       let found = hasPathWith(result, wordsToCheck, true);
       console.log(found, 'this is found')
-      expect(!found).toBe(false);
+      expect(found).toBe(false);
     });
 
     it("Should find paths with node_modules and typings since they are not in excludedFolders", async () => {

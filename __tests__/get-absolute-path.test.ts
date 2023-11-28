@@ -16,10 +16,14 @@ describe('getAbsolutePath', () => {
       allowedExtensions: [".ts"],
     });
 
+    console.log(result, 'this is result for should return the correct absolute path and tried paths')
 
-    console.log(result, 'this is result for absolute path')
-    const doesPathForTestsInclude = pathToForTests.includes("src/for-tests");
-    expect(doesPathForTestsInclude).toBe(true);
+    let pathsToCheck = ['src/for-tests', 'for-tests'];
+    let foundPathToCheck = hasPathWith(result.paths, pathsToCheck);
+
+    expect(foundPathToCheck).toBe(true);
+
+  
     expect(result).toHaveProperty('absolutePath');
     expect(result).toHaveProperty('paths');
     expect(result.paths).toBeInstanceOf(Array);
@@ -27,7 +31,7 @@ describe('getAbsolutePath', () => {
     let wordsToCheck = [".yellowbus.school.ts"];
     let found = hasPathWith(result.paths, wordsToCheck);
    
-    expect(found).toBe(true)
+    expect(found).toBe(false)
 
     // Add more assertions based on your expected output
   });
@@ -68,7 +72,7 @@ describe('getAbsolutePath', () => {
     let foundFolders = hasPathWith(result.paths, ["node_modules", "typings"]);
     
    
-    expect(foundFolders).toBe(true);
+    expect(foundFolders).toBe(false);
   })
 
   it("it should not find any .native files since they are not included in allowed extensions", async () => {
@@ -82,7 +86,7 @@ describe('getAbsolutePath', () => {
     let foundFolders = hasPathWith(result.paths, ".native.ts");
     
    
-    expect(foundFolders).toBe(true);
+    expect(foundFolders).toBe(false);
   })
 
   // Add more test cases for different scenarios, like handling errors

@@ -1,3 +1,4 @@
+import { red } from 'picocolors'
 import { isFilePath } from '../constraints/is-file-path'
 import { TColorValue } from '../types/t-color.types'
 import { logExtensionFromExtensions } from '../utils/log-extension-from-extensions'
@@ -27,7 +28,7 @@ export function isValidExtension(
   debug?: boolean
 ): boolean {
   if (!filePath || !isFilePath(filePath)) {
-    console.log(`isValidExtension: ${filePath} is not a valid file path`)
+    red(`isValidExtension: ${filePath} is not a valid file path`)
     logExtensionFromExtensions(
       filePath ? filePath : 'No file path provided',
       allowedExtensions,
@@ -39,7 +40,6 @@ export function isValidExtension(
 
   const parsedExtension = parseComplexExtensionFromPath(filePath)
   if (!parsedExtension.fileName || !parsedExtension.extension) {
-    console.log(`isValidExtension: ${filePath} has no valid file extension`)
     logExtensionFromExtensions(
       filePath,
       allowedExtensions,

@@ -24,10 +24,7 @@ export const hasPathWith = (
       : [listOfExtensionFilenameOrFolderToCheck]
     if (isFilePath(pathComponent)) {
       const parsedPath = parseComplexExtensionFromPath(pathComponent, debug)
-      console.log(parsedPath, 'parsedPath')
-      if (parsedPath && parsedPath.baseFileName) {
-        console.log(parsedPath.baseFileName, 'parsedPath.baseFileName')
-      }
+
       if (checks.includes(pathComponent)) {
         reason = `Path component ${pathComponent} is in the list of checks`
         return true
@@ -60,7 +57,9 @@ export const hasPathWith = (
         return true
       }
     }
-    const parsedFile = parseComplexExtensionFromFile(pathComponent, debug)
+    const parsedFile = parseComplexExtensionFromFile(pathComponent, {
+      debug
+    })
     if (
       parsedFile &&
       parsedFile.baseFileName &&

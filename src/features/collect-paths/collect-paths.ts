@@ -58,7 +58,9 @@ export async function collectPaths(
 
   try {
     const files = await fs.readdir(absolutePath)
-    console.log(`Files in directory '${absolutePath}': ${files.join(', ')}`)
+    bgGreen(
+      white(bold(`Files in directory '${absolutePath}': ${files.join(', ')}`))
+    )
 
     for (const file of files) {
       const filepath = path.join(absolutePath, file)
@@ -107,7 +109,7 @@ export async function collectPaths(
         }
       } else {
         if (['index.ts', 'index.tsx'].includes(file)) {
-          console.log(`Skipping index file: ${filepath}`)
+          bgBlack(white(bold(`Skipping index file: ${filepath}`)))
           continue
         }
 
@@ -127,10 +129,9 @@ export async function collectPaths(
             )
           } else {
             // console.log ignoredExtensions and the highlight just the extension in red if it can find it
-
-            console.log(`Skipping file: ${filepath} because because it has an invalid extension which was found in ignoredExtensions \n
-
-            `)
+            bgBlack(
+              `Skipping file: ${filepath} because it has an invalid extension which was found in ignoredExtensions`
+            )
           }
 
           if (config.results && validFile === false) {
@@ -152,7 +153,7 @@ export async function collectPaths(
               'bgGreen'
             )
           } else {
-            console.log(`Adding file to paths: ${filepath}`)
+            bgGreen(`Adding file to paths: ${filepath}`)
           }
 
           if (config.results) {
@@ -167,7 +168,7 @@ export async function collectPaths(
       }
     }
   } catch (error) {
-    console.error(`Error in collectPaths for path ${absolutePath}:`, error)
+    bgRed(`Error in collectPaths for path ${absolutePath}: ${error}`)
   }
 
   return paths

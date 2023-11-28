@@ -22,31 +22,31 @@ import { TColor, TColorValue } from '../types/t-color.types'
 const logWithColor = (color: TColor | TColorValue, message: string): void => {
   switch (color) {
     case TColor.green:
-      console.log(green(message))
+      green(message)
       break
     case TColor.red:
-      console.log(red(message))
+      red(message)
       break
     case TColor.blue:
-      console.log(blue(message))
+      blue(message)
       break
     case TColor.magenta:
-      console.log(magenta(message))
+      magenta(message)
       break
     case TColor.yellow:
-      console.log(yellow(message))
+      yellow(message)
       break
     case TColor.bgBlue:
-      console.log(bgBlue(white(bold(message))))
+      bgBlue(white(bold(message)))
       break
     case TColor.bgGreen:
-      console.log(bgGreen(white(bold(message))))
+      bgGreen(white(bold(message)))
       break
     case TColor.bgRed:
-      console.log(bgRed(white(bold(message))))
+      bgRed(white(bold(message)))
       break
     default:
-      console.log(message)
+      console.log(message) // If no color is specified, just log the
   }
 }
 
@@ -60,6 +60,7 @@ export const logColoredMessage = (
   message: string,
   color: TColorValue
 ): void => {
+  if (!color) color = TColor.bgBlue
   logWithColor(color, message)
 }
 

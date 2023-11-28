@@ -25,7 +25,6 @@ export function parseComplexExtensionFromPath(
     baseFileName: undefined,
     words: undefined
   }
-  console.log(filePath, 'filePath inside of parseComplexExtensionFromPath')
 
   if (debug) {
     logColoredMessage(`Checking Path: ${filePath}`, 'yellow')
@@ -41,7 +40,10 @@ export function parseComplexExtensionFromPath(
       if (!fileName) {
         throw new Error('No file name found in the provided file path.')
       } else {
-        payload = parseComplexExtensionFromFile(fileName, debug)
+        payload = parseComplexExtensionFromFile(fileName, {
+          debug,
+          forceIsFilePath: true
+        })
       }
     } else {
       if (debug) {

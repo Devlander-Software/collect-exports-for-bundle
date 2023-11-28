@@ -1,5 +1,6 @@
 import * as fs from 'fs/promises'
 import path from 'path'
+import { red } from 'picocolors'
 import { isFilePath } from '../../constraints/is-file-path'
 import { correctDuplicateDriveLetters } from '../../conversions/correct-duplicate-drive-letters'
 import { removeFoldersFromPaths } from '../../export-related/remove-folders-from-paths'
@@ -34,7 +35,7 @@ export const getAbsolutePath = async (
       `${startPath}/`
     ]
     if (config && config.excludedFolders) {
-      console.log(config.excludedFolders, 'config.excludedFolders')
+      red(`${config.excludedFolders} is excluded`)
 
       pathsToTry = removeFoldersFromPaths(pathsToTry, config.excludedFolders)
     }
@@ -97,7 +98,7 @@ export const getAbsolutePath = async (
     if (config.debug) {
       logFailedMessage('getAbsolutePath', error)
     }
-    console.error(`Error accessing path: ${errorMessage}`)
+    red(`Error accessing path: ${errorMessage}`)
     return { paths: [] }
   }
 }

@@ -26,7 +26,6 @@ export const getExtensions = (
       console.log('\n')
     }
     const parsed = parseComplexExtensions(extensions)
-    console.log(parsed, 'parsed')
     console.log('\n')
     console.log('\n')
     if (debug) {

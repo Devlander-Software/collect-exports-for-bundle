@@ -1,45 +1,65 @@
 import { logColoredMessage, logFailedMessage } from '../utils/log-with-color'
 
-export function parseComplexExtensionFromFile(
-  target: string,
-  debug?: boolean
-): {
-  extension?: string | undefined
-  fileName?: string | undefined
-  folderName?: string | undefined
-  baseFileName?: string | undefined
-  words?: string[]
-} {
-  const payload: {
-    extension?: string | undefined
-    folderName?: string | undefined
-    fileName?: string | undefined
-    baseFileName?: string | undefined
+interface ParseComplexExtensionFromFileResult {
+  (
+    target: string,
+    options: {
+      debug?: boolean
+      forceIsFilePath?: boolean
+      forceIsDirectory?: boolean
+    }
+  ): {
+    extension?: string
+    fileName?: string
+    folderName?: string
+    baseFileName?: string
     words?: string[]
-  } = {
-    extension: undefined,
-    fileName: undefined,
-    folderName: undefined,
-    baseFileName: undefined,
-    words: undefined
   }
-  const wordSet: Set<string> = new Set()
+}
 
-  try {
-    // Split the target string by '/' and process each part
-    const pathParts = target.split('/')
-    pathParts.forEach((part) => {
-      // Further split each part by '.' and process
-      const splitParts = part.split('.').filter(Boolean)
-      splitParts.forEach((word) => wordSet.add(word))
-    })
+export const parseComplexExtensionFromFile: ParseComplexExtensionFromFileResult =
+  (
+    target: string,
+    options?: {
+      debug?: boolean
+      forceIsFilePath?: boolean
+    }
+  ) => {
+    let debug = false
+    let forceIsFilePath = false
 
-    // Check if target is a file (contains a dot) or a directory
-    if (target.includes('.')) {
-      const fileName = pathParts.pop() // Get the last part after the last '/'
-      if (!fileName) {
-        throw new Error('No file name found in the provided file path.')
-      } else {
+    if (options) {
+      debug = options.debug ?? false
+      forceIsFilePath = options.forceIsFilePath ?? false
+    }
+
+    let payload: {
+      extension?: string | undefined
+      folderName?: string | undefined
+      fileName?: string | undefined
+      baseFileName?: string | undefined
+      words?: string[]
+    } = {
+      extension: undefined,
+      fileName: undefined,
+      folderName: undefined,
+      baseFileName: undefined,
+      words: undefined
+    }
+    const wordSet: Set<string> = new Set()
+
+    try {
+      const handleParsing = (
+        fileName: string
+      ): {
+        extension?: string | undefined
+        fileName?: string | undefined
+        folderName?: string | undefined
+        baseFileName?: string | undefined
+        words?: string[]
+      } => {
+        // Check if target is a file (contains a dot) or a directory
+
         payload.fileName = fileName
 
         // Match everything from the first dot to the end of the string
@@ -63,23 +83,48 @@ export function parseComplexExtensionFromFile(
         } else {
           payload.baseFileName = fileName
         }
+
+        payload.words = Array.from(wordSet)
+
+        return payload
       }
-    } else {
-      // Handle directory
+      // Split the target string by '/' and process each part
+      const pathParts = target.split('/')
+      pathParts.forEach((part) => {
+        // Further split each part by '.' and process
+        const splitParts = part.split('.').filter(Boolean)
+        splitParts.forEach((word) => wordSet.add(word))
+      })
+
+      // Assign words from wordSet to the payload
+
+      // Check if target is a file (contains a dot) or a directory
+      if (target.includes('.') && !forceIsFilePath) {
+        const fileName = pathParts.pop() // Get the last part after the last '/'
+        if (fileName) {
+          payload = handleParsing(fileName)
+        }
+      } else if (forceIsFilePath) {
+        const fileName = target.includes('/') ? target.split('/').pop() : target
+        if (fileName) {
+          payload = handleParsing(fileName)
+        }
+      } else {
+        // Handle directory
+        if (debug) {
+          logColoredMessage(`Path is a directory: ${target}`, 'yellow')
+        }
+        payload.folderName = pathParts.pop()
+      }
+
+      // Assign words from wordSet to the payload
+      payload.words = Array.from(wordSet)
+    } catch (error) {
       if (debug) {
-        logColoredMessage(`Path is a directory: ${target}`, 'yellow')
+        logFailedMessage(`Error while processing path: ${target}`, error)
       }
-      payload.folderName = pathParts.pop()
+      return payload
     }
 
-    // Assign words from wordSet to the payload
-    payload.words = Array.from(wordSet)
-  } catch (error) {
-    if (debug) {
-      logFailedMessage(`Error while processing path: ${target}`, error)
-    }
     return payload
   }
-
-  return payload
-}
