@@ -27,7 +27,7 @@ export async function collectPaths(
   const resultFromGetAbsolutePath = await getAbsolutePath(startPath, {
     debug: config.debug,
     results: config.results,
-    excludedFolders: config.excludedFolders,
+    excludedFolders: config.excludedFolders ? config.excludedFolders : [],
     allowedExtensions:
       config && config.allowedExtensions ? config.allowedExtensions : []
   })

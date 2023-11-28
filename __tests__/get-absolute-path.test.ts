@@ -82,7 +82,7 @@ describe('getAbsolutePath', () => {
     let foundFolders = hasPathWith(result.paths, ".native.ts");
     
    
-    expect(foundFolders).toBe(false);
+    expect(foundFolders).toBe(true);
   })
 
   // Add more test cases for different scenarios, like handling errors

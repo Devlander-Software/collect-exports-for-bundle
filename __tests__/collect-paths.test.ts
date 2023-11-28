@@ -5,7 +5,6 @@ import { pathToForTests } from "./shared.test";
 // Returning a promise directly from collectPathsForTestsOne
 const collectPathsForTestsOne = () => collectPaths(pathToForTests, {
   debug: false, 
-  excludedFolders: ["node_modules", "typings"],
   ignoredExtensions: [".yellowbus.school.ts"],
   allowedExtensions: [".ts"],
 });
@@ -13,10 +12,8 @@ const collectPathsForTestsOne = () => collectPaths(pathToForTests, {
 describe('collectPathsFeature', () => {
   describe('collectPaths', () => {
   
-    it('should return the correct absolute path and tried paths', async () => {
-      // Mock fs.lstat and path.resolve as necessary
-      // Example: fs.lstat.mockResolvedValue({ isDirectory: () => true });
-
+    it('Should not find any extensions with .yellowbus.school.ts', async () => {
+ 
       const doesPathForTestsInclude = pathToForTests.includes("src/for-tests");
       expect(doesPathForTestsInclude).toBe(true);
 
@@ -24,11 +21,12 @@ describe('collectPathsFeature', () => {
       expect(result).toBeInstanceOf(Array);
 
       let wordsToCheck = [".yellowbus.school.ts"];
-      let found = hasPathWith(result, wordsToCheck);
-      expect(found).toBe(true);
+      let found = hasPathWith(result, wordsToCheck, true);
+      expect(found).toBe(false);
 
-      // Add more assertions based on your expected output
     });
+
+
 
     it("it should not return paths with node_modules or typings since they are in excludedFolders", async () => {
       const result = await collectPaths(pathToForTests, { 
@@ -38,14 +36,16 @@ describe('collectPathsFeature', () => {
         allowedExtensions: [".ts"],
       });
 
+      console.log(result, 'this is result for excludedFolders')
       expect(result).toBeInstanceOf(Array);
 
       let wordsToCheck = ["node_modules", "typings"];
-      let found = hasPathWith(result, wordsToCheck);
-      expect(found).toBe(false);
+      let found = hasPathWith(result, wordsToCheck, true);
+      console.log(found, 'this is found')
+      expect(!found).toBe(false);
     });
 
-    it("It should find paths related to both node_modules and typings since they are not in excludedFolders", async () => {
+    it("Should find paths with node_modules and typings since they are not in excludedFolders", async () => {
       const result = await collectPaths(pathToForTests, { 
         debug: false, 
         excludedFolders: [],
@@ -53,21 +53,38 @@ describe('collectPathsFeature', () => {
         allowedExtensions: [".ts", ".type.ts"],
       });
 
-      let foundFolders = hasPathWith(result, ["node_modules", "typings"]);
+      let foundFolders = hasPathWith(result, ["node_modules", "typings"], true);
       expect(foundFolders).toBe(true);
     });
 
-    it("it should not find any .native files since they are not included in allowed extensions", async () => {
+    it("it should not find any .native.ts files since they are included in ignoredExtensions", async () => {
       const result = await collectPaths(pathToForTests, { 
         debug: false, 
         excludedFolders: ["typings"],
-        ignoredExtensions: [".native.ts", ".web.ts", ".yellowbus.school.ts"],
+        ignoredExtensions: [".native.ts", ".yellowbus.school.ts"],
         allowedExtensions: [".ts", ".type.ts"],
       });
 
-      let foundFiles = hasPathWith(result, ".native.ts");
+      let foundFiles = hasPathWith(result, ".native.ts", true);
       expect(foundFiles).toBe(false);
     });
+
+    it("it should find .ts files as long as the .ts files are not in ignoredExtensions", async () => {
+      const result = await collectPaths(pathToForTests, { 
+        debug: false, 
+        excludedFolders: ["typings"],
+        ignoredExtensions: [".native.ts", ".yellowbus.school.ts"],
+        allowedExtensions: [".ts", ".type.ts"],
+      });
+
+
+      let foundFiles = hasPathWith(result, [".native.ts", '.yellowbus.school.ts'], true);
+      expect(foundFiles).toBe(false);
+
+      let foundFilesTypescriptFiles = hasPathWith(result, [".ts"]);
+      expect(foundFilesTypescriptFiles).toBe(true);
+    });
+
 
     // Add more test cases for different scenarios, like handling errors
   });

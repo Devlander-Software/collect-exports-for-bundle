@@ -2,11 +2,12 @@ import * as fs from 'fs/promises'
 import path from 'path'
 import { isFilePath } from '../../constraints/is-file-path'
 import { correctDuplicateDriveLetters } from '../../conversions/correct-duplicate-drive-letters'
+import { removeFoldersFromPaths } from '../../export-related/remove-folders-from-paths'
 import { Results } from '../../types/module-exporter.types'
 import {
-    logColoredMessage,
-    logFailedMessage,
-    logMessageForFunction
+  logColoredMessage,
+  logFailedMessage,
+  logMessageForFunction
 } from '../../utils/log-with-color'
 
 export const getAbsolutePath = async (
@@ -25,14 +26,18 @@ export const getAbsolutePath = async (
     myPath = correctDuplicateDriveLetters(myPath)
     logColoredMessage(`Corrected path to ${myPath}`, 'blue')
 
-    const pathsToTry = [
+    let pathsToTry = [
       myPath,
       path.normalize(path.resolve(startPath)),
       correctDuplicateDriveLetters(path.normalize(path.resolve(startPath))),
       `./${startPath}/`,
       `${startPath}/`
     ]
+    if (config && config.excludedFolders) {
+      console.log(config.excludedFolders, 'config.excludedFolders')
 
+      pathsToTry = removeFoldersFromPaths(pathsToTry, config.excludedFolders)
+    }
     logMessageForFunction('getAbsolutePath', { pathsToTry, config })
 
     const validPaths = []
