@@ -61,7 +61,7 @@ export async function processDirectoryContents(
       if (['index.ts', 'index.tsx'].includes(file)) {
         continue
       }
-      const { extension, fileName } = parseComplexExtensionFromPath(filename)
+      const { fileName } = parseComplexExtensionFromPath(filename)
 
       const validFile = fileName
         ? fileHasValidExtension(fileName, config)

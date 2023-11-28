@@ -48,4 +48,13 @@ export enum MyEnum {
 
 const myConstThatWillBeExported = ''
 
+export const myConstWithMultipleParameters = (
+  a: string,
+  b: string,
+  c: string,
+  d: string
+): string => {
+  return 'Hello World'
+}
+
 export { myConstThatWillBeExported }

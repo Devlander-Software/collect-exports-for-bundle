@@ -24,7 +24,8 @@ export const regexDefinitions = {
   matchesInterfaceExport:
     /export\s+interface\s+([a-zA-Z_$][0-9a-zA-Z_$]*)\s*{[\s\S]*?}/g,
   matchesFunctionExport: /export\s+function\s+([a-zA-Z_$][0-9a-zA-Z_$]*)/g,
-  matchesConstExport: /export\s+const\s+([a-zA-Z_$][0-9a-zA-Z_$]*)\s*=/g,
+  matchesConstExport:
+    /export\s+const\s+([a-zA-Z_$][0-9a-zA-Z_$]*)(:\s*[^=]+)?\s*(=|\()/g,
   matchesLetExport: /export\s+let\s+([a-zA-Z_$][0-9a-zA-Z_$]*)\s*=/g,
   matchesVarExport: /export\s+var\s+([a-zA-Z_$][0-9a-zA-Z_$]*)\s*=/g,
 

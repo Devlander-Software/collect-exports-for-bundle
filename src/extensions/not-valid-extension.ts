@@ -10,20 +10,29 @@ export function notValidExtension(
   debug?: boolean
 ): boolean {
   let isIgnoredExtension = false
+  let extension = undefined
+  let fileName = undefined
 
   if (isFilePath(filePath)) {
-    const { extension, fileName } = parseComplexExtensionFromPath(filePath)
+    const parsedExtension = parseComplexExtensionFromPath(filePath)
+    if (typeof parsedExtension !== 'undefined') {
+      if (parsedExtension.extension) {
+        extension = parsedExtension.extension
+      }
+      if (parsedExtension.fileName) {
+        fileName = parsedExtension.fileName
+      }
 
-    if (extension && fileName) {
-      isIgnoredExtension = ignoredExtensions.includes(extension)
+      if (extension && fileName) {
+        isIgnoredExtension = ignoredExtensions.includes(extension)
 
-      if (debug) {
-        const logColor = isIgnoredExtension ? 'red' : 'green'
-        hasFileLogger(filePath, extension, logColor)
+        if (debug) {
+          const logColor = isIgnoredExtension ? 'red' : 'green'
+          hasFileLogger(filePath, extension, logColor)
+        }
       }
     }
   }
-
   if (debug) {
     logMessageForFunction('notValidExtension', {
       filePath,
@@ -39,6 +48,5 @@ export function notValidExtension(
       'Ignored extensions:'
     )
   }
-
   return isIgnoredExtension
 }

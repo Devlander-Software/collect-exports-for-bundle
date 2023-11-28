@@ -22,10 +22,6 @@ describe('getExtensions', () => {
   const testExtensions = ['.test.ts', '.test.tsx'];
   const extensionsFilteredByWords = ['.js', '.jsx'];
 
-  beforeEach(() => {
-    // Clear all mocks before each test
-    jest.clearAllMocks();
-  });
 
   it('filters out extensions that are included in the filter list', () => {
     const result = getExtensions(extensions, [...nativeExtensions, ...testExtensions]);
@@ -33,16 +29,12 @@ describe('getExtensions', () => {
     expect(result).toEqual(expected);
   });
 
-  it('calls parseComplexExtensions with the correct parameters', () => {
-    getExtensions(extensions);
-   
-  });
-
+  
  
 
 
 
-  it('returns an empty array and logs an error if an exception occurs', () => {
+  it('returns an empty array if all the extensions are filtered out', () => {
   
 
     const result = getExtensions(extensions, extensions);
@@ -54,3 +46,4 @@ describe('getExtensions', () => {
 
 
 });
+

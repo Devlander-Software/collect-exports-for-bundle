@@ -17,6 +17,8 @@ export const nodeModulesPath = path.resolve(__dirname,'../src/for-tests/node_mod
 export const fileContentWithType = getFileContent(pathWithTypesExtension);
 export const fileContentWithFunction = getFileContent(pathWithFunctionExport);
 export const fileContentWithInterface = getFileContent(pathWithInterfaceInFile);
+export const pathWithJSFile = path.resolve(__dirname,'../src/for-tests/example-for-js.js');
+export const pathWithJSWebFile = path.resolve(__dirname,'../src/for-tests/example-for-js.web.js');
 
 describe('pathWithTypesExtension', () => {
     it("should include .types.ts", () => {

@@ -10,7 +10,7 @@ describe('getExportedFunctionNamesByFilePath', () => {
 
   it('it should get a const variable if exported', () => {
     let result = getExportedFunctionNamesByFilePath(normalFilePath, ['const']);
-    expect(result).toEqual(['myConstFunc', 'myConstVariable', 'myConstObject']);
+    expect(result).toEqual(['myConstFunc', 'myConstVariable', 'myConstObject', 'myConstWithMultipleParameters']);
   });
 
 
@@ -64,7 +64,7 @@ describe('getExportedFunctionNamesByFilePath', () => {
 
     it('it should get everything if array is empty', () => {
         let result = getExportedFunctionNamesByFilePath(normalFilePath, []);
-        expect(result).toEqual(['myFuncFunc', 'myConstFunc', 'myConstVariable', 'myConstObject', 'myLetFunc', 'myLetObject', 'myLetVariable', 'myVarFunc', 'myVarVariable', 'myVarObject', 'MyEnum', 'MyClass']);
+        expect(result).toEqual(['myFuncFunc', 'myConstFunc', 'myConstVariable', 'myConstObject', 'myConstWithMultipleParameters','myLetFunc', 'myLetObject', 'myLetVariable', 'myVarFunc', 'myVarVariable', 'myVarObject', 'MyEnum', 'MyClass', ]);
     })
 
     it('it should not get anything since nothing is exported', () => {

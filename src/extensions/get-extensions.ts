@@ -26,6 +26,7 @@ export const getExtensions = (
       console.log('\n')
     }
     const parsed = parseComplexExtensions(extensions)
+    console.log(parsed, 'parsed')
     console.log('\n')
     console.log('\n')
     if (debug) {
@@ -33,11 +34,12 @@ export const getExtensions = (
       console.log('\n')
       console.log('\n')
     }
-    let createdExtensions = createExtensions(
-      '',
-      parsed.words,
-      parsed.extensions
-    )
+    let createdExtensions: string[] = []
+    if (parsed.words && parsed.words.length) {
+      createdExtensions = createExtensions('', parsed.words, parsed.extensions)
+    } else {
+      createdExtensions = createExtensions('', [], extensions)
+    }
     if (debug) {
       logColoredMessage(
         `createdExtensions: ${JSON.stringify(createdExtensions)} ${
