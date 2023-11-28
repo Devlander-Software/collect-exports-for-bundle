@@ -7,7 +7,7 @@ export const regexDefinitions = {
 
   isDashCase: /^[a-z0-9]+(-[a-z0-9]+)*$/,
 
-  containsSpecialChar: /[^a-zA-Z0-9]+/g,
+  containsSpecialChar: /[^a-zA-Z0-9]+/,
 
   driveLetterPattern: /^([a-z]):/i,
 
