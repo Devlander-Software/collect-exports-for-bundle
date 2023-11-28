@@ -1,6 +1,6 @@
 {
   "name": "@devlander/collect-exports-for-bundle",
-  "version": "0.1.48",
+  "version": "0.1.49",
   "main": "dist/cjs/index.js",
   "browser": "dist/umd/index.js",
   "module": "dist/esm/index.js",
