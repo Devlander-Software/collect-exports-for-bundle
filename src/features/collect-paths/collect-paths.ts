@@ -2,6 +2,7 @@ import * as fs from 'fs/promises'
 import path from 'path'
 import { bgBlack, bgGreen, bgRed, blue, bold, white } from 'picocolors'
 import { isFilePath } from '../../constraints/is-file-path'
+import { removeFoldersFromPaths } from '../../export-related/remove-folders-from-paths'
 import { fileHasValidExtension } from '../../extensions/has-valid-extension'
 import { AutoExporterOptions } from '../../types/module-exporter.types'
 import { logMessageForFunction } from '../../utils/log-with-color'
@@ -34,6 +35,9 @@ export async function collectPaths(
   paths = resultFromGetAbsolutePath.paths
   absolutePath = resultFromGetAbsolutePath.absolutePath ?? undefined
 
+  if (paths && config.excludedFolders) {
+    paths = removeFoldersFromPaths(paths, config.excludedFolders)
+  }
   if (!absolutePath) {
     if (!paths.length) {
       console.log(

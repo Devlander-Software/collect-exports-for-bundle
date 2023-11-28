@@ -14,10 +14,6 @@ export function fileHasValidExtension(
     | BundleExportAsFunctionParams
     | ConfigForCollectPathsFromDirectories
 ): boolean {
-  console.log(filePath, 'this is filePath inside of fileHasValidExtension')
-  console.log(config.allowedExtensions, 'this is config.allowedExtensions')
-  console.log(config.ignoredExtensions, 'this is config.ignoredExtensions')
-
   if (filePath && isFilePath(filePath) === false) {
     return false
   }

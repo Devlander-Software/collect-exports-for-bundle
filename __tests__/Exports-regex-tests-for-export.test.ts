@@ -152,7 +152,6 @@ describe('Export enum regex tests', () => {
 
 
 describe('Export type regex tests', () => {
-  const regex = /export\s+type\s+([a-zA-Z_$][0-9a-zA-Z_$]*)(\s*=|\s+)/g;
 
   it('should match an export type alias statement', () => {
     const code = 'export type MyType = string | number;';
@@ -169,5 +168,4 @@ describe('Export type regex tests', () => {
     expect(code.match(regexDefinitions.matchesTypeExport)).toBeNull();
   });
 
-  // ...additional tests for other cases...
 });

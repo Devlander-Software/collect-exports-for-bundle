@@ -6,6 +6,7 @@ import {
   logMessageForFunction
 } from '../utils/log-with-color'
 import { parseComplexExtensionFromPath } from './parse-complex-extension-from-path'
+
 export const hasFileLogger = (
   fileName: string,
   ext: string,
@@ -18,80 +19,64 @@ export const hasFileLogger = (
     color
   )
   console.log('\n')
-  return
 }
 
 export function isValidExtension(
   filePath?: string,
-  allowedExtensions?: string[],
+  allowedExtensions: string[] = ['.ts', '.tsx', '.types.ts'],
   debug?: boolean
 ): boolean {
-  if (!allowedExtensions) {
-    allowedExtensions = ['.ts', '.tsx', '.types.ts']
-  }
-  let isValid = false
-  if (filePath && isFilePath(filePath) === false) {
+  if (!filePath || !isFilePath(filePath)) {
     console.log(`isValidExtension: ${filePath} is not a valid file path`)
-    isValid = false
-  } else if (filePath && isFilePath(filePath) === true) {
-    if (!allowedExtensions || !allowedExtensions.length) {
-      console.log(
-        `isValidExtension: ${filePath} has no allowed extensions to check against`
-      )
-      isValid = false
-    } else {
-      const { extension, fileName } = parseComplexExtensionFromPath(filePath)
-      if (fileName && extension) {
-        console.log(fileName, extension, 'fileName and extension')
-        const filePathHasCorrectExtension =
-          filePath.includes(extension) && allowedExtensions.includes(extension)
-
-        if (debug) {
-          logMessageForFunction('isValidExtension', {
-            filePath,
-            allowedExtensions,
-            extension,
-            fileName,
-            filePathHasCorrectExtension
-          })
-        }
-
-        if (filePathHasCorrectExtension) {
-          console.log(
-            filePathHasCorrectExtension,
-            fileName,
-            'file path has correct extension'
-          )
-          if (debug) {
-            hasFileLogger(filePath, extension, 'green')
-          }
-
-          isValid = true
-        } else {
-          if (debug) {
-            hasFileLogger(filePath, extension, 'red')
-          }
-          isValid = false
-        }
-      } else {
-        if (debug && fileName && extension) {
-          hasFileLogger(filePath, extension, 'red')
-        }
-        isValid = false
-      }
-    }
-  } else {
-    console.log(`isValidExtension: ${filePath} is not a valid file path`)
-    isValid = false
+    logExtensionFromExtensions(
+      filePath ? filePath : 'No file path provided',
+      allowedExtensions,
+      false,
+      'Allowed extensions:'
+    )
+    return false
   }
-  if (filePath && allowedExtensions) {
+
+  const parsedExtension = parseComplexExtensionFromPath(filePath)
+  if (!parsedExtension.fileName || !parsedExtension.extension) {
+    console.log(`isValidExtension: ${filePath} has no valid file extension`)
     logExtensionFromExtensions(
       filePath,
       allowedExtensions,
-      isValid,
+      false,
       'Allowed extensions:'
     )
+    return false
   }
+
+  const { fileName, extension } = parsedExtension
+  const filePathHasCorrectExtension =
+    filePath.includes(extension) && allowedExtensions.includes(extension)
+
+  if (debug) {
+    logMessageForFunction('isValidExtension', {
+      filePath,
+      allowedExtensions,
+      fileName,
+      extension,
+      filePathHasCorrectExtension
+    })
+  }
+
+  const isValid = filePathHasCorrectExtension
+  if (isValid && debug) {
+    hasFileLogger(filePath, extension, 'green')
+  } else if (!isValid && debug) {
+    hasFileLogger(filePath, extension, 'red')
+  }
+
+  // Logging the extensions regardless of the validity of the filePath
+  logExtensionFromExtensions(
+    filePath,
+    allowedExtensions,
+    isValid,
+    'Allowed extensions:'
+  )
 
   return isValid
 }
