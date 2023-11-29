@@ -1,5 +1,6 @@
 import { logColoredMessage, logFailedMessage } from '../utils/log-with-color'
 import { simulateProgressBar } from '../utils/stimulate-progress-bar'
+import { createExtension } from './create-extension'
 
 export interface CreateExtensions {
   (
@@ -11,14 +12,16 @@ export interface CreateExtensions {
 }
 
 export const createExtensions: CreateExtensions = (
-  word: string = ' ',
+  word: string = '',
   wordList: string[] = [],
   fileExtensions: string[] = [],
   debug?: boolean
 ): string[] => {
   try {
-    if (!word || word === '') {
-      word = ' '
+    if (!word || word === ' ') {
+      word = ''
+    } else {
+      word = word.trim()
     }
     const dev = process.env.NODE_ENV === 'development'
     if (debug || dev) {
@@ -39,22 +42,6 @@ export const createExtensions: CreateExtensions = (
         totalSteps,
         ++currentStep
       )
-    }
-
-    // Helper function to check if the string has a leading dot and add one if not
-    const ensureLeadingDot = (str: string): string =>
-      str.startsWith('.') ? str : `.${str}`
-
-    // Helper function to create extension with correct dots in place
-    const createExtension = (
-      mainWord: string,
-      additionalWord: string,
-      fileExt: string
-    ): string => {
-      mainWord = mainWord ? ensureLeadingDot(mainWord) : ''
-      additionalWord = additionalWord ? ensureLeadingDot(additionalWord) : ''
-      fileExt = ensureLeadingDot(fileExt)
-      return `${mainWord}${additionalWord}${fileExt}`
     }
 
     // Begin processing

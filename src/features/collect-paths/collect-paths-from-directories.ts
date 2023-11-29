@@ -16,6 +16,7 @@ export interface ConfigForCollectPathsFromDirectories
   ignoredExtensions?: string[]
   results?: Results
   excludedFolders?: string[]
+  includeIndexes?: boolean
   bundleAsObjectForDefaultExport?: string
   outputFileName?: string
   rootDir?: string
