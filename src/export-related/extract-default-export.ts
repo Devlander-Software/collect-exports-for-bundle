@@ -12,14 +12,27 @@ import {
  */
 export function extractDefaultExportVariable(filepath: string): string | null {
   try {
+    let result: string | null = null
     logColoredMessage(`Extracting default export from ${filepath}...`, 'green')
     const fileContent = getFileContent(filepath)
     const defaultExportMatch = fileContent.match(
       regexDefinitions.matchesDefaultExport
     )
 
-    const result =
-      defaultExportMatch && defaultExportMatch[1] ? defaultExportMatch[1] : null
+    const exportNamedAsDefaultMatch = fileContent.match(
+      regexDefinitions.matchesExportNamedAsDefault
+    )
+
+    if (exportNamedAsDefaultMatch && exportNamedAsDefaultMatch[1]) {
+      logMessageForFunction('extractDefaultExportVariable', {
+        result: exportNamedAsDefaultMatch[1]
+      })
+      result = exportNamedAsDefaultMatch[1]
+    } else if (defaultExportMatch && defaultExportMatch[1]) {
+      logMessageForFunction('extractDefaultExportVariable', { result: null })
+      result = defaultExportMatch[1]
+    }
+
     logMessageForFunction('extractDefaultExportVariable', { result })
     return result
   } catch (e) {
