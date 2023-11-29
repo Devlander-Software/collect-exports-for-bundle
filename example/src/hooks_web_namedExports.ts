@@ -16,8 +16,8 @@ export type {UseVisibilitySensorNative, UseVisibilitySensorWeb} from './packages
    */
   
 /**
-   * Start Time: 11/29/2023, 8:57:05 AM
-   * End Time: 11/29/2023, 8:57:05 AM
-   * Duration: 0h 0m 0s 21ms
+   * Start Time: 11/29/2023, 10:00:02 AM
+   * End Time: 11/29/2023, 10:00:02 AM
+   * Duration: 0h 0m 0s 22ms
    */
   

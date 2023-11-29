@@ -1,6 +1,8 @@
 // parseComplexExtensionFromPath.test.ts
 import path from 'path';
 import { getFileContent } from '../src/utils/get-file-content';
+export const pathToIndexWithDefaultExport = path.resolve(__dirname,'../src/for-tests/TestComp/index.ts');
+
 export const pathWithInterfaceInFile = path.resolve(__dirname,'../src/types/test-options.types.ts');
 export const pathWithTypesExtension = path.resolve(__dirname,'../src/types/t-color.types.ts');
 export const pathWithNoExtension = path.resolve(__dirname,'../src/info');
@@ -17,6 +19,8 @@ export const nodeModulesPath = path.resolve(__dirname,'../src/for-tests/node_mod
 export const fileContentWithType = getFileContent(pathWithTypesExtension);
 export const fileContentWithFunction = getFileContent(pathWithFunctionExport);
 export const fileContentWithInterface = getFileContent(pathWithInterfaceInFile);
+export const fileContentWithIndexDefaultExport = getFileContent(pathToIndexWithDefaultExport);
+export const fileContentWithDefaultExport = getFileContent(pathToFileWithDefaultExport);
 export const pathWithJSFile = path.resolve(__dirname,'../src/for-tests/example-for-js.js');
 export const pathWithJSWebFile = path.resolve(__dirname,'../src/for-tests/example-for-js.web.js');
 

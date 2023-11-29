@@ -1,5 +1,5 @@
 import { extractDefaultExportVariable } from "../src/export-related/extract-default-export";
-import { pathToFileWithDefaultExport, pathWithFunctionExport } from "./shared.test";
+import { pathToFileWithDefaultExport, pathToIndexWithDefaultExport, pathWithFunctionExport } from "./shared.test";
 
 
 
@@ -19,6 +19,14 @@ describe('extractDefaultExportVariable', () => {
     expect(defaultExport).toBeNull();
   });
 
+
+  it('returns the function name if its destructured', () => {
+    const defaultExport = extractDefaultExportVariable(pathToIndexWithDefaultExport);
+
+    expect(defaultExport).toBe("TestComp");
+  });
+
+ 
   
 
   // Add more tests for various edge cases and different export syntaxes as needed

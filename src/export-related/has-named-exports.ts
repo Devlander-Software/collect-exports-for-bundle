@@ -1,12 +1,11 @@
 import { regexDefinitions } from '../constraints/regex-definitions'
-import { testForPattern } from '../constraints/test-for-pattern'
+import { testForPatterns } from '../constraints/test-for-patterns'
 import { logMessageForFunction } from '../utils/log-with-color'
 
 export function hasNamedExports(fileContent: string, debug?: boolean): boolean {
-  const hasExport = testForPattern(
-    fileContent,
+  const hasExport = testForPatterns(fileContent, [
     regexDefinitions.matchesNamedExport
-  )
+  ])
   if (debug) {
     logMessageForFunction('hasNamedExports', {
       fileContent,

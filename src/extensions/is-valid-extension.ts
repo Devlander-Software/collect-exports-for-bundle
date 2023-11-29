@@ -19,7 +19,6 @@ export const hasFileLogger = (
     } file: ${fileName} with fileExtension: ${ext}`,
     color
   )
-  console.log('\n')
 }
 
 export function isValidExtension(

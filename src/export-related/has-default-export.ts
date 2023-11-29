@@ -1,15 +1,16 @@
 import { regexDefinitions } from '../constraints/regex-definitions'
-import { testForPattern } from '../constraints/test-for-pattern'
+import { testForPatterns } from '../constraints/test-for-patterns'
 import { logMessageForFunction } from '../utils/log-with-color'
 
 export function hasDefaultExport(
   fileContent: string,
   debug?: boolean
 ): boolean {
-  const hasExport = testForPattern(
-    fileContent,
-    regexDefinitions.matchesDefaultExport
-  )
+  const hasExport = testForPatterns(fileContent, [
+    regexDefinitions.matchesDefaultExport,
+    regexDefinitions.matchesExportNamedAsDefault
+  ])
+
   if (debug) {
     logMessageForFunction('hasDefaultExport', {
       hasExport,

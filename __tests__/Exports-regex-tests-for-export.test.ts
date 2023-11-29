@@ -46,6 +46,7 @@ describe('detectExports', () => {
       });
     test('matchesDefaultExport', () => {
         expect(regexDefinitions.matchesDefaultExport.test('export default myFunction')).toBe(true);
+
         expect(regexDefinitions.matchesDefaultExport.test('export myFunction')).toBe(false);
       });
 
@@ -168,4 +169,37 @@ describe('Export type regex tests', () => {
     expect(code.match(regexDefinitions.matchesTypeExport)).toBeNull();
   });
 
+});
+
+
+describe('Export named function as default regex', () => {
+  it('should match a valid export default statement', () => {
+    const validStatement = "export { TestComp as default } from './TestComp';";
+    expect(regexDefinitions.matchesExportNamedAsDefault.test(validStatement)).toBeTruthy();
+  });
+
+  it('should not match when "as default" is missing', () => {
+    const invalidStatement = "export { TestComp } from './TestComp';";
+    expect(regexDefinitions.matchesExportNamedAsDefault.test(invalidStatement)).toBeFalsy();
+  });
+  
+  it('should not match incorrect formatting', () => {
+    const invalidStatement = "export TestComp as default from './TestComp';";
+    expect(regexDefinitions.matchesExportNamedAsDefault.test(invalidStatement)).toBeFalsy();
+  });
+  
+  it('should not match a different path format', () => {
+    const invalidStatement = "export { TestComp as default } from './folder/TestComp';";
+    expect(regexDefinitions.matchesExportNamedAsDefault.test(invalidStatement)).toBeFalsy();
+  });
+  it('should capture the component name and the path', () => {
+    const statement = "export { TestComp as default } from './TestComp';";
+    const match = regexDefinitions.matchesExportNamedAsDefault.exec(statement);
+  
+    expect(match).not.toBeNull();
+    if(!match) return;
+    expect(match[1]).toBe('TestComp'); // Component name
+    expect(match[2]).toBe('./TestComp'); // Path
+  });
+  
 });
