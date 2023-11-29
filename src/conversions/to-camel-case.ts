@@ -8,12 +8,10 @@ export function toCamelCase(str: string): string {
     return str // Return the string as-is if it's already in camelCase
   }
 
-  console.log(str, 'str before')
   if (regexDefinitions.containsSpecialChar.test(str)) {
     str = str.replace(regexDefinitions.containsSpecialChar, '_')
   }
 
-  console.log(str, 'str before')
   if (regexDefinitions.containsDash.test(str)) {
     str = str.replace(regexDefinitions.containsDash, '_')
   }

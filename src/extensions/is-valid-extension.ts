@@ -27,7 +27,7 @@ export function isValidExtension(
   allowedExtensions: string[] = ['.ts', '.tsx', '.types.ts'],
   debug?: boolean
 ): boolean {
-  if (!filePath || !isFilePath(filePath)) {
+  if (!filePath || !isFilePath(filePath) || filePath === '') {
     red(`isValidExtension: ${filePath} is not a valid file path`)
     logExtensionFromExtensions(
       filePath ? filePath : 'No file path provided',

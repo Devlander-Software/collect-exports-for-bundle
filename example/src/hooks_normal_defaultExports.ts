@@ -10,8 +10,8 @@ export {useViewSize} from './packages/@devlander/hooks/src/hooks/useViewSize/use
 export {useVisibilitySensor} from './packages/@devlander/hooks/src/hooks/useVisibilitySensor/useVisibilitySensor'
 export type {UseVisibilitySensorNative, UseVisibilitySensorWeb} from './packages/@devlander/hooks/src/hooks/useVisibilitySensor/useVisibilitySensor'
 /**
-   * Title: hooks - Auto Export Native Named Exports for bundleAsObjectForDefaultExport
-   * Description: This is for exporting the native index file
+   * Title: hooks - Normal Auto Export
+   * Description: This is for exporting the normal index file
    * Date: 2023-11-29
    */
   

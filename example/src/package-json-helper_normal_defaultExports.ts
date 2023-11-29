@@ -2,8 +2,8 @@ export {getCurrentBranch} from './packages/@devlander/package-json-helper/src/ut
 export {isDeepEqual} from './packages/@devlander/package-json-helper/src/utils/is-deep-equal'
 export {logColoredMessage, logError, logMessageBasedOnCondition} from './packages/@devlander/package-json-helper/src/utils/log-with-color'
 /**
-   * Title: package-json-helper - Auto Export Native Named Exports for bundleAsObjectForDefaultExport
-   * Description: This is for exporting the native index file
+   * Title: package-json-helper - Normal Auto Export
+   * Description: This is for exporting the normal index file
    * Date: 2023-11-29
    */
   

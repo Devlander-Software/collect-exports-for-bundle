@@ -21,7 +21,7 @@ describe('getExtensions', () => {
   const webExtensions = ['.web.ts', '.web.tsx'];
   const testExtensions = ['.test.ts', '.test.tsx'];
   const extensionsFilteredByWords = ['.js', '.jsx'];
-
+  const wordsToFilterBy = ['test', 'native', 'web'];
 
   it('filters out extensions that are included in the filter list', () => {
     const result = getExtensions(extensions, [...nativeExtensions, ...testExtensions]);
@@ -30,6 +30,13 @@ describe('getExtensions', () => {
   });
 
   
+
+  it('it can successfully filter out extensions by words', () => {
+    const result = getExtensions(extensions, wordsToFilterBy)
+    const expected = ['.js', '.ts', '.jsx', '.tsx']
+    expect(result).toEqual(expected);
+  });
+
  
 
 

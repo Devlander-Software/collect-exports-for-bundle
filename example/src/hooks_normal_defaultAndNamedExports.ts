@@ -9,18 +9,15 @@ export {useScrollControl} from './packages/@devlander/hooks/src/hooks/useScrollC
 export {useViewSize} from './packages/@devlander/hooks/src/hooks/useViewSize/useViewSize'
 export {useVisibilitySensor} from './packages/@devlander/hooks/src/hooks/useVisibilitySensor/useVisibilitySensor'
 export type {UseVisibilitySensorNative, UseVisibilitySensorWeb} from './packages/@devlander/hooks/src/hooks/useVisibilitySensor/useVisibilitySensor'
-export type {DimensionData} from './packages/@devlander/hooks/src/types/dimension-data.type'
-export type {UseOnClickByStyleOptions} from './packages/@devlander/hooks/src/types/on-click-by-style-options.type'
-export type {ScreenSize} from './packages/@devlander/hooks/src/types/screen-size.type'
 /**
    * Title: hooks - Normal Auto Export
    * Description: This is for exporting the normal index file
-   * Date: 2023-11-28
+   * Date: 2023-11-29
    */
   
 /**
-   * Start Time: 11/28/2023, 2:37:10 PM
-   * End Time: 11/28/2023, 2:37:10 PM
-   * Duration: 0h 0m 0s 21ms
+   * Start Time: 11/29/2023, 7:19:55 AM
+   * End Time: 11/29/2023, 7:19:55 AM
+   * Duration: 0h 0m 0s 25ms
    */
   

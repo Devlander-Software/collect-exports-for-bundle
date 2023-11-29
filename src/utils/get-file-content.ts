@@ -1,10 +1,14 @@
 import fs from 'fs'
 import { isFilePath } from '../constraints/is-file-path'
+import { logMessageBasedOnCondition } from './log-with-color'
 
 export const getFileContent = (filePath: string): string => {
   try {
     if (!isFilePath(filePath)) {
-      throw new Error(`getFileContent: ${filePath} is not a valid file path`)
+      logMessageBasedOnCondition(
+        `getFileContent: ${filePath} is not a valid file path`,
+        false
+      )
     }
 
     if (!fs.existsSync(filePath)) {
@@ -18,6 +22,6 @@ export const getFileContent = (filePath: string): string => {
       }
     }
   } catch (error) {
-    throw error as Error
+    return ''
   }
 }

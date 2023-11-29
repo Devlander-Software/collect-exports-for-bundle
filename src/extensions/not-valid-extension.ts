@@ -16,14 +16,14 @@ export function notValidExtension(
   if (isFilePath(filePath)) {
     const parsedExtension = parseComplexExtensionFromPath(filePath)
     if (typeof parsedExtension !== 'undefined') {
-      if (parsedExtension.extension) {
+      if (typeof parsedExtension.extension !== 'undefined') {
         extension = parsedExtension.extension
       }
-      if (parsedExtension.fileName) {
+      if (typeof parsedExtension.fileName !== 'undefined') {
         fileName = parsedExtension.fileName
       }
 
-      if (extension && fileName) {
+      if (typeof extension !== 'undefined' && fileName !== 'undefined') {
         isIgnoredExtension = ignoredExtensions.includes(extension)
 
         if (debug) {

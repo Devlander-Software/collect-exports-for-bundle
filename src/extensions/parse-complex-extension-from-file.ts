@@ -13,6 +13,8 @@ interface ParseComplexExtensionFromFileResult {
     fileName?: string
     folderName?: string
     baseFileName?: string
+    originalValue: string
+
     words?: string[]
   }
 }
@@ -37,6 +39,8 @@ export const parseComplexExtensionFromFile: ParseComplexExtensionFromFileResult 
       extension?: string | undefined
       folderName?: string | undefined
       fileName?: string | undefined
+      originalValue: string
+
       baseFileName?: string | undefined
       words?: string[]
     } = {
@@ -44,6 +48,7 @@ export const parseComplexExtensionFromFile: ParseComplexExtensionFromFileResult 
       fileName: undefined,
       folderName: undefined,
       baseFileName: undefined,
+      originalValue: target,
       words: undefined
     }
     const wordSet: Set<string> = new Set()
@@ -55,6 +60,8 @@ export const parseComplexExtensionFromFile: ParseComplexExtensionFromFileResult 
         extension?: string | undefined
         fileName?: string | undefined
         folderName?: string | undefined
+        originalValue: string
+
         baseFileName?: string | undefined
         words?: string[]
       } => {
