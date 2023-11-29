@@ -14,7 +14,7 @@ export function fileHasValidExtension(
     | BundleExportAsFunctionParams
     | ConfigForCollectPathsFromDirectories
 ): boolean {
-  if (filePath && isFilePath(filePath) === false) {
+  if ((filePath && isFilePath(filePath) === false) || filePath === '') {
     return false
   }
   // Early return for non-string file names

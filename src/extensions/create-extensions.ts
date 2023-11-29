@@ -17,6 +17,9 @@ export const createExtensions: CreateExtensions = (
   debug?: boolean
 ): string[] => {
   try {
+    if (!word || word === '') {
+      word = ' '
+    }
     const dev = process.env.NODE_ENV === 'development'
     if (debug || dev) {
       logColoredMessage(`Creating extensions for ${word}...`, 'yellow')

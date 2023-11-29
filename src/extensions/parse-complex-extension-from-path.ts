@@ -11,10 +11,13 @@ export function parseComplexExtensionFromPath(
   fileName?: string | undefined
   folderName?: string | undefined
   baseFileName?: string | undefined
+  originalValue: string
 } {
   let payload: {
     extension?: string | undefined
     folderName?: string | undefined
+    originalValue: string
+
     fileName?: string | undefined
     words?: string[]
     baseFileName?: string | undefined
@@ -22,6 +25,7 @@ export function parseComplexExtensionFromPath(
     extension: undefined,
     fileName: undefined,
     folderName: undefined,
+    originalValue: filePath,
     baseFileName: undefined,
     words: undefined
   }

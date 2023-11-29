@@ -3,6 +3,9 @@ import { regexDefinitions } from '../constraints/regex-definitions'
 // containsSpecialChar: /[^a-zA-Z0-9]/,
 export function stripSpecialCharacters(str: string): string {
   const { containsSpecialChar } = regexDefinitions
+  if (str.includes(' ')) {
+    str = str.replace(/ /g, '')
+  }
 
   // if there is any pound sign, dollar sign, or percent sign, remove it
   if (str.includes('#') || str.includes('$') || str.includes('%')) {

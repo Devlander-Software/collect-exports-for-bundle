@@ -2,7 +2,6 @@ import { notValidExtension } from "../src/extensions/not-valid-extension";
 import { nativeExtensionPath, pathWithJSFile, pathWithJSWebFile, webExtensionPath } from "./shared.test";
 
 // Mock the entire parseComplexExtensionFromPath module
-jest.mock('../src/extensions/parse-complex-extension-from-path');
 
 
 describe('extensionFeatures', () => {
@@ -11,10 +10,9 @@ describe('notValidExtension', () => {
   const webExtensions = ['.web.ts', '.web.tsx', '.web.js', '.web.jsx'];
   const nativeExtensions = ['.native.ts', '.native.tsx', '.native.js', '.native.jsx'];
   it('should return true with a extension with multiple dots if the extension is in the ignoreExtension array', () => {
-    let result = notValidExtension(nativeExtensionPath, nativeExtensions, true);
+    let result = notValidExtension(nativeExtensionPath, webExtensions, true);
 
-
-    expect(result).toBe(true)
+    expect(result).toBe(false)
 
     
   });

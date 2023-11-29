@@ -119,6 +119,19 @@ const createConfigForPackage = (packageName: string): CompleteAutoExportConfig[]
       allowedExtensions: crossPlatformExtensions,
       excludedFolders: excludedFolders,
       ignoredExtensions: ignoredExtensions
+    },
+    {
+      packageName,
+      
+      title: `${packageName} - Normal Auto Export`,
+      description: `This is for exporting the normal index file`,
+      outputFilenameExtension: ".ts",
+      excludeSpecificFiles: filesToExclude,
+      exportMode: "default",
+      outputFileName: `${packageName}_${FoldersForResults.normal}_${FileNamePartOne.defaultExports}`,
+      allowedExtensions: crossPlatformExtensions,
+      excludedFolders: excludedFolders,
+      ignoredExtensions: ignoredExtensions
     }
   ];
 

@@ -34,52 +34,8 @@ export {getStyleFromPropsNative} from './packages/@devlander/shared-react-native
 export {colorThemeHandlerNative} from './packages/@devlander/shared-react-native-types/src/bundle/native/utils/theme-functions/handle-color-from-theme.native'
 export {handleFontFromThemeForNative} from './packages/@devlander/shared-react-native-types/src/bundle/native/utils/theme-functions/handle-font-for-theme.native'
 export {handleFontSizePropsForNative} from './packages/@devlander/shared-react-native-types/src/bundle/native/utils/theme-functions/handle-font-size-props.native'
-export {defaultDarkGrayScaleColors, defaultDarkBrandColors, defaultDarkBackgroundColors, defaultDarkElementColors, defaultDarkFeedbackColors, defaultDarkInteractionColors, darkColors} from './packages/@devlander/shared-react-native-types/src/bundle/shared/defaults/dark-colors.defaults'
-export {defaultFonts} from './packages/@devlander/shared-react-native-types/src/bundle/shared/defaults/fonts.defaults'
-export {defaultLightGrayScaleColors, defaultLightBrandColors, defaultLightBackgroundColors, defaultLightElementColors, defaultLightFeedbackColors, defaultLightInteractionColors, lightColors} from './packages/@devlander/shared-react-native-types/src/bundle/shared/defaults/light-colors.defaults'
-export {defaultSVGProps} from './packages/@devlander/shared-react-native-types/src/bundle/shared/defaults/svg-props.defaults'
-export {formInputGroupDefaultProps, secureInputDefaultProps} from './packages/@devlander/shared-react-native-types/src/bundle/shared/defaults/text-inputs.defaults'
-export {ThemeProvider} from './packages/@devlander/shared-react-native-types/src/bundle/shared/providers/SharedThemeProviderCore/SharedThemeProviderCore.provider'
-export type {ThemeColorPreferences, ThemeProviderOptions, ThemeProviderPropsShared} from './packages/@devlander/shared-react-native-types/src/bundle/shared/providers/SharedThemeProviderCore/SharedThemeProviderCore.provider'
 export {generateColorsFrom} from './packages/@devlander/shared-react-native-types/src/bundle/shared/setup/generate-colors-from'
-export {AlignItemsEnum} from './packages/@devlander/shared-react-native-types/src/bundle/shared/types/align-items.enum'
-export {AutoCapitalizeEnum} from './packages/@devlander/shared-react-native-types/src/bundle/shared/types/auto-capatlize.enum'
-export {AutoCompleteTypeEnum} from './packages/@devlander/shared-react-native-types/src/bundle/shared/types/auto-complete.enum'
 export type {PaddingOnThemeType, NativeTheme, WebTheme, BoxShadowHandler, ThemeBase} from './packages/@devlander/shared-react-native-types/src/bundle/shared/types/base-theme-types'
-export {ButtonVariantEnum} from './packages/@devlander/shared-react-native-types/src/bundle/shared/types/button-variants.enum'
-export type {ColorFromTheme, ValueOfColor, ColorNameOrValueFromTheme, GrayScaleColors, ElementColors, BrandColors, BackgroundColors, FeedbackColors, InteractionColors, ColorInfoItem} from './packages/@devlander/shared-react-native-types/src/bundle/shared/types/color.types'
-export type {CreateThemeForNative, CreateThemeForWeb, ThemeConfig} from './packages/@devlander/shared-react-native-types/src/bundle/shared/types/create-theme.types'
-export {DataDetectorEnum} from './packages/@devlander/shared-react-native-types/src/bundle/shared/types/data-detector.enum'
-export type {PlatformOSType, DeviceOnTheme} from './packages/@devlander/shared-react-native-types/src/bundle/shared/types/device-on-theme.type'
-export type {ElevationType} from './packages/@devlander/shared-react-native-types/src/bundle/shared/types/elevation.type'
-export {InitializationError, LogError, MessageError} from './packages/@devlander/shared-react-native-types/src/bundle/shared/types/error.types'
-export type {ArrayLengthMutationKeys} from './packages/@devlander/shared-react-native-types/src/bundle/shared/types/fixed-array.type'
-export {ResponsiveByPercentOrValue} from './packages/@devlander/shared-react-native-types/src/bundle/shared/types/font-size-handler.type'
-export type {ResponsiveBy, FontSizePropsHandler} from './packages/@devlander/shared-react-native-types/src/bundle/shared/types/font-size-handler.type'
-export {FontTypeEnum} from './packages/@devlander/shared-react-native-types/src/bundle/shared/types/font-type.enum'
-export type {FontName, FontProperty} from './packages/@devlander/shared-react-native-types/src/bundle/shared/types/font-type.enum'
-export {FontTypeWeightEnum} from './packages/@devlander/shared-react-native-types/src/bundle/shared/types/font-weight.enum'
-export type {FontTypeWeight, FontWeightType} from './packages/@devlander/shared-react-native-types/src/bundle/shared/types/font-weight.enum'
-export {textFontWeightTypes, TextFontWeightTypesEnum} from './packages/@devlander/shared-react-native-types/src/bundle/shared/types/font-weight.types'
-export type {TextFontWeightType} from './packages/@devlander/shared-react-native-types/src/bundle/shared/types/font-weight.types'
-export type {FontType, FontsInterface} from './packages/@devlander/shared-react-native-types/src/bundle/shared/types/fonts.interface'
-export type {NativeFunctionProvider, WebFunctionProvider} from './packages/@devlander/shared-react-native-types/src/bundle/shared/types/function-provider.types'
-export {IoniconNames, FontAwesomeIconNames} from './packages/@devlander/shared-react-native-types/src/bundle/shared/types/icons/icon-names.enum'
-export type {IconNames} from './packages/@devlander/shared-react-native-types/src/bundle/shared/types/icons/icon-names.enum'
-export type {NameOfFontAwesomeIcon} from './packages/@devlander/shared-react-native-types/src/bundle/shared/types/icons/name-of-font-awesome-icon.type'
-export type {NameOfIoniconIcon} from './packages/@devlander/shared-react-native-types/src/bundle/shared/types/icons/name-of-ionicon-icon.type'
-export type {NameOfMaterialIcon} from './packages/@devlander/shared-react-native-types/src/bundle/shared/types/icons/name-of-material-icon.type'
-export {JustifyContentEnum} from './packages/@devlander/shared-react-native-types/src/bundle/shared/types/justify-content.enum'
-export {KeyBoardTypeEnum} from './packages/@devlander/shared-react-native-types/src/bundle/shared/types/keyboard-type.enum'
-export {TColor} from './packages/@devlander/shared-react-native-types/src/bundle/shared/types/log-color.types'
-export type {TColorValue} from './packages/@devlander/shared-react-native-types/src/bundle/shared/types/log-color.types'
-export type {SVGPropsInterface} from './packages/@devlander/shared-react-native-types/src/bundle/shared/types/svg-props.interface'
-export {TextDecorationLineTypes} from './packages/@devlander/shared-react-native-types/src/bundle/shared/types/text-decoration-line-types.enum'
-export {TextContentTypeEnum} from './packages/@devlander/shared-react-native-types/src/bundle/shared/types/text-field-content.enum'
-export type {SharedTextProperties} from './packages/@devlander/shared-react-native-types/src/bundle/shared/types/text-style.types'
-export {TextTransformTypes} from './packages/@devlander/shared-react-native-types/src/bundle/shared/types/text-transform-types.enum'
-export {UnitOfMeasurementNative, UnitOfMeasurementWeb} from './packages/@devlander/shared-react-native-types/src/bundle/shared/types/unit-props.types'
-export type {UnitOfMeasurement, UnitPropsHandler} from './packages/@devlander/shared-react-native-types/src/bundle/shared/types/unit-props.types'
 export {cssColorNames, isConsoleAvailable, log, canBeConvertedIntoColor, adjustColor} from './packages/@devlander/shared-react-native-types/src/bundle/shared/utils/adjust-color'
 export type {ColorAdjuster} from './packages/@devlander/shared-react-native-types/src/bundle/shared/utils/adjust-color'
 export {calculatePercentageByPartAndWhole} from './packages/@devlander/shared-react-native-types/src/bundle/shared/utils/calculate-percentage-by-part-and-whole'
@@ -109,12 +65,12 @@ export {videoTimeStampToSeconds} from './packages/@devlander/shared-react-native
 /**
    * Title: shared-react-native-types - Auto Export Native Default Exports for bundleAsObjectForDefaultExport
    * Description: This is for exporting the native index file
-   * Date: 2023-11-28
+   * Date: 2023-11-29
    */
   
 /**
-   * Start Time: 11/28/2023, 2:37:10 PM
-   * End Time: 11/28/2023, 2:37:10 PM
-   * Duration: 0h 0m 0s 93ms
+   * Start Time: 11/29/2023, 7:19:55 AM
+   * End Time: 11/29/2023, 7:19:55 AM
+   * Duration: 0h 0m 0s 83ms
    */
   

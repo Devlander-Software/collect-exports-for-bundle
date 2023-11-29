@@ -32,7 +32,7 @@ export const hasPathWith = (
 
       if (
         parsedPath &&
-        parsedPath.folderName &&
+        typeof parsedPath.folderName !== 'undefined' &&
         checks.includes(parsedPath.folderName)
       ) {
         reason = `Folder name ${parsedPath.folderName} is in the list of checks`
@@ -41,7 +41,7 @@ export const hasPathWith = (
 
       if (
         parsedPath &&
-        parsedPath.fileName &&
+        typeof parsedPath.fileName !== 'undefined' &&
         checks.includes(parsedPath.fileName)
       ) {
         reason = `File name ${parsedPath.fileName} is in the list of checks`
@@ -50,7 +50,7 @@ export const hasPathWith = (
 
       if (
         parsedPath &&
-        parsedPath.extension &&
+        typeof parsedPath.extension !== 'undefined' &&
         checks.includes(parsedPath.extension)
       ) {
         reason = `Extension ${parsedPath.extension} is in the list of checks`
@@ -62,7 +62,7 @@ export const hasPathWith = (
     })
     if (
       parsedFile &&
-      parsedFile.baseFileName &&
+      typeof parsedFile.baseFileName !== 'undefined' &&
       checks.includes(parsedFile.baseFileName)
     ) {
       reason = `Base file name ${parsedFile.baseFileName} is in the list of checks`
@@ -71,7 +71,7 @@ export const hasPathWith = (
 
     if (
       parsedFile &&
-      parsedFile.fileName &&
+      typeof parsedFile.fileName !== 'undefined' &&
       checks.includes(parsedFile.fileName)
     ) {
       reason = `File name ${parsedFile.fileName} is in the list of checks`
@@ -80,7 +80,7 @@ export const hasPathWith = (
 
     if (
       parsedFile &&
-      parsedFile.extension &&
+      typeof parsedFile.extension !== 'undefined' &&
       checks.includes(parsedFile.extension)
     ) {
       reason = `Extension ${parsedFile.extension} is in the list of checks`
@@ -89,7 +89,7 @@ export const hasPathWith = (
 
     if (
       parsedFile &&
-      parsedFile.folderName &&
+      typeof parsedFile.folderName !== 'undefined' &&
       checks.includes(parsedFile.folderName)
     ) {
       reason = `Folder name ${parsedFile.folderName} is in the list of checks`
@@ -104,7 +104,9 @@ export const hasPathWith = (
     const pathParts = path.split('/')
     const parsedPath = parseComplexExtensionFromPath(path, debug)
     const extensions =
-      parsedPath && parsedPath.extension ? [parsedPath.extension] : []
+      parsedPath && typeof parsedPath.extension !== 'undefined'
+        ? [parsedPath.extension]
+        : []
 
     for (const part of pathParts) {
       if (

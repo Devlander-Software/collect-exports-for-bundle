@@ -1,6 +1,7 @@
 import { bgBlack, bold, green, red, white } from 'picocolors'
 import { isFilePath } from '../constraints/is-file-path'
 import { parseComplexExtensionFromPath } from '../extensions/parse-complex-extension-from-path'
+import { logFailedMessage } from './log-with-color'
 
 export const logExtensionFromExtensions = (
   filePath: string,
@@ -11,20 +12,25 @@ export const logExtensionFromExtensions = (
   if (!message) {
     message = 'Existing extensions:'
   }
+
+  if (filePath === '') {
+    return
+  }
+
   if (!isFilePath(filePath)) {
-    throw new Error(
-      `logExtensionFromExtensions: ${filePath} is not a valid file path`
+    logFailedMessage(
+      'logExtensionFromExtensions',
+      `${filePath} is not a valid file path`
     )
   }
 
   const parsedExtension = parseComplexExtensionFromPath(filePath)
-  if (
-    !parsedExtension.extension ||
-    !parsedExtension ||
-    typeof parsedExtension.extension === 'undefined'
-  ) {
+  if (!parsedExtension || typeof parsedExtension.extension === 'undefined') {
     red(`logExtensionFromExtensions: ${filePath} has no valid extension`)
-  } else if (parsedExtension && parsedExtension.extension) {
+  } else if (
+    parsedExtension &&
+    typeof parsedExtension.extension !== 'undefined'
+  ) {
     const { extension } = parsedExtension
 
     bgBlack(
@@ -36,5 +42,7 @@ export const logExtensionFromExtensions = (
         .join(', ')}
       `
     )
+  } else {
+    red(`logExtensionFromExtensions: ${filePath} has no valid extension`)
   }
 }
