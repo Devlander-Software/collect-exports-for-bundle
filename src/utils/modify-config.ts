@@ -25,6 +25,7 @@ export const modifyConfig = async (
     outputFileName: 'index',
     bundleAsObjectForDefaultExport: undefined,
     debug: false,
+    includeIndexes: true,
     exportMode: 'named',
     excludeSpecificFiles: [],
     results: {
@@ -90,6 +91,8 @@ export const modifyConfig = async (
         ? options.bundleAsObjectForDefaultExport
         : defaultAutoExportConfig.bundleAsObjectForDefaultExport,
     debug: defaultAutoExportConfig.debug,
+    includeIndexes:
+      options.includeIndexes || defaultAutoExportConfig.includeIndexes,
     exportMode: options.exportMode || defaultAutoExportConfig.exportMode,
     testOptions: options.testOptions || defaultAutoExportConfig.testOptions,
     results: {

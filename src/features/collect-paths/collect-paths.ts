@@ -18,15 +18,15 @@ export async function collectPaths(
     | BundleExportAsFunctionParams
     | ConfigForCollectPathsFromDirectories
 ): Promise<string[]> {
-  if (isFilePath(startPath) === false) {
+  if (isFilePath(startPath) === false || startPath === '') {
     return []
   }
-  console.log(`Collecting paths from: ${startPath}`)
   let paths: string[] = []
   let absolutePath: string | undefined = undefined
   const resultFromGetAbsolutePath = await getAbsolutePath(startPath, {
     debug: config.debug,
     results: config.results,
+    includeIndexes: config.includeIndexes ? config.includeIndexes : false,
     excludedFolders: config.excludedFolders ? config.excludedFolders : [],
     allowedExtensions:
       config && config.allowedExtensions ? config.allowedExtensions : []

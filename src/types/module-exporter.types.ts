@@ -43,6 +43,7 @@ export interface BaseModuleExportOptions {
   outputFilenameExtension?: '.ts' | '.tsx'
   ignoredExtensions?: string[]
   specificFiles?: string[]
+  includeIndexes?: boolean
   excludedFolders?: string[]
   excludeSpecificFiles?: string[]
   testOptions?: TestOptions
@@ -88,6 +89,7 @@ export interface AutoExporterOptions {
   primaryExportFile?: string | undefined
   specificFiles: string[]
   excludeSpecificFiles: string[]
+  includeIndexes: boolean
 
   excludedFolders: string[]
   bundleAsObjectForDefaultExport?: string | undefined
@@ -120,4 +122,5 @@ export type ExclusiveBundleAsFunction<
 export type ModuleExportOptions = BaseModuleExportOptions & {
   primaryExportFile?: ExclusivePrimaryExportFile<BaseModuleExportOptions>
   bundleAsObjectForDefaultExport?: ExclusiveBundleAsFunction<BaseModuleExportOptions>
+  includeIndexes?: boolean
 }

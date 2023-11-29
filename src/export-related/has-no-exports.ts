@@ -10,13 +10,11 @@ export const hasNoExports = (fileContent: string, debug?: boolean): boolean => {
     [],
     debug
   )
-  console.log(exportFunctionNames, 'exportFunctionNames')
   const exportTypeNames = getExportedTypeDeclarationsByFileContent(
     fileContent,
     [],
     debug
   )
-  console.log(exportFunctionNames, 'exportFunctionNames')
   const hasNamed = hasNamedExports(fileContent, debug)
   const hasDefault = hasDefaultExport(fileContent, debug)
 

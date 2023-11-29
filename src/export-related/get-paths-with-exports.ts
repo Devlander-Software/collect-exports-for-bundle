@@ -17,12 +17,8 @@ export async function getPathsWithExports(
     const distinctPaths = [...new Set(paths)] // Remove duplicates using Set
 
     const filteredPaths = distinctPaths.filter((path) => {
-      console.log(path, 'this is path inside of distinct paths')
       const hasValidExtension = fileHasValidExtension(path, config)
-      console.log(
-        hasValidExtension,
-        'this is hasValidExtension within getPathsWithExports'
-      )
+
       if (config.debug) {
         logMessageForFunction(
           'getPathsWithExports',

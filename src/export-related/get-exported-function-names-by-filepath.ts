@@ -10,8 +10,6 @@ export function getExportedFunctionNamesByFilePath(
   declarationsToExport?: DeclarationTypes[],
   debug?: boolean
 ): string[] {
-  console.log(filePath, 'filePath inside of getExportedFunctionNames')
-
   try {
     if (!fs.existsSync(filePath)) {
       logColoredMessage(`File not found: "${filePath}"`, 'yellow')

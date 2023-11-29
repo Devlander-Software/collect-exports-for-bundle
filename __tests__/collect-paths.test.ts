@@ -36,12 +36,10 @@ describe('collectPathsFeature', () => {
         allowedExtensions: [".ts"],
       });
 
-      console.log(result, 'this is result for excludedFolders WTF')
       expect(result).toBeInstanceOf(Array);
 
       let wordsToCheck = ["node_modules", "typings"];
       let found = hasPathWith(result, wordsToCheck, true);
-      console.log(found, 'this is found')
       expect(found).toBe(false);
     });
 
@@ -85,6 +83,44 @@ describe('collectPathsFeature', () => {
       expect(foundFilesTypescriptFiles).toBe(true);
     });
 
+
+    it("If includeIndexes is not defined in config it should not gather index files", async () => {
+      const result = await collectPaths(pathToForTests, { 
+        debug: false, 
+        excludedFolders: ["node_modules"],
+        allowedExtensions: [".ts", ".type.ts"],
+        includeIndexes: false,
+      });
+
+
+      let foundTestComp = hasPathWith(result, ["TestComp"], true);
+      expect(foundTestComp).toBe(true);
+
+      let foundTestIndex = hasPathWith(result, ["index"], true);
+      expect(foundTestIndex).toBe(false);
+
+
+    });
+
+    it("If includeIndexes is set to true it will gather the indexes", async () => {
+      const result = await collectPaths(pathToForTests, { 
+        debug: false, 
+        excludedFolders: ["node_modules"],
+        allowedExtensions: [".ts", ".type.ts"],
+        includeIndexes: true,
+      });
+
+      console.log(result, 'this is result for includeIndexes')
+
+
+      let foundTestComp = hasPathWith(result, ["TestComp"], true);
+      expect(foundTestComp).toBe(true);
+
+      let foundTestIndex = hasPathWith(result, ["index"], true);
+      expect(foundTestIndex).toBe(true);
+
+
+    });
 
     // Add more test cases for different scenarios, like handling errors
   });
