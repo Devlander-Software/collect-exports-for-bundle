@@ -16,6 +16,8 @@ export const regexDefinitions = {
   isPascalCase: /^[A-Z][a-zA-Z0-9]*$/,
   isConstantCase: /^[A-Z]+(_[A-Z0-9]+)*$/,
   containsNonWordChar: /[^\w]/,
+  defaultFunctionRegex: /export default function (\w+)\(\)/,
+
   matchesDefaultExport: /export default (\w+)/,
   matchesExportNamedAsDefault:
     /export \{ (\w+) as default \} from '(\.\/\w+)';/,

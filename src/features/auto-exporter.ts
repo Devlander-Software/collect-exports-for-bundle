@@ -6,7 +6,7 @@ import { ModuleExportOptions } from '../types/module-exporter.types'
 import { logColoredMessage } from '../utils/log-with-color'
 import { modifyConfig } from '../utils/modify-config'
 import { simulateProgressBar } from '../utils/stimulate-progress-bar'
-import { bundleExportAsFunction } from './bundle-export-as-function'
+import { bundleExportAsFunction } from './bundle-export-as-function-old'
 
 const autoExporter = async (
   options: ModuleExportOptions = {}
@@ -83,6 +83,8 @@ const autoExporter = async (
     // includedFolders, excludedFolders, includedFiles, excludedFiles
     const exportsList = await generateExportsFromDir(config.rootDir, config)
 
+    console.log(exportsList, 'exportsList')
+
     simulateProgressBar(
       `Writing to ${fileNameToWriteTo}...`,
       TOTAL_STEPS,
@@ -94,7 +96,11 @@ const autoExporter = async (
       exportsList.join('\n')
     )
 
-    if (config.bundleAsObjectForDefaultExport && config.rootDir) {
+    if (
+      config.bundleAsObjectForDefaultExport &&
+      config.rootDir &&
+      typeof config.bundleAsObjectForDefaultExport !== 'undefined'
+    ) {
       if (config.debug) {
         logColoredMessage(
           `\nBundling all modules from ${fileNameToWriteTo} as into one object as a module\n`,

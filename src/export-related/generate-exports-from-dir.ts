@@ -11,7 +11,14 @@ export async function generateExportsFromDir(
     logColoredMessage(`Starting export generation from directory...`, 'green')
 
     const filteredPaths = await collectPathsFromDirectories(startPath, config)
-    return generateExportsFromPaths(filteredPaths, config)
+    if (config.debug) {
+      logColoredMessage(`Filtered paths: ${filteredPaths}`, 'magenta')
+    }
+    const generatedPaths = generateExportsFromPaths(filteredPaths, config)
+    if (config.debug) {
+      logColoredMessage(`Generated paths: ${generatedPaths}`, 'magenta')
+    }
+    return generatedPaths
   } catch (error: any) {
     logColoredMessage(`Error generating exports from directory...`, 'red')
     logColoredMessage(error.toString(), 'red')

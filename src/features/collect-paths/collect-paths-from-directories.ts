@@ -21,7 +21,7 @@ export interface ConfigForCollectPathsFromDirectories
   outputFileName?: string
   rootDir?: string
 }
-
+// this needs a test
 export async function collectPathsFromDirectories(
   startPath: string,
   config: ConfigForCollectPathsFromDirectories,

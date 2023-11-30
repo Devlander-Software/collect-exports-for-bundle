@@ -2,7 +2,10 @@
 import path from 'path';
 import { getFileContent } from '../src/utils/get-file-content';
 export const pathToIndexWithDefaultExport = path.resolve(__dirname,'../src/for-tests/TestComp/index.ts');
-
+export const pathWithDefaultFuncFunc = path.resolve(__dirname,'../src/for-tests/DefaultFuncs/TestFunc.ts');
+export const pathToTestCompTS = path.resolve(__dirname,'../src/for-tests/TestComp/TestComp.ts');
+export const pathToTestCompJS = path.resolve(__dirname,'../src/for-tests/TestComp/TestComp.js');
+export const complexFilePath = path.resolve(__dirname,'../src/for-tests/folder-test/camelCaseFolder/dash-case-folder/PascalCaseFolder/snake_case_folder/FuncComponentWithNoReturnType.web.ts');
 export const pathWithInterfaceInFile = path.resolve(__dirname,'../src/types/test-options.types.ts');
 export const pathWithTypesExtension = path.resolve(__dirname,'../src/types/t-color.types.ts');
 export const pathWithNoExtension = path.resolve(__dirname,'../src/info');
@@ -28,7 +31,7 @@ describe('pathWithTypesExtension', () => {
     it("should include .types.ts", () => {
         expect(pathWithTypesExtension).toContain(".types.ts");
     }
-    );
+    ); 
 
 }   );
 

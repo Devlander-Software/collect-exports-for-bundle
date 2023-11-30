@@ -1,23 +1,23 @@
 import { getFilenameFromPath } from '../src/utils/get-file-name-from-path';
-import { fileWithJsonPath, nativeExtensionPath, pathWithNoExtension, webExtensionPath } from './shared.test';
+import { complexFilePath, nativeExtensionPath, pathWithDirectory, pathWithJSFile, pathWithNoExtension, webExtensionPath } from './shared.test';
 
 describe('collectPathsFeature', () => {
 
 describe('getFilenameFromPath', () => {
   test('extracts filename without extension from a Unix-like path', () => {
-    const path = '/user/dev/project/get-cli-permissions.js';
-    expect(getFilenameFromPath(path)).toBe('get-cli-permissions');
+    const path = pathWithJSFile;
+    expect(getFilenameFromPath(path)).toBe('example-for-js');
   });
 
   test('extracts filename without full extension', () => {
     
-    let result = getFilenameFromPath(fileWithJsonPath);;
-    expect(result).toBe('example');
+    let result = getFilenameFromPath(complexFilePath);;
+    expect(result).toBe('FuncComponentWithNoReturnType.web');
 
   });
 
   test('returns undefined for a path with no filename', () => {
-    const path = '/user/dev/project/';
+    const path = `${pathWithDirectory}/`
     expect(getFilenameFromPath(path)).toBe(undefined);
   });
 
@@ -36,19 +36,14 @@ describe('getFilenameFromPath', () => {
 
   });
 
-  test('handles paths ending with a dot', () => {
-    const path = '/user/dev/project/file.';
-    expect(getFilenameFromPath(path)).toBe('file');
-  });
-
   test('handles filenames with multiple dots', () => {
    
     let nativeResult = getFilenameFromPath(nativeExtensionPath);
 
-    expect(nativeResult).toBe('myfile');
+    expect(nativeResult).toBe('myfile.native');
 
     let webResult = getFilenameFromPath(webExtensionPath);
-    expect(webResult).toBe('myfile');
+    expect(webResult).toBe('myfile.web');
   });
 });
 

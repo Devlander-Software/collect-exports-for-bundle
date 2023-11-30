@@ -91,7 +91,7 @@ describe('collectPathsFeature', () => {
         allowedExtensions: [".ts", ".type.ts"],
         includeIndexes: false,
       });
-
+ 
 
       let foundTestComp = hasPathWith(result, ["TestComp"], true);
       expect(foundTestComp).toBe(true);
@@ -110,7 +110,6 @@ describe('collectPathsFeature', () => {
         includeIndexes: true,
       });
 
-      console.log(result, 'this is result for includeIndexes')
 
 
       let foundTestComp = hasPathWith(result, ["TestComp"], true);
