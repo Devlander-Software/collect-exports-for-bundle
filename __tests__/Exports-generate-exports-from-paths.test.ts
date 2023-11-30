@@ -1,3 +1,5 @@
+import { createDurationComment } from '../src/comments/create-duration-comment';
+import { createTitleComment } from '../src/comments/create-title-comment';
 import { generateExportsFromPaths } from '../src/export-related/generator-exports-from-paths';
 import { AutoExporterOptions } from '../src/types/module-exporter.types';
 import { pathToFileWithDefaultExport, pathToForTests, pathToIndexWithDefaultExport, pathWithFunctionExport, pathWithTypesExtension } from "./shared.test";
@@ -46,10 +48,20 @@ describe('createExportMatches', () => {
         };
       
         const result = generateExportsFromPaths(paths, config);
-      
-        expect(result).toContain('* Start Time:');
-        expect(result).toContain('* End Time:');
-        expect(result).toContain('* Duration:');
+
+        const titleComment = createTitleComment(config.title)
+        const durationComment = createDurationComment(config.results.startTime, config.results.endTime)
+
+        let expected = [
+            `export { default as TestComp } from './TestComp'`,
+
+            [titleComment,
+            durationComment].join('\n')
+           
+        ]
+
+
+        expect(result).toEqual(expected);
         // Additional assertions can be added based on expected behavior
       });
 

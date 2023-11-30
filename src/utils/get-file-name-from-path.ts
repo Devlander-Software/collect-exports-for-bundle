@@ -1,4 +1,4 @@
-import fs from 'fs'; // Assuming Node.js environment
+import fs from 'fs' // Assuming Node.js environment
 import { getFileNameFromExtension } from './get-file-name-from-extension'
 import { logColoredMessage, logFailedMessage } from './log-with-color'
 
