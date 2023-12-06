@@ -1,5 +1,4 @@
-import { createDurationComment } from '../comments/create-duration-comment'
-import { createTitleComment } from '../comments/create-title-comment'
+import { createComments } from '../comments/create-comments'
 import { removeExtensionAndMakeRelative } from '../extensions/remove-extension-and-make-relative'
 import { AutoExporterOptions } from '../types/module-exporter.types'
 import { getDuration } from '../utils/get-duration'
@@ -80,26 +79,26 @@ export function generateExportsFromPaths(
       index++
     }
 
-    const commentTitleForFile =
-      config.title && config.description
-        ? createTitleComment(config.title || '', config.description || '')
-        : ''
-
     const endedAt = new Date().getTime()
     config.results.endTime = endedAt
     config.results.duration = getDuration(config.results.startTime, endedAt)
 
-    const durationComment = createDurationComment(
-      config.results.startTime,
-      endedAt
-    )
+    const comments = createComments({
+      includedExports: config.results.includedExports,
+      excludedExports: config.results.excludedExports,
+      includedFiles: config.results.includedFiles,
+      excludedFiles: config.results.excludedFiles,
+      includedFolders: config.results.includedFolders,
+      excludedFolders: config.results.excludedFolders,
+      startTime: config.results.startTime,
+      endTime: config.results.endTime,
+      allowedExtensions: config.allowedExtensions,
+      ignoredExtensions: config.ignoredExtensions,
+      title: config.title || '',
+      description: config.description || ''
+    })
 
-    return [
-      ...results,
-      ...defaultExportString,
-      commentTitleForFile,
-      durationComment
-    ]
+    return [...results, ...defaultExportString, comments]
   } catch (error) {
     console.log(error)
     logFailedMessage('generateExportsFromPaths', error)

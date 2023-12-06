@@ -1,21 +1,10 @@
 import { regexDefinitions } from '../constraints/regex-definitions'
+import {
+  DeclarationTypes,
+  defaultDeclarationTypes
+} from '../types/variable-function-declaration.types'
 import { logColoredMessage } from '../utils/log-with-color'
-export type DeclarationTypes =
-  | 'function'
-  | 'const'
-  | 'let'
-  | 'var'
-  | 'class'
-  | 'enum'
 
-export const defaultDeclarationKeywords: DeclarationTypes[] = [
-  'function',
-  'const',
-  'let',
-  'var',
-  'enum',
-  'class'
-]
 export const getExportedFunctionNamesByFileContent = (
   fileContent: string,
   declarationsToExport?: DeclarationTypes[],
@@ -25,14 +14,13 @@ export const getExportedFunctionNamesByFileContent = (
     !declarationsToExport ||
     (declarationsToExport && declarationsToExport.length === 0)
   )
-    declarationsToExport = defaultDeclarationKeywords
+    declarationsToExport = defaultDeclarationTypes
   const patterns = {
     function: regexDefinitions.matchesFunctionExport,
     const: regexDefinitions.matchesConstExport,
     let: regexDefinitions.matchesLetExport,
     var: regexDefinitions.matchesVarExport,
     enum: regexDefinitions.matchesEnumExport,
-
     class: regexDefinitions.matchesClassExport
   }
 

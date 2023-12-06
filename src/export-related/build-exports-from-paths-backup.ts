@@ -1,9 +1,8 @@
 import { fileHasValidExtension } from '../extensions/has-valid-extension'
 import { AutoExporterOptions } from '../types/module-exporter.types'
 import { logColoredMessage, logFailedMessage } from '../utils/log-with-color'
-import { createExportMatches } from './create-export-matches'
+import { MatchItem, createExportMatches } from './create-export-matches'
 import { extractDefaultExportVariable } from './extract-default-export'
-import { processMatchItem } from './process-match-item'
 
 export interface BuildExportsFromPathParams {
   fileName: string
@@ -16,7 +15,45 @@ export interface BuildExportsFromPathParams {
   defaultExportString: string[]
   config: AutoExporterOptions
 }
+function processMatchItem(
+  matchItem: MatchItem,
+  withoutExtension: string
+): string[] {
+  const results = []
+  console.log(matchItem, 'matchItem this is match item')
+  // break apart the path, check the last item
+  // if it's index, then mark isFromIndex as true
+  const isFromIndex = matchItem.path.split('/').pop()?.includes('index')
+    ? true
+    : false
 
+  console.log(withoutExtension, 'withoutExtension')
+  console.log(isFromIndex, 'isFromIndex')
+
+  if (matchItem) {
+    const namedExports = matchItem.functionNames
+      ?.filter(({ exportType }) => exportType === 'named')
+      .map(({ name }) => name)
+
+    if (namedExports && namedExports.length > 0) {
+      results.push(
+        `export {${namedExports.join(', ')}} from '${withoutExtension}';`
+      )
+    }
+
+    const typeExports = matchItem.functionTypes
+      ?.filter(({ exportType }) => exportType === 'named')
+      .map(({ name }) => name)
+
+    if (typeExports && typeExports.length > 0) {
+      results.push(
+        `export type {${typeExports.join(', ')}} from '${withoutExtension}';`
+      )
+    }
+  }
+
+  return results
+}
 export const buildExportsFromPaths = (
   params: BuildExportsFromPathParams
 ): string[] => {
@@ -54,14 +91,6 @@ export const buildExportsFromPaths = (
       usedFunctionNames,
       usedFunctionTypes
     )
-
-    const processedMatchItem = processMatchItem(
-      exportsFromFile[0],
-      withoutExtension,
-      config.primaryExportFile ? config.primaryExportFile : undefined
-    )
-
-    console.log(processedMatchItem, 'processedMatchItem')
 
     if (isPrimaryExportFile && hasDefaultExport !== '') {
       const defaultVariable = extractDefaultExportVariable(filepath)

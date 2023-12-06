@@ -1,6 +1,8 @@
 // parseComplexExtensionFromPath.test.ts
 import path from 'path';
 import { getFileContent } from '../src/utils/get-file-content';
+export const pathToLetVariables = path.resolve(__dirname,'../src/for-tests/let-variables');
+
 export const pathToIndexWithDefaultExport = path.resolve(__dirname,'../src/for-tests/TestComp/index.ts');
 export const pathWithDefaultFuncFunc = path.resolve(__dirname,'../src/for-tests/DefaultFuncs/TestFunc.ts');
 export const pathToTestCompTS = path.resolve(__dirname,'../src/for-tests/TestComp/TestComp.ts');
@@ -21,6 +23,7 @@ export const fileWithJsonPath = path.resolve(__dirname,'../src/for-tests/example
 export const nodeModulesPath = path.resolve(__dirname,'../src/for-tests/node_modules');
 export const fileContentWithType = getFileContent(pathWithTypesExtension);
 export const fileContentWithFunction = getFileContent(pathWithFunctionExport);
+export const fileContentWithLetVariables = getFileContent(pathToLetVariables);
 export const fileContentWithInterface = getFileContent(pathWithInterfaceInFile);
 export const fileContentWithIndexDefaultExport = getFileContent(pathToIndexWithDefaultExport);
 export const fileContentWithDefaultExport = getFileContent(pathToFileWithDefaultExport);

@@ -16,10 +16,11 @@ export function createDurationComment(
   const formattedStartTime = new Date(startTime).toLocaleString()
   const formattedEndTime = new Date(endTime).toLocaleString()
 
-  return `/**
+  return `
+  /**
    * Start Time: ${formattedStartTime}
    * End Time: ${formattedEndTime}
    * Duration: ${formattedDuration}
    */
-  `
+  `.trim()
 }

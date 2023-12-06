@@ -1,11 +1,9 @@
 import { regexDefinitions } from '../constraints/regex-definitions'
+import {
+  DeclarationTypeTypes,
+  defaultDeclarationTypeTypes
+} from '../types/variable-function-declaration.types'
 import { logColoredMessage } from '../utils/log-with-color'
-export type DeclarationTypeTypes = 'type' | 'interface'
-
-export const defaultDeclarationKeywords: DeclarationTypeTypes[] = [
-  'type',
-  'interface'
-]
 
 export const getExportedTypeDeclarationsByFileContent = (
   fileContent: string,
@@ -16,7 +14,7 @@ export const getExportedTypeDeclarationsByFileContent = (
     !declarationsToExport ||
     (declarationsToExport && declarationsToExport.length === 0)
   ) {
-    declarationsToExport = defaultDeclarationKeywords
+    declarationsToExport = defaultDeclarationTypeTypes
   }
 
   const patterns = {

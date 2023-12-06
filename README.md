@@ -262,3 +262,17 @@ const webExtensions = createExtensions(
 - [YouTube](https://bit.ly/devlanderjs-youtube)
 - [Twitter](https://bit.ly/landonwjohnson-on-twitter)
 - [Facebook](https://bit.ly/devlander-facebook-page)
+
+
+
+
+// if the filename is [index]
+// and the [variable] regex matches [1] extracts [fileContent]
+// is the same [name] as the [folder] that index is
+
+<!-- return this  -->
+import [variable] from somefilepath/[folder]
+
+
+instead of 
+import [variable] from somefilepath/[folder]/index

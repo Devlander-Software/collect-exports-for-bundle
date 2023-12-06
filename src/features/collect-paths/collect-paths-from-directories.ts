@@ -1,7 +1,7 @@
 import { getPathsWithExports } from '../../export-related/get-paths-with-exports'
 import { AutoExporterOptions, Results } from '../../types/module-exporter.types'
 import { logColoredMessage, logFailedMessage } from '../../utils/log-with-color'
-import { BundleExportAsFunctionParams } from '../bundle-export-as-function'
+import { BundleExportAsFunctionParams } from '../bundle-export-as-function-old'
 import { collectPaths } from './collect-paths'
 
 export type CollectPathsFromDirectoriesParams = {

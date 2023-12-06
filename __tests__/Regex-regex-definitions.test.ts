@@ -177,3 +177,17 @@ describe('regexDefinitions.isSnakeCase', () => {
   // Add more test cases if needed...
 });
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+

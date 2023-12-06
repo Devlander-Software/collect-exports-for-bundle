@@ -26,6 +26,7 @@ it('should export TestComp as primary export since it is defined in config', () 
     
 
       const fileContent = getFileContent(pathToIndexWithDefaultExport);
+      console.log(fileContent, 'this is file content inside of build export from paths')
     const params: BuildExportsFromPathParams = {
         fileName: fileName || 'index',
         fileContent: fileContent,

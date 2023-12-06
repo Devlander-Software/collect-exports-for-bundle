@@ -6,7 +6,7 @@ import { parseComplexExtensionFromPath } from '../../extensions/parse-complex-ex
 import { AutoExporterOptions } from '../../types/module-exporter.types'
 import { logMessageForFunction } from '../../utils/log-with-color'
 import { ResultItemType, pushToResults } from '../../utils/push-to-results'
-import { BundleExportAsFunctionParams } from '../bundle-export-as-function'
+import { BundleExportAsFunctionParams } from '../bundle-export-as-function-old'
 import { collectPaths } from './collect-paths'
 import { ConfigForCollectPathsFromDirectories } from './collect-paths-from-directories'
 

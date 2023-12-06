@@ -1,5 +1,5 @@
 import { isFilePath } from '../constraints/is-file-path'
-import { BundleExportAsFunctionParams } from '../features/bundle-export-as-function'
+import { BundleExportAsFunctionParams } from '../features/bundle-export-as-function-old'
 import { ConfigForCollectPathsFromDirectories } from '../features/collect-paths/collect-paths-from-directories'
 import { AutoExporterOptions } from '../types/module-exporter.types'
 import { getFilenameFromPath } from '../utils/get-file-name-from-path'

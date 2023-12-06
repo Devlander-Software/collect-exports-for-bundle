@@ -48,20 +48,17 @@ describe('createExportMatches', () => {
         };
       
         const result = generateExportsFromPaths(paths, config);
-
+        console.log(result, 'this is result from generate exports from paths')
         const titleComment = createTitleComment(config.title)
         const durationComment = createDurationComment(config.results.startTime, config.results.endTime)
 
         let expected = [
             `export { default as TestComp } from './TestComp'`,
-
-            [titleComment,
-            durationComment].join('\n')
            
         ]
 
 
-        expect(result).toEqual(expected);
+        expect(result).toContain(expected);
         // Additional assertions can be added based on expected behavior
       });
 

@@ -15,6 +15,7 @@ export async function getPathsWithExports(
     const directoriesChecked: string[] = []
 
     const distinctPaths = [...new Set(paths)] // Remove duplicates using Set
+    console.log('distinctPaths before filter', distinctPaths)
 
     const filteredPaths = distinctPaths.filter((path) => {
       const hasValidExtension = fileHasValidExtension(path, config)
@@ -66,15 +67,17 @@ export async function getPathsWithExports(
       }
     })
 
-    logMessageForFunction(
-      'getPathsWithExports',
-      {
-        distinctPaths,
-        filteredPaths,
-        directoriesChecked
-      },
-      'yellow'
-    )
+    if (config.debug) {
+      logMessageForFunction(
+        'getPathsWithExports',
+        {
+          distinctPaths,
+          filteredPaths,
+          directoriesChecked
+        },
+        'yellow'
+      )
+    }
 
     return filteredPaths
   } catch (err: any) {

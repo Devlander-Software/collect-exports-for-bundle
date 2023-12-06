@@ -1,9 +1,7 @@
 import fs from 'fs'
+import { DeclarationTypes } from '../types/variable-function-declaration.types'
 import { logColoredMessage } from '../utils/log-with-color'
-import {
-  DeclarationTypes,
-  getExportedFunctionNamesByFileContent
-} from './get-exported-function-names-by-filecontent'
+import { getExportedFunctionNamesByFileContent } from './get-exported-function-names-by-filecontent'
 
 export function getExportedFunctionNamesByFilePath(
   filePath: string,
