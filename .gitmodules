@@ -4,6 +4,3 @@
 [submodule "example/src/packages/@devlander/hooks"]
 	path = example/src/packages/@devlander/hooks
 	url = https://github.com/Devlander-Software/hooks
-[submodule "example/src/packages/@devlander/shared-react-native-types"]
-	path = example/src/packages/@devlander/shared-react-native-types
-	url = https://github.com/Devlander-Software/shared-react-native-types
