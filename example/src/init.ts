@@ -146,7 +146,7 @@ const createConfigForPackage = (packageName: string): CompleteAutoExportConfig[]
 (async () => {
   const autoExporter = require('@devlander/collect-exports-for-bundle').default
 
-  const packages = ['hooks', 'package-json-helper', 'shared-react-native-types'];
+  const packages = ['hooks', 'package-json-helper'];
 
   const autoExporterConfigs = packages.map(createConfigForPackage);
 

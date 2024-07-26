@@ -1,10 +1,10 @@
 import babel from "@rollup/plugin-babel";
 import commonjs from "@rollup/plugin-commonjs";
 import json from "@rollup/plugin-json";
-import { nodeResolve } from "@rollup/plugin-node-resolve";
+import nodeResolve from "@rollup/plugin-node-resolve";
 import typescript from "@rollup/plugin-typescript";
 import fs from "fs";
-import { dts } from "rollup-plugin-dts";
+import { terser } from "rollup-plugin-terser";
 import nodePolyfills from "rollup-plugin-polyfill-node";
 
 const packageJson = JSON.parse(fs.readFileSync("./package.json", "utf-8"));
@@ -13,15 +13,19 @@ const extensions = [".js", ".jsx", ".ts", ".tsx", ".web.js", ".native.js"];
 
 // Exclude certain dependencies from being bundled
 const external = [
+  ...Object.keys(packageJson.dependencies || {}),
+  ...Object.keys(packageJson.peerDependencies || {}),
   "fs",
+  "path",
+  "fs/promises",
   "picocolors"
-  // Add more peer dependencies here
 ];
 
-const treeshake = {
-  moduleSideEffects: false,
-  propertyReadSideEffects: false,
-  tryCatchDeoptimization: false
+const globals = {
+  "picocolors": "picocolors",
+  "fs": "fs",
+  "path": "path",
+  "fs/promises": "fs$1"
 };
 
 const makeExternalPredicate = externalArr => {
@@ -32,32 +36,29 @@ const makeExternalPredicate = externalArr => {
   return id => pattern.test(id);
 };
 
-export default [{
+export default {
   input: "src/index.ts", // Your entry point
   output: [
+ 
     {
-      file: packageJson.browser, // UMD build
-      format: "umd",
-      name: "CollectExportsForBundle", // Replace with your library's name
-      sourcemap: true,
-    },
-    {
-      file: packageJson.main, // UMD build
+      file: packageJson.main,
       format: "cjs",
       sourcemap: true,
+      exports: "named"
     },
     {
-      file: packageJson.module, // ESM build
+      file: packageJson.module,
       format: "esm",
       sourcemap: true,
+      exports: "named"
     }
   ],
   external: makeExternalPredicate(external),
   plugins: [
-  
     nodeResolve({
       extensions,
-      preferBuiltins: true,
+      preferBuiltins: false,
+      browser: true
     }),
     commonjs({
       include: /node_modules/,
@@ -72,19 +73,9 @@ export default [{
         "@babel/preset-typescript",
       ],
     }),
-    typescript({ tsconfig: "./tsconfig.json" }),
-    nodePolyfills(),
+    typescript(),
     json(),
-    // terser(), // Use terser for minification
+    nodePolyfills(),
+    terser(), // Use terser for minification
   ],
-},
-{
-  treeshake,
-
-  input: packageJson.types,
-  output: [{ file: 'dist/index.d.ts', format: 'esm' }],
-  plugins: [dts()],
-},
-
-]
-  
+};
