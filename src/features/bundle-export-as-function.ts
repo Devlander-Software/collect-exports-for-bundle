@@ -52,8 +52,6 @@ export const bundleExportAsFunction = async (
     const combinedExports: string[] = []
     const variablesToExport: string[] = []
 
-
-
     if (options.title || options.description) {
       const commentForFile = createTitleComment(
         options.title || '',

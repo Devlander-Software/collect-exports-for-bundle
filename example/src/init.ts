@@ -42,7 +42,7 @@ const getPathForPackageName = (packageName: string) => {
 }
 
 const createConfigForPackage = (packageName: string): CompleteAutoExportConfig[] => {
-  let packages = ['hooks', 'package-json-helper', 'shared-react-native-types'];
+  let packages = ['hooks', 'package-json-helper'];
   packages = packages.filter((packageNme) => packageNme !== packageName);
   const correctPath = path.resolve(__dirname, '.');
   const ignoredWords = ["test", "stories", "spec", "script"];

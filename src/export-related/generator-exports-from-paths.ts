@@ -62,10 +62,6 @@ export function generateExportsFromPaths(
         logMessageForFunction('generateExportsFromPaths', { withoutExtension })
       }
 
-      if (config.debug) {
-        logMessageForFunction('generateExportsFromPaths', { componentName })
-      }
-
       if (fileName && typeof fileName === 'string') {
         buildExportsFromPaths({
           fileName,
