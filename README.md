@@ -20,6 +20,7 @@
   <img alt="Join Devlander on Twitch" src="https://img.shields.io/twitch/status/twitch" />
 </a>
 
+[![Hits](https://hits.sh/github.com/Devlander-Software/collect-exports-for-bundle.svg?label=Hits)](https://hits.sh/github.com/Devlander-Software/collect-exports-for-bundle/)
 
 
 <a href="https://bit.ly/landonwjohnson-on-twitter" target="\_parent">
