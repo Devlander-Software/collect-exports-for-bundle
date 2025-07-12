@@ -33,13 +33,20 @@
     "link-packages": "yarn run format && yarn run typecheck && yarn run build && node ./yarn-link-handler.js",
     "test:snaps": "jest --updateSnapshot",
     "patch": "yarn version --new-version patch",
-    "format": "eslint ./src/**/*.ts --fix && prettier --write ./src/**/*.ts",
-    "typecheck": "tsc --project tsconfig.json --noEmit --emitDeclarationOnly false",
-    "buildESM": "tsc",
-    "buildCJS": "rollup -c",
-    "timeout": "delay 5",
-    "build": "yarn run buildESM && yarn run buildCJS",
-    "start-publish": "yarn run docs && npx rimraf ./dist && npx rimraf ./typings && yarn run timeout && yarn run test && yarn run timeout &&  yarn run patch && yarn run timeout && npm publish"
+    "minor": "yarn version --new-version minor",
+    "major": "yarn version --new-version major",
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,md}\"",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src --ext .ts,.tsx",
+    "lint:fix": "eslint src --ext .ts,.tsx --fix",
+    "clean": "rm -rf dist node_modules/.cache",
+    "reorganize": "node scripts/reorganize-structure.js",
+    "update-imports": "node scripts/update-imports.js",
+    "optimize": "node scripts/optimize-build.js",
+    "benchmark": "node scripts/benchmark.js",
+    "analyze-performance": "node scripts/performance-analysis.js"
   },
   "license": "MIT",
   "dependencies": {
@@ -100,5 +107,6 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/Devlander-Software/collect-exports-for-bundle"
-  }
+  },
+  "packageManager": "yarn@1.22.22+sha1.ac34549e6aa8e7ead463a7407e1c7390f61a6610"
 }

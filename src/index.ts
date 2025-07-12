@@ -6,3 +6,7 @@ export * from './features/collect-paths/collect-paths'
 export * from './features/collect-paths/collect-paths-from-directories'
 export type * from './types/module-exporter.types'
 
+// Enhanced configuration system
+export * from './config/presets'
+export * from './config/enhanced-config'
+
