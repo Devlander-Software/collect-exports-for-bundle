@@ -1,8 +1,63 @@
 # @devlander/collect-exports-for-bundle
 
+<p align="center">
+  <a href="https://www.npmjs.com/package/@devlander/collect-exports-for-bundle">
+    <img alt="npm" src="https://img.shields.io/npm/v/@devlander/collect-exports-for-bundle?label=version">
+  </a>
+  <a href="https://www.npmjs.com/package/@devlander/collect-exports-for-bundle">
+    <img alt="downloads" src="https://img.shields.io/npm/dm/@devlander/collect-exports-for-bundle">
+  </a>
+  <a href="https://github.com/devlander/collect-exports-for-bundle/actions">
+    <img alt="ci" src="https://img.shields.io/github/actions/workflow/status/devlander/collect-exports-for-bundle/ci.yml?label=ci">
+  </a>
+  <a href="https://app.codecov.io/gh/devlander/collect-exports-for-bundle">
+    <img alt="coverage" src="https://img.shields.io/codecov/c/gh/devlander/collect-exports-for-bundle">
+  </a>
+  <a href="https://bundlephobia.com/package/@devlander/collect-exports-for-bundle">
+    <img alt="bundle size" src="https://img.shields.io/bundlephobia/minzip/@devlander/collect-exports-for-bundle">
+  </a>
+  <a href="https://packagephobia.com/result?p=@devlander/collect-exports-for-bundle">
+    <img alt="install size" src="https://img.shields.io/packagephobia/install/@devlander/collect-exports-for-bundle">
+  </a>
+  <a href="https://www.npmjs.com/package/@devlander/collect-exports-for-bundle">
+    <img alt="types" src="https://img.shields.io/badge/types-included-informational">
+  </a>
+  <a href="https://snyk.io/advisor/npm-package/@devlander/collect-exports-for-bundle">
+    <img alt="security" src="https://img.shields.io/badge/security-checked-success">
+  </a>
+  <a href="https://opensource.org/license/mit/">
+    <img alt="license" src="https://img.shields.io/npm/l/@devlander/collect-exports-for-bundle">
+  </a>
+</p>
+
 Generate index files with exports from a directory. Simple, focused, and flexible.
 
-## 🚀 **Quick Start**
+## 📦 **Install**
+
+```bash
+npm install @devlander/collect-exports-for-bundle
+```
+
+## 🚀 **Quick Start (10 seconds)**
+
+```typescript
+import { autoExporter } from '@devlander/collect-exports-for-bundle';
+
+// Generate exports for your src directory
+await autoExporter({
+  rootDir: './src',
+  outputFileName: 'index',
+  outputFilenameExtension: '.ts'
+});
+```
+
+**Output:** `src/index.ts` with all your exports automatically generated!
+
+## 📚 **API Documentation**
+
+📖 **[Full API Documentation](docs/index.html)** - Comprehensive TypeScript API reference
+
+## 🚀 **Advanced Usage**
 
 ### **Generate ES Modules Index**
 ```bash

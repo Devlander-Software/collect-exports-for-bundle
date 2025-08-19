@@ -77,8 +77,8 @@ it('should export TestComp as primary export since it is defined in config', () 
     console.log(buildResult, 'buildResult')
     console.log(results)
   
-    expect(results).toContain(`import TestComp from "${params.withoutExtension}";`);
-    expect(results).toContain(`export default TestComp;`);
+    expect(buildResult).toContain(`import TestComp from "${params.withoutExtension}";`);
+    expect(buildResult).toContain(`export default TestComp;`);
   });
 
 

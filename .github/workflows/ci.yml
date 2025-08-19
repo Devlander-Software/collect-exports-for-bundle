@@ -1,0 +1,82 @@
+name: ci
+on:
+  pull_request:
+  push:
+    branches: [main, beta]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.18, 20, 22]
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: npm
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Lint code
+        run: npm run lint
+        
+      - name: Type check
+        run: npm run typecheck
+        
+      - name: Run tests with coverage
+        run: npm run test:coverage
+        
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: false
+          
+      - name: Build project
+        run: npm run build
+        
+      - name: Check bundle sizes
+        run: npm run size:check
+        
+      - name: Verify README badges
+        run: node scripts/verify-readme-badges.mjs
+        
+      - name: Audit production dependencies
+        run: npm run audit:prod
+
+  release:
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    needs: build-test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          registry-url: 'https://registry.npmjs.org'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Build project
+        run: npm run build
+        
+      - name: Release to npm
+        run: npm run release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_ENV: production

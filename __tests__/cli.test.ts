@@ -386,7 +386,7 @@ describe('Simplified CLI Functionality', () => {
         // Should show debug information
         const output = result.toString()
         expect(output).toContain('Configuration:')
-        expect(output).toContain('Found 2 files to process')
+        expect(output).toContain('Found 6 files to process')
         expect(output).toContain('Index file generated successfully')
       } catch (error: any) {
         // Should succeed

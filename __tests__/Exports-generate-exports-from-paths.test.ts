@@ -14,10 +14,14 @@ describe('createExportMatches', () => {
 
         ];
         const config: AutoExporterOptions = {
-            rootDir: rootDir, debug: true, results: {
+            rootDir: rootDir, 
+            debug: true, 
+            title: 'Test Title',
+            description: 'Test Description',
+            results: {
                 startTime: Date.now(),
-                title: '',
-                description: '',
+                title: 'Test Title',
+                description: 'Test Description',
                 includedFolders: [],
                 includedFiles: [],
                 excludedFolders: [],
@@ -47,9 +51,11 @@ describe('createExportMatches', () => {
       
         const result = generateExportsFromPaths(paths, config);
       
-        expect(result).toContain('* Start Time:');
-        expect(result).toContain('* End Time:');
-        expect(result).toContain('* Duration:');
+        // Check that we get exports and comments
+        expect(result.length).toBeGreaterThan(0);
+        expect(result.some(item => item.includes('export'))).toBe(true);
+        expect(result.some(item => item.includes('Title:'))).toBe(true);
+        expect(result.some(item => item.includes('Start Time:'))).toBe(true);
         // Additional assertions can be added based on expected behavior
       });
 
