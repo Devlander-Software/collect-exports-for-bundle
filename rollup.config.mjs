@@ -4,7 +4,7 @@ import json from "@rollup/plugin-json";
 import nodeResolve from "@rollup/plugin-node-resolve";
 import typescript from "@rollup/plugin-typescript";
 import fs from "fs";
-import { terser } from "rollup-plugin-terser";
+import terser from "@rollup/plugin-terser";
 import nodePolyfills from "rollup-plugin-polyfill-node";
 import organizeImportsPlugin from "./babel-plugin-organize-imports.js";
 
