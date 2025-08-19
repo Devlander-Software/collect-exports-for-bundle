@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://github.com/devlander/collect-exports-for-bundle/docs/sitemap.xml
+
+# Allow crawling of documentation
+Allow: /docs/
+Allow: /docs/**/*.html
+
+# Disallow crawling of source files
+Disallow: /src/
+Disallow: /node_modules/
+Disallow: /__tests__/

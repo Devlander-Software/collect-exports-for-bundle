@@ -1,0 +1,34 @@
+{
+  "entryPoints": ["src/index.ts"],
+  "out": "docs",
+  "theme": "hierarchy",
+  "name": "Collect Exports for Bundle",
+  "excludePrivate": true,
+  "excludeProtected": true,
+  "excludeExternals": false,
+  "includeVersion": true,
+  "categorizeByGroup": true,
+  "categoryOrder": ["Core", "Features", "Utils", "Types", "CLI", "*"],
+  "defaultCategory": "Other",
+  "readme": "README.md",
+  "plugin": ["typedoc-theme-hierarchy"],
+  "searchInComments": true,
+  "sort": ["source-order"],
+  "exclude": [
+    "**/*.test.ts",
+    "**/*.spec.ts",
+    "**/node_modules/**",
+    "**/dist/**",
+    "**/__tests__/**"
+  ],
+  "treatWarningsAsErrors": false,
+  "validation": {
+    "invalidLink": true,
+    "notExported": true
+  },
+  "gitRevision": "beta",
+  "gitRemote": "origin",
+  "hideGenerator": false,
+  "cleanOutputDir": true,
+  "logLevel": "Info"
+}

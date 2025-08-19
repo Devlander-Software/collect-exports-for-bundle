@@ -6,7 +6,7 @@ import {
   OptimizedExportAnalyzer,
   OptimizedPathCollector
 } from '../core/optimized/export-analyzer'
-import { logColoredMessage } from '../utils/helpers/color-logger'
+import { logColoredMessage } from '../utils/log-with-color'
 import * as fs from 'fs'
 import * as path from 'path'
 
@@ -393,6 +393,8 @@ export class OptimizedAutoExporter {
       exportMode: config.exportMode || 'named',
       includeIndexes: config.includeIndexes ?? false,
       debug: config.debug ?? false,
+      specificFiles: config.specificFiles || [],
+      excludeSpecificFiles: config.excludeSpecificFiles || [],
       results: {
         title: 'Optimized Export Collection Results',
         description: 'Results from optimized export collection',
@@ -439,11 +441,11 @@ export class OptimizedAutoExporter {
       logColoredMessage('📊 Performance Statistics:', 'blue')
       logColoredMessage(
         `  File content cache: ${cacheStats.fileContentSize} entries`,
-        'cyan'
+        'blue'
       )
       logColoredMessage(
         `  Analysis cache: ${cacheStats.analysisSize} entries`,
-        'cyan'
+        'blue'
       )
     }
   }

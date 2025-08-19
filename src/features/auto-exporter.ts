@@ -9,6 +9,76 @@ import { modifyConfig } from '../utils/modify-config'
 import { simulateProgressBar } from '../utils/stimulate-progress-bar'
 import { bundleExportAsFunction } from './bundle-export-as-function-old'
 
+/**
+ * Main auto-exporter function that generates comprehensive export files for TypeScript/JavaScript projects.
+ * 
+ * This function is the core entry point for the library, providing intelligent export generation
+ * with support for multiple export strategies, platform-specific handling, and extensive configuration options.
+ * 
+ * ## Features
+ * 
+ * - **Automatic Export Detection**: Scans directories and identifies exportable content
+ * - **Multiple Export Strategies**: Supports standard exports, bundled objects, and primary file exports
+ * - **Platform Awareness**: Handles web, native, and universal modules intelligently
+ * - **Progress Tracking**: Visual feedback during processing with progress bars
+ * - **Debug Mode**: Comprehensive logging for troubleshooting and development
+ * - **Flexible Configuration**: Extensive options for customization and optimization
+ * 
+ * ## Export Strategies
+ * 
+ * 1. **Standard**: Generates individual named exports for each file
+ * 2. **Bundle Object**: Creates a single default export containing all exports as properties
+ * 3. **Primary File**: Uses a designated primary file as the main export source
+ * 
+ * @param options - Configuration options for export generation
+ * @param options.rootDir - Root directory to scan for exports (required)
+ * @param options.outputFileName - Name of the output file (without extension)
+ * @param options.outputFilenameExtension - File extension for the output file
+ * @param options.extensions - File extensions to include in scanning
+ * @param options.bundleAsObjectForDefaultExport - Name for bundled object export
+ * @param options.primaryExportFile - Path to primary export file
+ * @param options.specificFiles - Array of specific files to process
+ * @param options.debug - Enable debug logging
+ * @param options.includeSubdirectories - Whether to include subdirectories in scanning
+ * 
+ * @returns Promise that resolves when export generation is complete
+ * 
+ * @throws {Error} When required configuration is missing or invalid
+ * 
+ * @example
+ * ```typescript
+ * // Basic usage with directory scanning
+ * await autoExporter({
+ *   rootDir: './src/components',
+ *   outputFileName: 'index',
+ *   outputFilenameExtension: '.ts',
+ *   extensions: ['.ts', '.tsx'],
+ *   includeSubdirectories: true
+ * });
+ * 
+ * // Bundle all exports into a single object
+ * await autoExporter({
+ *   rootDir: './src/utils',
+ *   outputFileName: 'utils',
+ *   outputFilenameExtension: '.ts',
+ *   bundleAsObjectForDefaultExport: 'utils',
+ *   extensions: ['.ts']
+ * });
+ * 
+ * // Process specific files only
+ * await autoExporter({
+ *   rootDir: './src',
+ *   outputFileName: 'exports',
+ *   outputFilenameExtension: '.ts',
+ *   specificFiles: ['component1.ts', 'component2.ts'],
+ *   extensions: ['.ts']
+ * });
+ * ```
+ * 
+ * @since 2.0.0
+ * @category Core
+ */
+
 const autoExporter = async (
   options: ModuleExportOptions = {}
 ): Promise<void> => {

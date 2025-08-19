@@ -1,6 +1,6 @@
 import * as fs from 'fs'
 import * as path from 'path'
-import { logColoredMessage } from '../../utils/helpers/color-logger'
+import { logColoredMessage } from '../../utils/log-with-color'
 
 /**
  * Optimized regex patterns for export detection.
@@ -36,6 +36,20 @@ class ExportAnalysisCache {
   private analysisCache = new Map<string, ExportAnalysis>()
   /** Maximum number of entries in each cache */
   private maxCacheSize = 1000
+
+  /**
+   * Get the size of the file content cache
+   */
+  get fileContentCacheSize(): number {
+    return this.fileContentCache.size
+  }
+
+  /**
+   * Get the size of the analysis cache
+   */
+  get analysisCacheSize(): number {
+    return this.analysisCache.size
+  }
 
   /**
    * Get file content from cache or read from file system.
@@ -380,8 +394,8 @@ export class OptimizedExportAnalyzer {
    */
   getCacheStats(): { fileContentSize: number; analysisSize: number } {
     return {
-      fileContentSize: this.cache.fileContentCache.size,
-      analysisSize: this.cache.analysisCache.size
+      fileContentSize: this.cache.fileContentCacheSize,
+      analysisSize: this.cache.analysisCacheSize
     }
   }
 }
