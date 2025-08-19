@@ -2,13 +2,14 @@
 module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
-
+  testMatch: [
+    "<rootDir>/__tests__/**/*.(test|spec).(ts|tsx|js|jsx)",
+    "<rootDir>/example/__tests__/**/*.(test|spec).(ts|tsx|js|jsx)"
+  ],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   transform: {
     '^.+\\.ts$': ['ts-jest', {
-      // Your ts-jest configuration goes here
-      // Example:
-      tsconfig: './tsconfig.json'
+      tsconfig: './tsconfig.jest.json'
     }]
   },
   // Handling ESM modules in node_modules
@@ -16,19 +17,25 @@ module.exports = {
     'node_modules/(?!(inquirer)/)',
     'examples/(?!()/)',
     'example/packages/(?!()/)',
-    '!src/for-tests/node_modules/', // Include the path to your specific folder here.
+    '!src/for-tests/node_modules/',
   ],
-  testMatch: [
-    "<rootDir>/__tests__/**/*.(test|spec).(ts|tsx|js|jsx)",
-    "<rootDir>/example/__tests__/**/*.(test|spec).(ts|tsx|js|jsx)"
-  ],
-
-
   // Mocks for certain packages can be provided, especially if they are causing issues in the testing environment.
   moduleNameMapper: {
     // Use this section to specify mocks for certain node_modules, if necessary.
   },
   silent: false,
-
-  // ... rest of your jest config.
+  // Coverage configuration
+  collectCoverageFrom: [
+    "src/**/*.ts",
+    "!src/**/*.d.ts",
+    "!src/**/*.test.ts"
+  ],
+  coverageThreshold: {
+    "global": {
+      "branches": 90,
+      "functions": 95,
+      "lines": 95,
+      "statements": 95
+    }
+  }
 }

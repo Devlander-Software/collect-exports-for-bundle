@@ -1,9 +1,9 @@
 import { logFailedMessage } from '../utils/log-with-color'
 
 export function isFilePath(path: string, debug?: boolean): boolean {
-  // Adjusted regex to be more restrictive
+  // Adjusted regex to handle both absolute and relative paths
   const regex =
-    /^(?:[a-zA-Z]:\\|\\\\[a-z0-9_.$●-]+\\[a-z0-9_.$●-]+|\/)(?:[^\\/:*?"<>|\r\n]+[\\/])*[^\\/:*?"<>|\r\n]*$/
+    /^(?:[a-zA-Z]:\\|\\\\[a-z0-9_.$●-]+\\[a-z0-9_.$●-]+|\/|\.\.\/|\.\/|[a-zA-Z0-9_-]+\/)(?:[^\\/:*?"<>|\r\n]+[\\/])*[^\\/:*?"<>|\r\n]*$/
 
   const isPath = regex.test(path)
 

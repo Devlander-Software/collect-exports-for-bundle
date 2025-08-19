@@ -50,6 +50,42 @@ export interface BaseModuleExportOptions {
   debug?: boolean
   description?: string
   title?: string
+  
+  // NEW: Rollup compatibility options
+  rollupCompatible?: boolean
+  includeExtensions?: boolean
+  bundlerTarget?: 'rollup' | 'webpack' | 'vite' | 'parcel' | 'node'
+  
+  // NEW: Path resolution options
+  pathResolution?: {
+    mode?: 'bundler' | 'node' | 'auto'
+    extensions?: string[]
+    resolveStrategy?: 'explicit' | 'implicit' | 'smart'
+  }
+  
+  // NEW: TypeScript options
+  typescript?: {
+    generateBarrelExports?: boolean
+    includeTypeOnlyExports?: boolean
+    preserveJSDocComments?: boolean
+    exportStrategy?: 'minimal' | 'comprehensive' | 'selective'
+  }
+  
+  // NEW: Validation options
+  validation?: {
+    validatePaths?: boolean
+    checkCircularDependencies?: boolean
+    validateTypeScript?: boolean
+    failOnErrors?: boolean
+  }
+  
+  // NEW: Performance options
+  performance?: {
+    enableCaching?: boolean
+    cacheDirectory?: string
+    incrementalGeneration?: boolean
+    parallelProcessing?: boolean
+  }
 }
 
 export interface ResultItem {

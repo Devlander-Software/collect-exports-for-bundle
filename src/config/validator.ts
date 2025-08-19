@@ -1,6 +1,9 @@
 import * as fs from 'fs'
 import * as path from 'path'
-import { ModuleExportOptions, AutoExporterOptions } from '../types/module-exporter.types'
+import {
+  ModuleExportOptions,
+  AutoExporterOptions
+} from '../types/module-exporter.types'
 import { logColoredMessage } from '../utils/log-with-color'
 
 export interface ValidationResult {
@@ -66,7 +69,10 @@ export class ConfigValidator {
     }
   }
 
-  private validateRequiredFields(config: ModuleExportOptions, errors: string[]) {
+  private validateRequiredFields(
+    config: ModuleExportOptions,
+    errors: string[]
+  ) {
     if (!config.rootDir) {
       errors.push('rootDir is required')
     }
@@ -89,20 +95,30 @@ export class ConfigValidator {
     }
 
     // Validate outputFilenameExtension
-    if (config.outputFilenameExtension && !['.ts', '.tsx'].includes(config.outputFilenameExtension)) {
+    if (
+      config.outputFilenameExtension &&
+      !['.ts', '.tsx'].includes(config.outputFilenameExtension)
+    ) {
       errors.push('outputFilenameExtension must be either ".ts" or ".tsx"')
     }
 
     // Validate exportMode
-    if (config.exportMode && !['named', 'default', 'both'].includes(config.exportMode)) {
+    if (
+      config.exportMode &&
+      !['named', 'default', 'both'].includes(config.exportMode)
+    ) {
       errors.push('exportMode must be "named", "default", or "both"')
     }
   }
 
-  private validateValues(config: ModuleExportOptions, errors: string[], warnings: string[]) {
+  private validateValues(
+    config: ModuleExportOptions,
+    errors: string[],
+    warnings: string[]
+  ) {
     // Validate allowedExtensions
     if (config.allowedExtensions) {
-      config.allowedExtensions.forEach(ext => {
+      config.allowedExtensions.forEach((ext) => {
         if (!ext.startsWith('.')) {
           errors.push(`Extension "${ext}" must start with a dot`)
         }
@@ -114,7 +130,7 @@ export class ConfigValidator {
 
     // Validate ignoredExtensions
     if (config.ignoredExtensions) {
-      config.ignoredExtensions.forEach(ext => {
+      config.ignoredExtensions.forEach((ext) => {
         if (!ext.startsWith('.')) {
           errors.push(`Ignored extension "${ext}" must start with a dot`)
         }
@@ -123,11 +139,13 @@ export class ConfigValidator {
 
     // Check for conflicts between allowed and ignored extensions
     if (config.allowedExtensions && config.ignoredExtensions) {
-      const conflicts = config.allowedExtensions.filter(ext => 
+      const conflicts = config.allowedExtensions.filter((ext) =>
         config.ignoredExtensions!.includes(ext)
       )
       if (conflicts.length > 0) {
-        warnings.push(`Extensions ${conflicts.join(', ')} are both allowed and ignored`)
+        warnings.push(
+          `Extensions ${conflicts.join(', ')} are both allowed and ignored`
+        )
       }
     }
 
@@ -141,7 +159,11 @@ export class ConfigValidator {
     }
   }
 
-  private validateFileSystem(config: ModuleExportOptions, errors: string[], warnings: string[]) {
+  private validateFileSystem(
+    config: ModuleExportOptions,
+    errors: string[],
+    warnings: string[]
+  ) {
     if (!config.rootDir) return
 
     // Check if rootDir exists
@@ -160,7 +182,7 @@ export class ConfigValidator {
     // Check for files in rootDir
     try {
       const files = fs.readdirSync(config.rootDir)
-      const hasFiles = files.some(file => {
+      const hasFiles = files.some((file) => {
         const fullPath = path.join(config.rootDir!, file)
         return fs.statSync(fullPath).isFile()
       })
@@ -174,16 +196,21 @@ export class ConfigValidator {
 
     // Validate excludedFolders exist
     if (config.excludedFolders) {
-      config.excludedFolders.forEach(folder => {
+      config.excludedFolders.forEach((folder) => {
         const fullPath = path.join(config.rootDir!, folder)
         if (fs.existsSync(fullPath) && !fs.statSync(fullPath).isDirectory()) {
-          warnings.push(`Excluded folder "${folder}" exists but is not a directory`)
+          warnings.push(
+            `Excluded folder "${folder}" exists but is not a directory`
+          )
         }
       })
     }
   }
 
-  private suggestImprovements(config: ModuleExportOptions, suggestions: string[]) {
+  private suggestImprovements(
+    config: ModuleExportOptions,
+    suggestions: string[]
+  ) {
     // Suggest better default extensions
     if (!config.allowedExtensions || config.allowedExtensions.length === 0) {
       suggestions.push('Consider adding allowedExtensions for better control')
@@ -191,12 +218,16 @@ export class ConfigValidator {
 
     // Suggest ignoredExtensions for common test files
     if (!config.ignoredExtensions || config.ignoredExtensions.length === 0) {
-      suggestions.push('Consider adding ignoredExtensions to exclude test files')
+      suggestions.push(
+        'Consider adding ignoredExtensions to exclude test files'
+      )
     }
 
     // Suggest excludedFolders for common build directories
     if (!config.excludedFolders || config.excludedFolders.length === 0) {
-      suggestions.push('Consider adding excludedFolders like ["node_modules", "dist", "build"]')
+      suggestions.push(
+        'Consider adding excludedFolders like ["node_modules", "dist", "build"]'
+      )
     }
 
     // Suggest better export mode
@@ -218,21 +249,21 @@ export class ConfigValidator {
       logColoredMessage('✅ Configuration is valid!', 'green')
     } else {
       logColoredMessage('❌ Configuration has errors:', 'red')
-      result.errors.forEach(error => {
+      result.errors.forEach((error) => {
         logColoredMessage(`  • ${error}`, 'red')
       })
     }
 
     if (result.warnings.length > 0) {
       logColoredMessage('\n⚠️  Warnings:', 'yellow')
-      result.warnings.forEach(warning => {
+      result.warnings.forEach((warning) => {
         logColoredMessage(`  • ${warning}`, 'yellow')
       })
     }
 
     if (result.suggestions.length > 0) {
       logColoredMessage('\n💡 Suggestions:', 'blue')
-      result.suggestions.forEach(suggestion => {
+      result.suggestions.forEach((suggestion) => {
         logColoredMessage(`  • ${suggestion}`, 'blue')
       })
     }
@@ -251,7 +282,12 @@ export class ConfigValidator {
 
     // Add default ignoredExtensions if missing
     if (!fixed.ignoredExtensions || fixed.ignoredExtensions.length === 0) {
-      fixed.ignoredExtensions = ['.test.ts', '.test.tsx', '.spec.ts', '.spec.tsx']
+      fixed.ignoredExtensions = [
+        '.test.ts',
+        '.test.tsx',
+        '.spec.ts',
+        '.spec.tsx'
+      ]
     }
 
     // Add default excludedFolders if missing
@@ -276,4 +312,4 @@ export class ConfigValidator {
 
     return fixed
   }
-} 
+}

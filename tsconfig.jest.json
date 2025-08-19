@@ -1,24 +1,16 @@
 {
   "extends": "./tsconfig.json",
-  "compileOnSave": true,
-
-  "include": ["./src/**/*", "./src/**/*.ts", "src/**/*"],
+  "compilerOptions": {
+    "types": ["node", "jest"],
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
+  },
+  "include": [
+    "__tests__/**/*",
+    "src/**/*"
+  ],
   "exclude": [
-    "example/src/**/*",
-    "example",
-    "example/**/*",
-    "yarn-linker-handler.js",
-    "rollup.config.mjs",
     "node_modules",
-    "**/*.spec.ts",
-    "*.d.ts",
-    "__tests__",
-    "typings",
-    "dist/**/*",
-    "dist",
-    "dist/cjs",
-    "dist/esm",
-    "dist/esm/**/*",
-    "dist/cjs/**/*"
+    "dist"
   ]
 }

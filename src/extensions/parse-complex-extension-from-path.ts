@@ -38,6 +38,20 @@ export function parseComplexExtensionFromPath(
     if (isFilePath(filePath) === false) {
       throw new Error('Provided path is not a file path.')
     }
+    
+    // Check if path exists before trying to get stats
+    if (!fs.existsSync(filePath)) {
+      // Path doesn't exist, but we can still parse the filename from the path
+      const fileName = filePath.split('/').pop() // Get the last part after the last '/'
+      if (fileName) {
+        payload = parseComplexExtensionFromFile(fileName, {
+          debug,
+          forceIsFilePath: true
+        })
+      }
+      return payload
+    }
+    
     const stats = fs.lstatSync(filePath)
     if (!stats.isDirectory()) {
       const fileName = filePath.split('/').pop() // Get the last part after the last '/'

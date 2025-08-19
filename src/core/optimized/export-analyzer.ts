@@ -8,17 +8,19 @@ import { logColoredMessage } from '../../utils/helpers/color-logger'
  */
 const EXPORT_PATTERNS = {
   /** Single regex for all export types - much faster than multiple regexes */
-  ALL_EXPORTS: /export\s+(?:default\s+)?(?:function|const|let|var|class|interface|type|enum)\s+(\w+)/g,
-  
+  ALL_EXPORTS:
+    /export\s+(?:default\s+)?(?:function|const|let|var|class|interface|type|enum)\s+(\w+)/g,
+
   /** Named exports pattern */
   NAMED_EXPORTS: /export\s*\{([^}]+)\}/g,
-  
+
   /** Default exports pattern */
-  DEFAULT_EXPORTS: /export\s+default\s+(?:function|const|let|var|class|enum)\s+(\w+)/g,
-  
+  DEFAULT_EXPORTS:
+    /export\s+default\s+(?:function|const|let|var|class|enum)\s+(\w+)/g,
+
   /** Type exports pattern */
   TYPE_EXPORTS: /export\s+(?:type|interface)\s+(\w+)/g,
-  
+
   /** Re-export patterns */
   RE_EXPORTS: /export\s*\{[^}]*\}\s+from\s+['"][^'"]+['"]/g
 } as const
@@ -46,13 +48,13 @@ class ExportAnalysisCache {
     }
 
     const content = fs.readFileSync(filePath, 'utf8')
-    
+
     // Cache management - remove oldest entry if cache is full
     if (this.fileContentCache.size >= this.maxCacheSize) {
       const firstKey = this.fileContentCache.keys().next().value
       this.fileContentCache.delete(firstKey)
     }
-    
+
     this.fileContentCache.set(filePath, content)
     return content
   }
@@ -114,14 +116,14 @@ interface ExportAnalysis {
 
 /**
  * Ultra-fast export analyzer with caching and optimized algorithms.
- * 
+ *
  * This class provides high-performance analysis of TypeScript/JavaScript files
  * to detect and extract export information. It uses:
  * - Optimized regex patterns for fast parsing
  * - Caching to avoid repeated analysis
  * - Batch processing for parallel execution
  * - Single-pass analysis algorithms
- * 
+ *
  * @example
  * ```typescript
  * const analyzer = new OptimizedExportAnalyzer(true); // Enable debug mode
@@ -145,13 +147,13 @@ export class OptimizedExportAnalyzer {
 
   /**
    * Analyze a single file for exports - optimized version.
-   * 
+   *
    * This method checks the cache first, and if no cached result exists,
    * performs a full analysis of the file content using optimized regex patterns.
-   * 
+   *
    * @param filePath - The path to the file to analyze
    * @returns Analysis result containing export information
-   * 
+   *
    * @example
    * ```typescript
    * const analysis = analyzer.analyzeFile('./src/components/Button.tsx');
@@ -173,7 +175,7 @@ export class OptimizedExportAnalyzer {
     const startTime = Date.now()
     const content = this.cache.getFileContent(filePath)
     const analysis = this.analyzeContent(content, filePath)
-    
+
     // Cache the result
     this.cache.setAnalysis(filePath, analysis)
 
@@ -187,13 +189,13 @@ export class OptimizedExportAnalyzer {
 
   /**
    * Analyze multiple files in parallel - much faster than sequential processing.
-   * 
+   *
    * This method processes files in batches to optimize memory usage and
    * provides parallel execution for better performance.
-   * 
+   *
    * @param filePaths - Array of file paths to analyze
    * @returns Map of file paths to their analysis results
-   * 
+   *
    * @example
    * ```typescript
    * const filePaths = ['./src/comp1.ts', './src/comp2.ts', './src/comp3.ts'];
@@ -203,9 +205,11 @@ export class OptimizedExportAnalyzer {
    * });
    * ```
    */
-  async analyzeFiles(filePaths: string[]): Promise<Map<string, ExportAnalysis>> {
+  async analyzeFiles(
+    filePaths: string[]
+  ): Promise<Map<string, ExportAnalysis>> {
     const results = new Map<string, ExportAnalysis>()
-    
+
     // Process files in batches for optimal performance
     const batchSize = 50
     const batches = this.chunkArray(filePaths, batchSize)
@@ -224,7 +228,7 @@ export class OptimizedExportAnalyzer {
       })
 
       const batchResults = await Promise.all(batchPromises)
-      
+
       for (const result of batchResults) {
         if (result) {
           results.set(result.filePath, result.analysis)
@@ -237,13 +241,13 @@ export class OptimizedExportAnalyzer {
 
   /**
    * Get files with exports - optimized version.
-   * 
+   *
    * This method analyzes all provided files and returns only those that
    * contain exports, using parallel processing for better performance.
-   * 
+   *
    * @param filePaths - Array of file paths to check
    * @returns Array of file paths that contain exports
-   * 
+   *
    * @example
    * ```typescript
    * const allFiles = ['./src/file1.ts', './src/file2.ts', './src/file3.ts'];
@@ -253,19 +257,22 @@ export class OptimizedExportAnalyzer {
    */
   async getFilesWithExports(filePaths: string[]): Promise<string[]> {
     const startTime = Date.now()
-    
+
     // Analyze all files in parallel
     const analyses = await this.analyzeFiles(filePaths)
-    
+
     // Filter files with exports
-    const filesWithExports = filePaths.filter(filePath => {
+    const filesWithExports = filePaths.filter((filePath) => {
       const analysis = analyses.get(filePath)
       return analysis?.hasExports || false
     })
 
     if (this.debug) {
       const duration = Date.now() - startTime
-      logColoredMessage(`⚡ Found ${filesWithExports.length} files with exports in ${duration}ms`, 'green')
+      logColoredMessage(
+        `⚡ Found ${filesWithExports.length} files with exports in ${duration}ms`,
+        'green'
+      )
     }
 
     return filesWithExports
@@ -273,10 +280,10 @@ export class OptimizedExportAnalyzer {
 
   /**
    * Optimized content analysis using single-pass regex.
-   * 
+   *
    * This method performs a comprehensive analysis of file content using
    * pre-compiled regex patterns to detect all types of exports in a single pass.
-   * 
+   *
    * @param content - The file content to analyze
    * @param filePath - The file path (for logging purposes)
    * @returns Analysis result with export information
@@ -288,17 +295,19 @@ export class OptimizedExportAnalyzer {
     // Single-pass analysis for all export types
     const allMatches = [...content.matchAll(EXPORT_PATTERNS.ALL_EXPORTS)]
     const namedMatches = [...content.matchAll(EXPORT_PATTERNS.NAMED_EXPORTS)]
-    const defaultMatches = [...content.matchAll(EXPORT_PATTERNS.DEFAULT_EXPORTS)]
+    const defaultMatches = [
+      ...content.matchAll(EXPORT_PATTERNS.DEFAULT_EXPORTS)
+    ]
     const typeMatches = [...content.matchAll(EXPORT_PATTERNS.TYPE_EXPORTS)]
     const reExportMatches = [...content.matchAll(EXPORT_PATTERNS.RE_EXPORTS)]
 
     // Extract names efficiently
-    const exportNames = allMatches.map(match => match[1]).filter(Boolean)
+    const exportNames = allMatches.map((match) => match[1]).filter(Boolean)
     const functionNames = allMatches
-      .filter(match => /function|const|let|var|class|enum/.test(match[0]))
-      .map(match => match[1])
+      .filter((match) => /function|const|let|var|class|enum/.test(match[0]))
+      .map((match) => match[1])
       .filter(Boolean)
-    const typeNames = typeMatches.map(match => match[1]).filter(Boolean)
+    const typeNames = typeMatches.map((match) => match[1]).filter(Boolean)
 
     // Parse named exports from export statements
     const namedExportNames: string[] = []
@@ -306,13 +315,17 @@ export class OptimizedExportAnalyzer {
       const exportStatement = match[1]
       const names = exportStatement
         .split(',')
-        .map(name => name.trim().split(' as ')[0].trim())
-        .filter(name => name && !name.startsWith('type '))
+        .map((name) => name.trim().split(' as ')[0].trim())
+        .filter((name) => name && !name.startsWith('type '))
       namedExportNames.push(...names)
     }
 
-    const hasDefaultExport = defaultMatches.length > 0 || content.includes('export default')
-    const hasNamedExports = namedMatches.length > 0 || reExportMatches.length > 0 || exportNames.length > 0
+    const hasDefaultExport =
+      defaultMatches.length > 0 || content.includes('export default')
+    const hasNamedExports =
+      namedMatches.length > 0 ||
+      reExportMatches.length > 0 ||
+      exportNames.length > 0
     const hasExports = hasDefaultExport || hasNamedExports
 
     return {
@@ -330,7 +343,7 @@ export class OptimizedExportAnalyzer {
 
   /**
    * Utility to chunk array for batch processing.
-   * 
+   *
    * @param array - The array to chunk
    * @param size - The size of each chunk
    * @returns Array of chunks
@@ -345,7 +358,7 @@ export class OptimizedExportAnalyzer {
 
   /**
    * Clear cache to free memory.
-   * 
+   *
    * Use this method when you need to free up memory or when you want
    * to ensure fresh analysis results.
    */
@@ -355,9 +368,9 @@ export class OptimizedExportAnalyzer {
 
   /**
    * Get cache statistics for monitoring performance.
-   * 
+   *
    * @returns Object containing cache size information
-   * 
+   *
    * @example
    * ```typescript
    * const stats = analyzer.getCacheStats();
@@ -375,17 +388,17 @@ export class OptimizedExportAnalyzer {
 
 /**
  * Optimized file path collector with caching.
- * 
+ *
  * This class provides efficient collection of file paths from directories,
  * with built-in caching and filtering capabilities for better performance.
- * 
+ *
  * @example
  * ```typescript
  * const collector = new OptimizedPathCollector();
  * const paths = await collector.collectPathsWithExports(
- *   ['./src'], 
- *   ['.ts', '.tsx'], 
- *   ['.test.ts'], 
+ *   ['./src'],
+ *   ['.ts', '.tsx'],
+ *   ['.test.ts'],
  *   true
  * );
  * ```
@@ -398,16 +411,16 @@ export class OptimizedPathCollector {
 
   /**
    * Collect paths with exports using optimized analyzer.
-   * 
+   *
    * This method efficiently filters and analyzes files to find those
    * that contain exports, using parallel processing and caching.
-   * 
+   *
    * @param paths - Array of file paths to check
    * @param allowedExtensions - Array of file extensions to include
    * @param ignoredExtensions - Array of file extensions to exclude
    * @param debug - Whether to enable debug logging
    * @returns Array of file paths that contain exports
-   * 
+   *
    * @example
    * ```typescript
    * const allPaths = ['./src/comp1.ts', './src/comp2.tsx', './src/test.ts'];
@@ -426,19 +439,24 @@ export class OptimizedPathCollector {
     debug = false
   ): Promise<string[]> {
     const startTime = Date.now()
-    
+
     // Remove duplicates efficiently
     const uniquePaths = [...new Set(paths)]
-    
+
     // Filter by extensions first (faster than analyzing content)
-    const validPaths = uniquePaths.filter(path => {
+    const validPaths = uniquePaths.filter((path) => {
       const extension = path.substring(path.lastIndexOf('.'))
-      return allowedExtensions.includes(extension) && 
-             !ignoredExtensions.some(ignored => path.includes(ignored))
+      return (
+        allowedExtensions.includes(extension) &&
+        !ignoredExtensions.some((ignored) => path.includes(ignored))
+      )
     })
 
     if (debug) {
-      logColoredMessage(`📁 Found ${validPaths.length} files with valid extensions`, 'blue')
+      logColoredMessage(
+        `📁 Found ${validPaths.length} files with valid extensions`,
+        'blue'
+      )
     }
 
     // Analyze files for exports
@@ -447,7 +465,10 @@ export class OptimizedPathCollector {
 
     if (debug) {
       const duration = Date.now() - startTime
-      logColoredMessage(`⚡ Path collection completed in ${duration}ms`, 'green')
+      logColoredMessage(
+        `⚡ Path collection completed in ${duration}ms`,
+        'green'
+      )
     }
 
     return filesWithExports
@@ -455,16 +476,16 @@ export class OptimizedPathCollector {
 
   /**
    * Batch process multiple directories.
-   * 
+   *
    * This method processes multiple directories in parallel, collecting
    * all files with exports from each directory.
-   * 
+   *
    * @param directories - Array of directory paths to process
    * @param allowedExtensions - Array of file extensions to include
    * @param ignoredExtensions - Array of file extensions to exclude
    * @param debug - Whether to enable debug logging
    * @returns Map of directory paths to arrays of files with exports
-   * 
+   *
    * @example
    * ```typescript
    * const directories = ['./src/components', './src/utils', './src/types'];
@@ -486,23 +507,35 @@ export class OptimizedPathCollector {
     debug = false
   ): Promise<Map<string, string[]>> {
     const results = new Map<string, string[]>()
-    
+
     // Process directories in parallel
     const promises = directories.map(async (dir) => {
       try {
-        const paths = await this.collectPathsFromDirectory(dir, allowedExtensions, ignoredExtensions)
-        const filesWithExports = await this.collectPathsWithExports(paths, allowedExtensions, ignoredExtensions, debug)
+        const paths = await this.collectPathsFromDirectory(
+          dir,
+          allowedExtensions,
+          ignoredExtensions
+        )
+        const filesWithExports = await this.collectPathsWithExports(
+          paths,
+          allowedExtensions,
+          ignoredExtensions,
+          debug
+        )
         return { directory: dir, files: filesWithExports }
       } catch (error) {
         if (debug) {
-          logColoredMessage(`❌ Error processing directory ${dir}: ${error}`, 'red')
+          logColoredMessage(
+            `❌ Error processing directory ${dir}: ${error}`,
+            'red'
+          )
         }
         return { directory: dir, files: [] }
       }
     })
 
     const resultsArray = await Promise.all(promises)
-    
+
     for (const result of resultsArray) {
       results.set(result.directory, result.files)
     }
@@ -512,10 +545,10 @@ export class OptimizedPathCollector {
 
   /**
    * Collect all file paths from a directory.
-   * 
+   *
    * This method recursively traverses a directory and collects all file paths
    * that match the specified extensions, with caching for better performance.
-   * 
+   *
    * @param directory - The directory path to traverse
    * @param allowedExtensions - Array of file extensions to include
    * @param ignoredExtensions - Array of file extensions to exclude
@@ -526,25 +559,27 @@ export class OptimizedPathCollector {
     allowedExtensions: string[],
     ignoredExtensions: string[]
   ): Promise<string[]> {
-    const cacheKey = `${directory}:${allowedExtensions.join(',')}:${ignoredExtensions.join(',')}`
-    
+    const cacheKey = `${directory}:${allowedExtensions.join(
+      ','
+    )}:${ignoredExtensions.join(',')}`
+
     if (this.cache.has(cacheKey)) {
       return this.cache.get(cacheKey)!
     }
 
     const paths: string[] = []
-    
+
     const collectPaths = (dir: string): void => {
       try {
         const items = fs.readdirSync(dir)
-        
+
         for (const item of items) {
           const fullPath = path.join(dir, item)
           const stat = fs.statSync(fullPath)
-          
+
           if (stat.isDirectory()) {
             // Skip ignored directories
-            if (!ignoredExtensions.some(ignored => item.includes(ignored))) {
+            if (!ignoredExtensions.some((ignored) => item.includes(ignored))) {
               collectPaths(fullPath)
             }
           } else if (stat.isFile()) {
@@ -566,8 +601,8 @@ export class OptimizedPathCollector {
       const firstKey = this.cache.keys().next().value
       this.cache.delete(firstKey)
     }
-    
+
     this.cache.set(cacheKey, paths)
     return paths
   }
-} 
+}

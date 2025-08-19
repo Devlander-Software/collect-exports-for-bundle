@@ -10,14 +10,12 @@
     "outDir": "dist",
     "declaration": true,
     "declarationDir": "typings",
-    "noEmit": false,
-    "emitDeclarationOnly": true,
+    "noEmit": true,
     "resolveJsonModule": true,
-    "rootDir": "src",
     "allowJs": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
-    "types": ["node", "@types/jest"],
+    "types": ["node"],
     "allowSyntheticDefaultImports": true
   },
   "include": ["./src/**/*", "src/run-jest-coverage.ts"],
@@ -30,7 +28,6 @@
     "node_modules",
     "**/*.spec.ts",
     "*.d.ts",
-    "__tests__",
     "typings",
     "dist"
   ]

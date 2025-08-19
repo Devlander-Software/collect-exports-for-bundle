@@ -10,3 +10,5 @@ export type * from './types/module-exporter.types'
 export * from './config/presets'
 export * from './config/enhanced-config'
 
+// Export generation functions
+export * from './export-generation-core'

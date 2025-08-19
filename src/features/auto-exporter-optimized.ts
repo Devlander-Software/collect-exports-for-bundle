@@ -1,23 +1,29 @@
-import { ModuleExportOptions, AutoExporterOptions } from '../types/module-exporter.types'
-import { OptimizedExportAnalyzer, OptimizedPathCollector } from '../core/optimized/export-analyzer'
+import {
+  ModuleExportOptions,
+  AutoExporterOptions
+} from '../types/module-exporter.types'
+import {
+  OptimizedExportAnalyzer,
+  OptimizedPathCollector
+} from '../core/optimized/export-analyzer'
 import { logColoredMessage } from '../utils/helpers/color-logger'
 import * as fs from 'fs'
 import * as path from 'path'
 
 /**
  * Optimized auto-exporter with significant performance improvements.
- * 
+ *
  * This class provides high-performance export collection and generation
  * for TypeScript/JavaScript projects. It uses optimized algorithms and
  * caching to significantly improve performance over the standard auto-exporter.
- * 
+ *
  * Key features:
  * - Parallel file processing
  * - Intelligent caching
  * - Batch operations
  * - Memory-efficient algorithms
  * - Comprehensive error handling
- * 
+ *
  * @example
  * ```typescript
  * const config = {
@@ -26,7 +32,7 @@ import * as path from 'path'
  *   exportMode: 'both',
  *   debug: true
  * };
- * 
+ *
  * const exporter = new OptimizedAutoExporter(config);
  * await exporter.collectExports();
  * ```
@@ -41,9 +47,9 @@ export class OptimizedAutoExporter {
 
   /**
    * Create a new OptimizedAutoExporter instance.
-   * 
+   *
    * @param config - Configuration options for export collection
-   * 
+   *
    * @example
    * ```typescript
    * const exporter = new OptimizedAutoExporter({
@@ -62,15 +68,15 @@ export class OptimizedAutoExporter {
 
   /**
    * Main export collection method - optimized version.
-   * 
+   *
    * This method orchestrates the entire export collection process:
    * 1. Collects all file paths from the root directory
    * 2. Filters and analyzes files with exports
    * 3. Generates optimized export statements
    * 4. Writes the output file
-   * 
+   *
    * @returns Promise that resolves when export collection is complete
-   * 
+   *
    * @example
    * ```typescript
    * try {
@@ -83,13 +89,13 @@ export class OptimizedAutoExporter {
    */
   async collectExports(): Promise<void> {
     const startTime = Date.now()
-    
+
     try {
       logColoredMessage('🚀 Starting optimized export collection...', 'blue')
 
       // Step 1: Collect all file paths efficiently
       const allPaths = await this.collectAllPaths()
-      
+
       // Step 2: Filter and analyze files with exports
       const filesWithExports = await this.pathCollector.collectPathsWithExports(
         allPaths,
@@ -105,11 +111,13 @@ export class OptimizedAutoExporter {
       await this.writeOutputFile(exportContent)
 
       const duration = Date.now() - startTime
-      logColoredMessage(`✅ Export collection completed in ${duration}ms`, 'green')
-      
+      logColoredMessage(
+        `✅ Export collection completed in ${duration}ms`,
+        'green'
+      )
+
       // Log performance statistics
       this.logPerformanceStats()
-
     } catch (error) {
       logColoredMessage(`❌ Error during export collection: ${error}`, 'red')
       throw error
@@ -118,13 +126,13 @@ export class OptimizedAutoExporter {
 
   /**
    * Collect all file paths from the root directory.
-   * 
+   *
    * This method recursively traverses the root directory and collects
    * all file paths that match the allowed extensions, excluding
    * specified folders and files.
-   * 
+   *
    * @returns Promise that resolves to an array of file paths
-   * 
+   *
    * @example
    * ```typescript
    * const paths = await exporter.collectAllPaths();
@@ -133,7 +141,7 @@ export class OptimizedAutoExporter {
    */
   private async collectAllPaths(): Promise<string[]> {
     const startTime = Date.now()
-    
+
     if (!fs.existsSync(this.config.rootDir)) {
       throw new Error(`Root directory does not exist: ${this.config.rootDir}`)
     }
@@ -145,11 +153,11 @@ export class OptimizedAutoExporter {
     const collectPaths = (dir: string): void => {
       try {
         const items = fs.readdirSync(dir)
-        
+
         for (const item of items) {
           const fullPath = path.join(dir, item)
           const stat = fs.statSync(fullPath)
-          
+
           if (stat.isDirectory()) {
             // Skip excluded directories
             if (!excludedFolders.has(item)) {
@@ -174,7 +182,10 @@ export class OptimizedAutoExporter {
 
     if (this.config.debug) {
       const duration = Date.now() - startTime
-      logColoredMessage(`📁 Collected ${paths.length} files in ${duration}ms`, 'blue')
+      logColoredMessage(
+        `📁 Collected ${paths.length} files in ${duration}ms`,
+        'blue'
+      )
     }
 
     return paths
@@ -182,13 +193,13 @@ export class OptimizedAutoExporter {
 
   /**
    * Generate export content from files with exports.
-   * 
+   *
    * This method analyzes all files with exports and generates
    * optimized import and export statements based on the configuration.
-   * 
+   *
    * @param filesWithExports - Array of file paths that contain exports
    * @returns Promise that resolves to the generated export content
-   * 
+   *
    * @example
    * ```typescript
    * const files = ['./src/comp1.ts', './src/comp2.tsx'];
@@ -196,12 +207,14 @@ export class OptimizedAutoExporter {
    * console.log('Generated content:', content);
    * ```
    */
-  private async generateExportContent(filesWithExports: string[]): Promise<string> {
+  private async generateExportContent(
+    filesWithExports: string[]
+  ): Promise<string> {
     const startTime = Date.now()
-    
+
     // Analyze all files in parallel
     const analyses = await this.analyzer.analyzeFiles(filesWithExports)
-    
+
     // Generate export statements
     const exportStatements: string[] = []
     const importStatements: string[] = []
@@ -214,15 +227,25 @@ export class OptimizedAutoExporter {
       const importPath = this.getImportPath(relativePath)
 
       // Generate import statement
-      if (this.config.exportMode === 'named' || this.config.exportMode === 'both') {
+      if (
+        this.config.exportMode === 'named' ||
+        this.config.exportMode === 'both'
+      ) {
         if (analysis.hasNamedExports && analysis.exportNames.length > 0) {
-          importStatements.push(`import { ${analysis.exportNames.join(', ')} } from '${importPath}'`)
-          exportStatements.push(`export { ${analysis.exportNames.join(', ')} } from '${importPath}'`)
+          importStatements.push(
+            `import { ${analysis.exportNames.join(', ')} } from '${importPath}'`
+          )
+          exportStatements.push(
+            `export { ${analysis.exportNames.join(', ')} } from '${importPath}'`
+          )
         }
       }
 
       // Generate default export
-      if (this.config.exportMode === 'default' || this.config.exportMode === 'both') {
+      if (
+        this.config.exportMode === 'default' ||
+        this.config.exportMode === 'both'
+      ) {
         if (analysis.hasDefaultExport) {
           const defaultName = this.getDefaultExportName(relativePath)
           importStatements.push(`import ${defaultName} from '${importPath}'`)
@@ -252,13 +275,13 @@ export class OptimizedAutoExporter {
 
   /**
    * Write the output file with generated export content.
-   * 
+   *
    * This method creates the output directory if it doesn't exist
    * and writes the generated export content to the specified file.
-   * 
+   *
    * @param content - The export content to write to the file
    * @returns Promise that resolves when the file is written
-   * 
+   *
    * @example
    * ```typescript
    * const content = 'export { MyComponent } from "./MyComponent";';
@@ -287,14 +310,14 @@ export class OptimizedAutoExporter {
 
   /**
    * Get import path from relative path.
-   * 
+   *
    * This method converts a relative file path to an import path
    * by removing the file extension and converting Windows path
    * separators to forward slashes.
-   * 
+   *
    * @param relativePath - The relative path to convert
    * @returns The import path suitable for import statements
-   * 
+   *
    * @example
    * ```typescript
    * const importPath = exporter.getImportPath('./components/Button.tsx');
@@ -304,20 +327,20 @@ export class OptimizedAutoExporter {
   private getImportPath(relativePath: string): string {
     const extension = path.extname(relativePath)
     const basePath = relativePath.replace(extension, '')
-    
+
     // Convert Windows path separators
     return basePath.replace(/\\/g, '/')
   }
 
   /**
    * Get default export name from file path.
-   * 
+   *
    * This method generates a default export name by capitalizing
    * the first letter of the filename (without extension).
-   * 
+   *
    * @param relativePath - The relative path to extract the name from
    * @returns The default export name
-   * 
+   *
    * @example
    * ```typescript
    * const name = exporter.getDefaultExportName('./components/button.tsx');
@@ -331,14 +354,14 @@ export class OptimizedAutoExporter {
 
   /**
    * Validate and enhance configuration.
-   * 
+   *
    * This method validates the provided configuration and adds
    * default values for missing properties to ensure the exporter
    * works correctly.
-   * 
+   *
    * @param config - The configuration to validate and enhance
    * @returns Enhanced configuration with all required properties
-   * 
+   *
    * @example
    * ```typescript
    * const config = exporter.validateAndEnhanceConfig({
@@ -347,13 +370,24 @@ export class OptimizedAutoExporter {
    * console.log(config.allowedExtensions); // ['.ts', '.tsx']
    * ```
    */
-  private validateAndEnhanceConfig(config: ModuleExportOptions): AutoExporterOptions {
+  private validateAndEnhanceConfig(
+    config: ModuleExportOptions
+  ): AutoExporterOptions {
     // Add defaults if missing
     const enhancedConfig: AutoExporterOptions = {
       rootDir: config.rootDir || 'src',
       allowedExtensions: config.allowedExtensions || ['.ts', '.tsx'],
-      ignoredExtensions: config.ignoredExtensions || ['.test.ts', '.test.tsx', '.spec.ts', '.spec.tsx'],
-      excludedFolders: config.excludedFolders || ['node_modules', 'dist', 'build'],
+      ignoredExtensions: config.ignoredExtensions || [
+        '.test.ts',
+        '.test.tsx',
+        '.spec.ts',
+        '.spec.tsx'
+      ],
+      excludedFolders: config.excludedFolders || [
+        'node_modules',
+        'dist',
+        'build'
+      ],
       outputFileName: config.outputFileName || 'index',
       outputFilenameExtension: config.outputFilenameExtension || '.ts',
       exportMode: config.exportMode || 'named',
@@ -386,10 +420,10 @@ export class OptimizedAutoExporter {
 
   /**
    * Log performance statistics.
-   * 
+   *
    * This method logs cache statistics and other performance metrics
    * when debug mode is enabled.
-   * 
+   *
    * @example
    * ```typescript
    * exporter.logPerformanceStats();
@@ -400,21 +434,27 @@ export class OptimizedAutoExporter {
    */
   private logPerformanceStats(): void {
     const cacheStats = this.analyzer.getCacheStats()
-    
+
     if (this.config.debug) {
       logColoredMessage('📊 Performance Statistics:', 'blue')
-      logColoredMessage(`  File content cache: ${cacheStats.fileContentSize} entries`, 'cyan')
-      logColoredMessage(`  Analysis cache: ${cacheStats.analysisSize} entries`, 'cyan')
+      logColoredMessage(
+        `  File content cache: ${cacheStats.fileContentSize} entries`,
+        'cyan'
+      )
+      logColoredMessage(
+        `  Analysis cache: ${cacheStats.analysisSize} entries`,
+        'cyan'
+      )
     }
   }
 
   /**
    * Clear all caches to free memory.
-   * 
+   *
    * This method clears all internal caches to free up memory.
    * Useful when processing large projects or when memory usage
    * becomes a concern.
-   * 
+   *
    * @example
    * ```typescript
    * exporter.clearCaches();
@@ -429,13 +469,13 @@ export class OptimizedAutoExporter {
 
 /**
  * Convenience function for backward compatibility.
- * 
+ *
  * This function provides a simple interface for using the optimized
  * auto-exporter without creating a class instance directly.
- * 
+ *
  * @param config - Configuration options for export collection
  * @returns Promise that resolves when export collection is complete
- * 
+ *
  * @example
  * ```typescript
  * await optimizedAutoExporter({
@@ -446,9 +486,11 @@ export class OptimizedAutoExporter {
  * });
  * ```
  */
-export async function optimizedAutoExporter(config: ModuleExportOptions): Promise<void> {
+export async function optimizedAutoExporter(
+  config: ModuleExportOptions
+): Promise<void> {
   const exporter = new OptimizedAutoExporter(config)
   await exporter.collectExports()
 }
 
-export default optimizedAutoExporter 
+export default optimizedAutoExporter

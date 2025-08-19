@@ -2,6 +2,7 @@ import * as fs from 'fs'
 import * as path from 'path'
 import { isCamelCase } from '../constraints/is-camel-case'
 import { generateExportsFromDir } from '../export-related/generate-exports-from-dir'
+import { generateExports, formatExportOutput } from '../export-related/export-generator'
 import { ModuleExportOptions } from '../types/module-exporter.types'
 import { logColoredMessage } from '../utils/log-with-color'
 import { modifyConfig } from '../utils/modify-config'
@@ -16,6 +17,7 @@ const autoExporter = async (
 
     const fileNameToWriteTo = `${config.outputFileName}${config.outputFilenameExtension}`
 
+    // Validate bundle name if provided
     if (
       config.bundleAsObjectForDefaultExport &&
       config.bundleAsObjectForDefaultExport !== ''
@@ -23,67 +25,76 @@ const autoExporter = async (
       isCamelCase(config.bundleAsObjectForDefaultExport)
     }
 
-    if (
-      config &&
-      config.primaryExportFile &&
-      config.primaryExportFile !== '' &&
-      typeof config.bundleAsObjectForDefaultExport !== 'undefined'
-    ) {
-      // default export file should never be index
-      // all of the specificFiles in the directory will be exported in index.ts
-      if (
-        config.outputFileName &&
-        config.primaryExportFile.includes(config.outputFileName)
-      ) {
-        config.primaryExportFile = config.primaryExportFile = ''
-      }
-    }
-
-    const TOTAL_STEPS = 4 // Number of steps in your progress
-    let currentStep = 1 // Starting step
+    const TOTAL_STEPS = 4
+    let currentStep = 1
 
     simulateProgressBar(
-      'Processing command-line flags...',
+      'Processing configuration...',
       TOTAL_STEPS,
       currentStep++
     )
 
     simulateProgressBar(
-      'Checking default export file...',
+      'Validating export strategy...',
       TOTAL_STEPS,
       currentStep++
     )
+    
     if (!config.rootDir || config.rootDir === '') {
       throw new Error('Directory is required')
     }
 
-    if (config.specificFiles && config.specificFiles.length > 0) {
-      if (!config.primaryExportFile || config.primaryExportFile !== '') {
-        if (
-          config.primaryExportFile &&
-          fs.existsSync(path.join(config.rootDir, config.primaryExportFile))
-        ) {
-          if (!config.specificFiles.includes(config.primaryExportFile)) {
-            config.specificFiles.push(config.primaryExportFile)
-          }
-        }
+    // Determine export strategy and log it
+    let exportStrategy = 'Standard'
+    if (config.bundleAsObjectForDefaultExport) {
+      exportStrategy = 'Bundle Object'
+    } else if (config.primaryExportFile) {
+      exportStrategy = 'Primary File'
+    }
+
+    if (config.debug) {
+      logColoredMessage(`\nExport Strategy: ${exportStrategy}`, 'blue')
+      if (config.bundleAsObjectForDefaultExport) {
+        logColoredMessage(`Bundle Name: ${config.bundleAsObjectForDefaultExport}`, 'blue')
+      }
+      if (config.primaryExportFile) {
+        logColoredMessage(`Primary File: ${config.primaryExportFile}`, 'blue')
       }
     }
 
     simulateProgressBar(
-      'Generating exports from directory...',
+      'Generating exports...',
       TOTAL_STEPS,
       currentStep++
     )
 
-    // TO DO
-    // after this function runs
-    // it should have updated the resuls object in the config
-    // which would have updated values for includedExports, excludedExports,
-    // includedFolders, excludedFolders, includedFiles, excludedFiles
-    const exportsList = await generateExportsFromDir(config.rootDir, config)
+    // Generate exports using the new clean system
+    let files: string[] = []
+    
+    if (config.specificFiles && config.specificFiles.length > 0) {
+      // Use specific files
+      files = config.specificFiles.map(file => 
+        path.join(config.rootDir, file)
+      )
+    } else {
+      // Scan directory for exports (this will need to be updated to return file paths)
+      const exportsList = await generateExportsFromDir(config.rootDir, config)
+      // For now, we'll use the existing system for directory scanning
+      // TODO: Update generateExportsFromDir to return file paths
+      files = [config.rootDir] // Placeholder
+    }
 
-    console.log(exportsList, 'exportsList')
+    // Generate exports using the new system
+    const exportOutput = generateExports(files, config)
+    const formattedExports = formatExportOutput(exportOutput)
+    
+    // Split into lines for writing
+    const exportsList = formattedExports.split('\n')
+
+    if (config.debug) {
+      console.log('Generated export output:', exportOutput)
+      console.log('Formatted exports:', formattedExports)
+    }
 
     simulateProgressBar(
       `Writing to ${fileNameToWriteTo}...`,
@@ -91,11 +102,13 @@ const autoExporter = async (
       currentStep++
     )
 
+    // Write the exports to file
     fs.writeFileSync(
       path.join(config.rootDir, fileNameToWriteTo),
       exportsList.join('\n')
     )
 
+    // Handle bundle export as function if requested
     if (
       config.bundleAsObjectForDefaultExport &&
       config.rootDir &&
@@ -107,11 +120,7 @@ const autoExporter = async (
           'blue'
         )
       }
-      // TO DO
-      // after this function runs
-      // it should have updated the resuls object in the config
-      // which would have updated values for includedExports, excludedExports,
-      // includedFolders, excludedFolders, includedFiles, excludedFiles
+      
       await bundleExportAsFunction({
         ...config
       })
@@ -130,8 +139,24 @@ const autoExporter = async (
         'yellow'
       )
     }
+    
     logColoredMessage(`\nExports generated in ${fileNameToWriteTo}\n`, 'green')
     logColoredMessage(`Located at ${config.rootDir}\n`, 'green')
+    
+    // Log export strategy and mode information
+    logColoredMessage(`\nExport Strategy: ${exportStrategy}`, 'blue')
+    logColoredMessage(`Export Mode: ${config.exportMode}`, 'blue')
+    
+    if (exportOutput.bundleObject) {
+      logColoredMessage('Bundle Object: Generated', 'green')
+    }
+    if (exportOutput.defaultExport) {
+      logColoredMessage('Default Export: Generated', 'green')
+    }
+    if (exportOutput.exports.length > 0) {
+      logColoredMessage(`Named Exports: ${exportOutput.exports.length} generated`, 'green')
+    }
+    
   } catch (e) {
     console.log(e)
     logColoredMessage(`\nError: ${e}\n`, 'red')

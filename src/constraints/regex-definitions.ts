@@ -20,7 +20,7 @@ export const regexDefinitions = {
 
   matchesDefaultExport: /export default (\w+)/,
   matchesExportNamedAsDefault:
-    /export \{ (\w+) as default \} from '(\.\/\w+)';/,
+    /export \{ (\w+) as default \} from ['"](\.\/\w+)['"];?/,
   matchesNamedExport:
     /export\s+(const|let|var|type|enum|interface|class|function)\s+[a-zA-Z_$][0-9a-zA-Z_$]*|{\s*[a-zA-Z_$][0-9a-zA-Z_$]*\s*}/,
   matchesTypeExport: /export\s+type\s+([a-zA-Z_$][0-9a-zA-Z_$]*)(\s*=|\s+)/g,

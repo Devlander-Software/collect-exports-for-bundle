@@ -1,265 +1,262 @@
-![Devlander Collect Exports For Bundle Header](https://github.com/Devlander-Software/collect-exports-for-bundle/raw/main/media/images/collect-exports-for-bundle-preview-rounded.png)
+# @devlander/collect-exports-for-bundle
 
+Generate index files with exports from a directory. Simple, focused, and flexible.
 
-<a href="https://twitter.com/intent/tweet?button_hashtag=Devlander" target="\_parent">
-  <img alt="#Devlander" src="https://img.shields.io/twitter/url?color=%2308a0e9&label=%23Devlander&style=social&url=https%3A%2F%2Ftwitter.com%2Fintent%2Ftweet%3Fbutton_hashtag%3DDevlander">
-</a><a href="https://bit.ly/devlander-discord-invite" target="\_parent">
-  <img alt="" src="https://img.shields.io/badge/Discord-Devlander-%235865F2" />
-</a>
+## 🚀 **Quick Start**
 
-<a href="https://www.npmjs.com/package/@devlander/collect-exports-for-bundle" target="\_parent">
-
-  <img alt="" src="https://img.shields.io/npm/dm/@devlander/collect-exports-for-bundle.svg" />
-</a>
-
-<a href="https://github.com/orgs/Devlander-Software/discussions">
-  <img alt="Join the discussion on Github" src="https://img.shields.io/badge/Github%20Discussions%20%26%20Support-Chat%20now!-blue" />
-</a>
-
-<a href="https://bit.ly/3zg6mBG">
-  <img alt="Join Devlander on Twitch" src="https://img.shields.io/twitch/status/twitch" />
-</a>
-
-[![Hits](https://hits.sh/github.com/Devlander-Software/collect-exports-for-bundle.svg?label=Hits)](https://hits.sh/github.com/Devlander-Software/collect-exports-for-bundle/)
-
-
-<a href="https://bit.ly/landonwjohnson-on-twitter" target="\_parent">
-  <img alt="" src="https://img.shields.io/twitter/follow/landonwjohnson.svg?style=social&label=Follow" />
-</a> 
-
-<a href="https://wakatime.com/i/landonwjohnson" target="\_parent">
-  <img alt="" src="https://wakatime.com/badge/user/bd50b6c5-e0ca-4937-83b3-ab2d13adbc73/project/018b459c-3fa7-454f-94e5-e85da6e4d8a4.svg" />
-</a> 
-
-
-
-# Table of contents
-- [Introduction](#introduction)
-- [Features](#features)
-- [Installation](#installation)
-- [Usage](#usage)
-  - [Programmatically](#programmatically)
-  - [Typescript](#typescript)
-  - [Default Exports](#default-exports)
-  - [Collecting files from the Root folder](#collecting-files-from-the-root-folder)
-  - [Collecting files within a directory](#collecting-files-within-a-directory)
-- [Helper Functions](#helper-functions)
-- [To do](#to-do)
-- [Future Plans](#future-plans)
-- [Connect with me on Social](#social)
-
-## Introduction
-The Collect Exports For Bundle Script is a utility designed to automatically generate export statements for files in a specified directory. This tool is especially useful for projects with numerous files that need to be exported, eliminating the tedious task of manually writing export statements.
-
-## Use Case and Motivation
-
-The primary motivation behind the creation of the **Collect Exports For Bundle Script** is to automate and simplify the process of bundling exports. By offering a streamlined tool for generating export statements, developers can save time and avoid potential mistakes associated with manually handling numerous export statements.
-
-### Why was this package created?
-
-1. **Sharing Types and Enums Between Projects:** 
-   - In large-scale development, where multiple projects may depend on the same types and enumerations, maintaining consistency becomes crucial. By centralizing and automating the bundling of these shared types and enums, developers can ensure uniformity and reduce the risk of discrepancies between projects.
-
-2. **Automate Extracting Components from Design Systems:**
-   - Design systems often consist of numerous components, each with its own file. Manually exporting each component from an index file can be time-consuming and prone to errors. The **Collect Exports For Bundle Script** automates this process, making it easy to extract components from the design system's index file, which in turn accelerates the feature deployment process.
-
-3. **Saving Time and Increasing Efficiency:**
-   - In today's agile development environment, every moment counts. Manually writing export statements, especially in projects with a vast number of files, can be tedious and error-prone. This package was designed to alleviate this pain point, allowing developers to focus more on writing code and less on the intricacies of managing exports.
-
-By addressing these challenges, the **Collect Exports For Bundle Script** offers a valuable tool set that promotes best practices, enhances productivity, and ensures consistency across projects.
-
-
-
-## Features
-- Export all your TypeScript files from a project into a single `index.ts` file.
-- Use in other GitHub gists and repositories.
-- Type-safe with a default export option.
-- Recursive scanning of directories.
-- Specify which file extensions to include or exclude.
-- Configurable through command-line arguments or direct function parameters.
-- Suitable for both command-line usage and integration with GitHub actions.
-
-
-
-
-## Installation
-To install the Collect Exports For Bundle Script from the provided gist:
-
-### npm:
-
+### **Generate ES Modules Index**
 ```bash
-
-npm install @devlander/collect-exports-for-bundle
+npx @devlander/collect-exports-for-bundle generate src --output src/index.ts
 ```
 
-### yarn:
-
+### **Generate CommonJS Index**
 ```bash
-yarn add @devlander/collect-exports-for-bundle
+npx @devlander/collect-exports-for-bundle generate src --output src/index.js --style cjs
 ```
 
-## Usage
-After installation, you can use the Collect Exports For Bundle Script in two primary ways: Programmatically
+### **Generate with Custom Default Export**
+```bash
+npx @devlander/collect-exports-for-bundle generate src --output src/index.ts --default-export ./Button
+```
 
-### Programmatically:
-First, require or import the **autoExporter** function from the installed module and call it with an options object:
+## ✨ **Features**
 
+- **📁 Simple**: Scan directory, generate index file
+- **🎯 Flexible**: Choose export style (ESM, CommonJS, Mixed)
+- **⭐ Customizable**: Define your own default export
+- **🔧 Configurable**: Control file extensions and excluded folders
+- **📦 Bundler Agnostic**: Works with any bundler (Rollup, Webpack, Vite, etc.)
+- **🚀 Advanced**: Circular dependency detection, path validation, performance caching
+- **⚡ Performance**: Parallel processing, intelligent caching, optimized algorithms
+- **🔍 Smart**: TypeScript-specific optimizations, export analysis, bundle object generation
+- **📊 Metadata**: Header generation, export sorting, organization strategies
+
+## 📋 **Requirements**
+
+- **Node.js**: >= 16.0.0
+
+## 🎯 **Use Cases**
+
+### **React Component Library**
+```bash
+npx @devlander/collect-exports-for-bundle generate src --output src/index.ts --default-export ./Button
+```
+
+**Output:**
+```typescript
+// src/index.ts
+export * from './Button';
+export * from './Input';
+export * from './Modal';
+export * from './utils';
+export { default } from './Button';
+```
+
+### **Node.js Utility Library**
+```bash
+npx @devlander/collect-exports-for-bundle generate src --output src/index.js --style cjs --default-export ./main
+```
+
+**Output:**
 ```javascript
-const autoExporter  = require("@devlander/collect-exports-for-bundle").default
-  autoExporter({
-    rootDir: "src",
-    allowedExtensions: [".ts", ".tsx"],
-    ignoredExtensions: [".test.ts"],
-  });
-```
-
-
-### Typescript
-This utility is built in TypeScript, tailored for seamless integration with other TypeScript packages.
-
-### Default Exports
-Control your package's exports by choosing a ***default export***. This ensures that when your package compiles, you'll have full command over your ***default export*** and the ***exports*** you need to ***destructure***.
-Below are examples of packages with default and named exports 
-
-#### A package with a default export:
-
-```typescript
-import PackageName, { otherThingsInYourPackage } from "package-name"
-```
-
-####  A package without a default export:
-
-```typescript
-import { otherThingsInYourPackage } from "package-name"
-```
-
-## Collecting files from the Root folder
-This tool can be effectively utilized in both ***GitHub repositories*** and ***gists***. For ***GitHub gists***, particularly when building modules and compiling from the project's root where there isn't a specific src folder, the files and **excludedFolders** parameters in the configuration become essential.
-
-#### Example Configuration:
-
-```typescript
-const autoExporter = require("@devlander/collect-exports-for-bundle").default
-
-const init = () => {
-  autoExporter({
-    rootDir: "./src",
-    outputFilenameExtension: ".ts",
-    outputFileName: "index",
-    exportMode: "both",
-    primaryExportFile: "main.ts",
-    allowedExtensions: [".enum.ts", ".component.tsx", ".type.ts", ".type.tsx"], 
-    ignoredExtensions: [".test.ts", ".test.tsx", ".stories.tsx"],
-  });
+// src/index.js
+module.exports = {
+  Button: require('./Button'),
+  Input: require('./Input'),
+  Modal: require('./Modal'),
+  utils: require('./utils'),
+  default: require('./main')
 };
-
-init();
-
 ```
-### Collecting files within a directory
-You can also configure the tool to specifically collect files within a particular directory using the **specificFiles** property. 
-In this example, **main.ts** and **isEmpty.ts** would be the only files searched for an export
 
-#### Example Configuration:
+### **Mixed Export Style**
+```bash
+npx @devlander/collect-exports-for-bundle generate src --output src/index.ts --style mixed --default-export ./Button
+```
+
+## 🛠️ **CLI Options**
+
+```bash
+npx @devlander/collect-exports-for-bundle generate <source> [options]
+```
+
+**Options:**
+- `-o, --output <file>`: Output file path (default: index.ts)
+- `-s, --style <style>`: Export style: esm, cjs, mixed (default: esm)
+- `-d, --default-export <file>`: File to use as default export
+- `-e, --extensions <extensions>`: File extensions to include (default: .ts,.tsx,.js,.jsx)
+- `--exclude <folders>`: Folders to exclude (default: node_modules,__mocks__,tests)
+- `--dry-run`: Show what would be generated without writing files
+- `--debug`: Enable debug logging
+
+**Advanced Options:**
+- `--strategy <strategy>`: Export strategy: named, default, both, selective (default: both)
+- `--sort <sort>`: Sort strategy: alphabetical, type, size (default: alphabetical)
+- `--title <title>`: Title for generated header
+- `--description <description>`: Description for generated header
+- `--header`: Generate header with metadata
+- `--bundle-object`: Generate bundle object exports
+- `--validate-paths`: Validate export paths exist
+- `--check-circular`: Check for circular dependencies
+- `--cache`: Enable performance caching
+- `--parallel`: Enable parallel processing
+- `--fail-on-errors`: Fail build on validation errors
+
+## 🔌 **Programmatic API**
+
+The package can also be used programmatically:
 
 ```typescript
-const autoExporter = require("@devlander/collect-exports-for-bundle").default
+import { 
+  autoExporter, 
+  collectPaths, 
+  generateESMExports, 
+  generateCJSExports,
+  createExtensions,
+  toCamelCase 
+} from '@devlander/collect-exports-for-bundle';
 
-const init = () => {
-    const configForAutoExporter: AutoExporterOptions = {
-        rootDir: "src",
-        specificFiles: ["main.ts", "isEmpty.ts"]
-    };
+// Generate exports programmatically
+const result = await autoExporter({
+  rootDir: './src',
+  exportStyle: 'esm',
+  defaultExport: './Button',
+  debug: true
+});
 
-    autoExporter(configForAutoExporter);
+// Use individual functions
+const paths = await collectPaths('./src', {
+  allowedExtensions: ['.ts', '.tsx'],
+  excludedFolders: ['tests', 'node_modules']
+});
+
+const exports = generateESMExports(paths, {
+  exportStyle: 'esm',
+  defaultExport: './Button'
+});
+```
+
+## ⚙️ **Export Styles**
+
+### **ES Modules (esm)**
+```typescript
+export * from './Button';
+export * from './Input';
+export * from './Modal';
+export { default } from './Button';
+```
+
+### **CommonJS (cjs)**
+```javascript
+module.exports = {
+  Button: require('./Button'),
+  Input: require('./Input'),
+  Modal: require('./Modal'),
+  default: require('./Button')
 };
-
-init();
 ```
 
-
-## Helper functions 
-
-### Collect Paths From Directories 
-**collectPathsFromDirectories** takes in **allowedExtensions**, **ignoredExtensions**, **specificFiles**, **debug** and **excludedFolders**.
-This function returns paths that have valid file extensions for your directory 
-
-#### Example 
+### **Mixed (mixed)**
 ```typescript
-const {collectPathsFromDirectories} = require("@devlander/collect-exports-for-bundle").default
-
-
-const validPaths: string[] = await collectPathsFromDirectories("./src", {
-  allowedExtensions: [".component.tsx", ".tsx", ".ts"],
-  ignoredExtensions: [".spec.tsx", ".test.tsx"],
-  specificFiles: [],
-  debug: false,
-  excludedFolders: ["node_modules", "dist", "build"]
-})
-
+export * from './Button';
+export * from './Input';
+export * from './Modal';
+export { default } from './Button';
 ```
 
-### Create Extensions 
-**createExtensions** takes in a **word**, a list of **words**, and **fileExtensions**
-and will return a list of file extensions with combinations of the three. 
-This function returns paths that have valid file extensions for your directory 
+## 🔧 **Integration Examples**
 
-#### Example 
-```typescript
-const {createExtensions} = require("@devlander/collect-exports-for-bundle")
-
-const webExtensions = createExtensions(
-  "web",
-  ["props", "type", "types", "interface", "enum"],
-  [".tsx", ".ts"]
-);
-
-// Output for webExtensions
- [
-  '.web.tsx',           '.web.ts',
-  '.web.props.tsx',     '.props.web.tsx',
-  '.web.props.ts',      '.props.web.ts',
-  '.web.type.tsx',      '.type.web.tsx',
-  '.web.type.ts',       '.type.web.ts',
-  '.web.types.tsx',     '.types.web.tsx',
-  '.web.types.ts',      '.types.web.ts',
-  '.web.interface.tsx', '.interface.web.tsx',
-  '.web.interface.ts',  '.interface.web.ts',
-  '.web.enum.tsx',      '.enum.web.tsx',
-  '.web.enum.ts',       '.enum.web.ts'
-]
-
+### **Package.json Scripts**
+```json
+{
+  "scripts": {
+    "prebuild": "npx @devlander/collect-exports-for-bundle generate src --output src/index.ts --default-export ./Button",
+    "build": "rollup -c"
+  }
+}
 ```
 
+### **Rollup Integration**
+```javascript
+// rollup.config.mjs
+import { execSync } from 'child_process';
 
+// Pre-build step: Generate index
+try {
+  execSync('npx @devlander/collect-exports-for-bundle generate src --output src/index.ts --default-export ./Button', { stdio: 'inherit' });
+} catch (error) {
+  console.error('Failed to generate index:', error);
+  process.exit(1);
+}
 
+// Continue with Rollup configuration...
+```
 
-## To do
- - [ ] Create cli
- - [ ] Create in depth tests for each function 
- - [ ] Detect Circular dependencies
- - [ ] Write tests for deep nesting with large file directories
- - [ ] Have a result output showing which directories it went through, and which directories it skipped, same with functions
+### **GitHub Actions**
+```yaml
+name: Build
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - run: npm ci
+      - run: npx @devlander/collect-exports-for-bundle generate src --output src/index.ts --default-export ./Button
+      - run: npm run build
+```
 
+## 📚 **Examples**
 
-// updates for git
-// improved tests for example folder
-// using real life sub modules for tests in example folder
-// you can now pass in a title and description to the config for a comment to be left, which is useful for troubleshooting
-// got duration from when the script starts, and when it ends, which is useful for troubleshooting
-// wrote test for regex match functions
+### **Basic Usage**
+```bash
+# Generate index.ts with ES modules
+npx @devlander/collect-exports-for-bundle generate src --output src/index.ts
+```
 
+### **With Custom Default Export**
+```bash
+# Generate index.ts with Button as default export
+npx @devlander/collect-exports-for-bundle generate src --output src/index.ts --default-export ./Button
+```
 
+### **CommonJS Style**
+```bash
+# Generate index.js with CommonJS exports
+npx @devlander/collect-exports-for-bundle generate src --output src/index.js --style cjs
+```
 
-// TODO 
-// results will collect all the directories and filenames 
-// while going through the scripts
-// at the very very end
+### **Custom Extensions**
+```bash
+# Only include .ts and .tsx files
+npx @devlander/collect-exports-for-bundle generate src --output src/index.ts --extensions .ts,.tsx
+```
 
+### **Exclude Folders**
+```bash
+# Exclude tests and stories
+npx @devlander/collect-exports-for-bundle generate src --output src/index.ts --exclude tests,stories,__mocks__
+```
 
-## Connect with me on social 
-- [Website](https://bit.ly/landonjohnsondev)
-- [Instagram](https://bit.ly/landonjohnsondev-on-instagram)
-- [YouTube](https://bit.ly/devlanderjs-youtube)
-- [Twitter](https://bit.ly/landonwjohnson-on-twitter)
-- [Facebook](https://bit.ly/devlander-facebook-page)
+### **Dry Run**
+```bash
+# See what would be generated without writing files
+npx @devlander/collect-exports-for-bundle generate src --output src/index.ts --dry-run
+```
+
+## 🤝 **Contributing**
+
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+
+## 📄 **License**
+
+MIT License - see [LICENSE](LICENSE) for details.
+
+## 🆘 **Support**
+
+- **Issues**: [GitHub Issues](https://github.com/devlander/collect-exports-for-bundle/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/devlander/collect-exports-for-bundle/discussions)
+- **Documentation**: [Full Documentation](https://github.com/devlander/collect-exports-for-bundle#readme)

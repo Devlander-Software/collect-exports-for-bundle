@@ -2,7 +2,7 @@
   "compileOnSave": true,
 
   "extends": "./tsconfig.json",
-  "include": ["./src/**/*", "yarn-linker-handler.js", "rollup.config.mjs"],
+  "include": ["./src/**/*", "yarn-linker-handler.js", "rollup.config.mjs", "jest.config.js"],
   "exclude": [
     "**/node_modules/**",
     "**/example/**/*",

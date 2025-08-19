@@ -78,7 +78,7 @@ export default [
   {
     input: "src/index.ts",
     output: {
-      file: packageJson.module,
+      file: "dist/index.esm.js",
       format: "esm",
       sourcemap: true,
       exports: "named"
@@ -95,10 +95,27 @@ export default [
   {
     input: "src/index.ts",
     output: {
-      file: packageJson.main,
+      file: "dist/index.js",
       format: "cjs",
       sourcemap: true,
       exports: "named"
+    },
+    external: makeExternalPredicate(external),
+    plugins: sharedPlugins,
+    treeshake: {
+      moduleSideEffects: false,
+      propertyReadSideEffects: false,
+      unknownGlobalSideEffects: false
+    }
+  },
+  // CLI build
+  {
+    input: "src/cli/index.ts",
+    output: {
+      file: "dist/cli/index.js",
+      format: "cjs",
+      sourcemap: true,
+      banner: "#!/usr/bin/env node"
     },
     external: makeExternalPredicate(external),
     plugins: sharedPlugins,
