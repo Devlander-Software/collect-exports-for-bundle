@@ -1,3 +1,4 @@
+import * as path from 'path'
 import { getExtensions } from '../extensions/get-extensions'
 import {
   AutoExporterOptions,
@@ -5,9 +6,42 @@ import {
 } from '../types/module-exporter.types'
 import { logMessageForFunction } from './log-with-color'
 
+/** Normalize alias keys to canonical config keys */
+function normalizeOptions(
+  opts: ModuleExportOptions & {
+    bundleDefaultAsObject?: string
+    outputPath?: string
+    includeBarrelFiles?: boolean
+  }
+): ModuleExportOptions {
+  const o = { ...opts }
+  if (
+    o.bundleDefaultAsObject !== undefined &&
+    o.bundleAsObjectForDefaultExport === undefined
+  ) {
+    o.bundleAsObjectForDefaultExport = o.bundleDefaultAsObject
+  }
+  if (o.outputPath) {
+    const parsed = path.parse(o.outputPath)
+    o.outputFileName = parsed.name
+    o.outputFilenameExtension = (parsed.ext || '.ts') as '.ts' | '.tsx'
+  }
+  if (o.includeBarrelFiles !== undefined && o.includeIndexes === undefined) {
+    o.includeIndexes = o.includeBarrelFiles
+  }
+  return o
+}
+
 export const modifyConfig = async (
   options: ModuleExportOptions
 ): Promise<AutoExporterOptions> => {
+  const optionsNormalized = normalizeOptions(
+    options as ModuleExportOptions & {
+      bundleDefaultAsObject?: string
+      outputPath?: string
+      includeBarrelFiles?: boolean
+    }
+  )
   const defaultAutoExportConfig: AutoExporterOptions = {
     rootDir: 'src',
     primaryExportFile: '',
@@ -50,51 +84,60 @@ export const modifyConfig = async (
     }
   }
 
-  if (options.debug) {
+  if (optionsNormalized.debug) {
     defaultAutoExportConfig.debug = true
   }
 
   const allowedExt = getExtensions(
-    options.allowedExtensions || defaultAutoExportConfig.allowedExtensions,
+    optionsNormalized.allowedExtensions ||
+      defaultAutoExportConfig.allowedExtensions,
     [],
     defaultAutoExportConfig.debug,
     'allowedExtensions'
   )
   const ignoredExt = getExtensions(
-    options.ignoredExtensions || defaultAutoExportConfig.ignoredExtensions,
+    optionsNormalized.ignoredExtensions ||
+      defaultAutoExportConfig.ignoredExtensions,
     allowedExt,
     defaultAutoExportConfig.debug,
     'ignoredExtensions'
   )
 
   const modifiedConfig: AutoExporterOptions = {
-    ...options,
-    excludeSpecificFiles: options.excludeSpecificFiles || [],
-    rootDir: options.rootDir || defaultAutoExportConfig.rootDir,
+    ...optionsNormalized,
+    excludeSpecificFiles: optionsNormalized.excludeSpecificFiles || [],
+    rootDir: optionsNormalized.rootDir || defaultAutoExportConfig.rootDir,
     primaryExportFile:
-      options.primaryExportFile && typeof options.primaryExportFile === 'string'
-        ? options.primaryExportFile
+      optionsNormalized.primaryExportFile &&
+      typeof optionsNormalized.primaryExportFile === 'string'
+        ? optionsNormalized.primaryExportFile
         : defaultAutoExportConfig.primaryExportFile,
     allowedExtensions: allowedExt,
     ignoredExtensions: ignoredExt,
     excludedFolders: [...defaultAutoExportConfig.excludedFolders],
     specificFiles:
-      options.specificFiles || defaultAutoExportConfig.specificFiles,
+      optionsNormalized.specificFiles || defaultAutoExportConfig.specificFiles,
     outputFileName:
-      options.outputFileName || defaultAutoExportConfig.outputFileName,
+      optionsNormalized.outputFileName ||
+      defaultAutoExportConfig.outputFileName,
     outputFilenameExtension:
-      options.outputFilenameExtension ||
+      optionsNormalized.outputFilenameExtension ||
       defaultAutoExportConfig.outputFilenameExtension,
     bundleAsObjectForDefaultExport:
-      options.bundleAsObjectForDefaultExport &&
-      typeof options.bundleAsObjectForDefaultExport === 'string'
-        ? options.bundleAsObjectForDefaultExport
+      optionsNormalized.bundleAsObjectForDefaultExport &&
+      typeof optionsNormalized.bundleAsObjectForDefaultExport === 'string'
+        ? optionsNormalized.bundleAsObjectForDefaultExport
         : defaultAutoExportConfig.bundleAsObjectForDefaultExport,
     debug: defaultAutoExportConfig.debug,
     includeIndexes:
-      options.includeIndexes || defaultAutoExportConfig.includeIndexes,
-    exportMode: options.exportMode || defaultAutoExportConfig.exportMode,
-    testOptions: options.testOptions || defaultAutoExportConfig.testOptions,
+      optionsNormalized.includeIndexes ??
+      defaultAutoExportConfig.includeIndexes,
+    exportMode:
+      optionsNormalized.exportMode || defaultAutoExportConfig.exportMode,
+    testOptions:
+      optionsNormalized.testOptions || defaultAutoExportConfig.testOptions,
+    useTypeScriptAPI: optionsNormalized.useTypeScriptAPI ?? false,
+    barrelMode: optionsNormalized.barrelMode ?? 'single',
     results: {
       ...defaultAutoExportConfig.results,
       title: options.title ? options.title : 'Devlander Collect Export Results',
@@ -105,27 +148,29 @@ export const modifyConfig = async (
         ignoredExtensions: ignoredExt,
         allowedExtensions: allowedExt,
         excludedFolders:
-          options.excludedFolders || defaultAutoExportConfig.excludedFolders,
+          optionsNormalized.excludedFolders ||
+          defaultAutoExportConfig.excludedFolders,
         specificFiles:
-          options.specificFiles || defaultAutoExportConfig.specificFiles,
-        rootDir: options.rootDir || defaultAutoExportConfig.rootDir
+          optionsNormalized.specificFiles ||
+          defaultAutoExportConfig.specificFiles,
+        rootDir: optionsNormalized.rootDir || defaultAutoExportConfig.rootDir
       }
     }
   }
 
-  if (options.excludedFolders) {
+  if (optionsNormalized.excludedFolders) {
     modifiedConfig.excludedFolders = [
       ...defaultAutoExportConfig.excludedFolders,
-      ...options.excludedFolders
+      ...optionsNormalized.excludedFolders
     ]
   }
 
-  if (options.title) {
-    modifiedConfig.title = options.title
+  if (optionsNormalized.title) {
+    modifiedConfig.title = optionsNormalized.title
   }
 
-  if (options.description) {
-    modifiedConfig.description = options.description
+  if (optionsNormalized.description) {
+    modifiedConfig.description = optionsNormalized.description
   }
   logMessageForFunction('modifyConfig', {
     options,

@@ -25,7 +25,6 @@ export function generateExportsFromPaths(
         'Inside of generateExportsFromPaths'
       )
     }
-    console.log()
     if (!config.rootDir || config.rootDir === '') {
       throw new Error('rootDir is required')
     }
@@ -101,7 +100,6 @@ export function generateExportsFromPaths(
       durationComment
     ]
   } catch (error) {
-    console.log(error)
     logFailedMessage('generateExportsFromPaths', error)
     return []
   }

@@ -49,10 +49,10 @@ export enum MyEnum {
 const myConstThatWillBeExported = ''
 
 export const myConstWithMultipleParameters = (
-  a: string,
-  b: string,
-  c: string,
-  d: string
+  _a: string,
+  _b: string,
+  _c: string,
+  _d: string
 ): string => {
   return 'Hello World'
 }

@@ -1,4 +1,4 @@
-import { ModuleExportOptions, AutoExporterOptions } from '../types/module-exporter.types'
+import { ModuleExportOptions } from '../types/module-exporter.types'
 import { getPreset, listPresets, isValidPreset, PresetName } from './presets'
 import { logColoredMessage } from '../utils/log-with-color'
 
@@ -27,7 +27,10 @@ export class EnhancedConfig {
   /**
    * Create configuration from preset
    */
-  createFromPreset(presetName: PresetName, overrides?: Partial<ModuleExportOptions>): ModuleExportOptions {
+  createFromPreset(
+    presetName: PresetName,
+    overrides?: Partial<ModuleExportOptions>
+  ): ModuleExportOptions {
     if (!isValidPreset(presetName)) {
       throw new Error(`Invalid preset: ${presetName}`)
     }
@@ -37,7 +40,10 @@ export class EnhancedConfig {
 
     if (this.options.debug) {
       logColoredMessage(`📋 Using preset: ${presetName}`, 'blue')
-      logColoredMessage(`Configuration: ${JSON.stringify(config, null, 2)}`, 'blue')
+      logColoredMessage(
+        `Configuration: ${JSON.stringify(config, null, 2)}`,
+        'blue'
+      )
     }
 
     return config
@@ -48,9 +54,9 @@ export class EnhancedConfig {
    */
   listAvailablePresets(): void {
     const presets = listPresets()
-    
+
     logColoredMessage('📋 Available Configuration Presets:', 'blue')
-    presets.forEach(preset => {
+    presets.forEach((preset) => {
       logColoredMessage(`  • ${preset.key}: ${preset.name}`, 'blue')
       logColoredMessage(`    ${preset.description}`, 'blue')
     })
@@ -82,17 +88,23 @@ export class EnhancedConfig {
     }
 
     // Value validation
-    if (config.outputFilenameExtension && !['.ts', '.tsx'].includes(config.outputFilenameExtension)) {
+    if (
+      config.outputFilenameExtension &&
+      !['.ts', '.tsx'].includes(config.outputFilenameExtension)
+    ) {
       errors.push('outputFilenameExtension must be either ".ts" or ".tsx"')
     }
 
-    if (config.exportMode && !['named', 'default', 'both'].includes(config.exportMode)) {
+    if (
+      config.exportMode &&
+      !['named', 'default', 'both'].includes(config.exportMode)
+    ) {
       errors.push('exportMode must be "named", "default", or "both"')
     }
 
     // Extension validation
     if (config.allowedExtensions) {
-      config.allowedExtensions.forEach(ext => {
+      config.allowedExtensions.forEach((ext) => {
         if (!ext.startsWith('.')) {
           errors.push(`Extension "${ext}" must start with a dot`)
         }
@@ -100,7 +112,7 @@ export class EnhancedConfig {
     }
 
     if (config.ignoredExtensions) {
-      config.ignoredExtensions.forEach(ext => {
+      config.ignoredExtensions.forEach((ext) => {
         if (!ext.startsWith('.')) {
           errors.push(`Ignored extension "${ext}" must start with a dot`)
         }
@@ -110,7 +122,7 @@ export class EnhancedConfig {
     // Print results
     if (errors.length > 0) {
       logColoredMessage('❌ Configuration validation failed:', 'red')
-      errors.forEach(error => {
+      errors.forEach((error) => {
         logColoredMessage(`  • ${error}`, 'red')
       })
       return false
@@ -118,7 +130,7 @@ export class EnhancedConfig {
 
     if (warnings.length > 0) {
       logColoredMessage('⚠️  Configuration warnings:', 'yellow')
-      warnings.forEach(warning => {
+      warnings.forEach((warning) => {
         logColoredMessage(`  • ${warning}`, 'yellow')
       })
     }
@@ -143,7 +155,12 @@ export class EnhancedConfig {
     }
 
     if (!fixed.ignoredExtensions || fixed.ignoredExtensions.length === 0) {
-      fixed.ignoredExtensions = ['.test.ts', '.test.tsx', '.spec.ts', '.spec.tsx']
+      fixed.ignoredExtensions = [
+        '.test.ts',
+        '.test.tsx',
+        '.spec.ts',
+        '.spec.tsx'
+      ]
       logColoredMessage('🔧 Added default ignoredExtensions', 'yellow')
     }
 
@@ -164,7 +181,10 @@ export class EnhancedConfig {
 
     if (!fixed.outputFilenameExtension) {
       fixed.outputFilenameExtension = '.ts'
-      logColoredMessage('🔧 Set default outputFilenameExtension to ".ts"', 'yellow')
+      logColoredMessage(
+        '🔧 Set default outputFilenameExtension to ".ts"',
+        'yellow'
+      )
     }
 
     return fixed
@@ -195,7 +215,10 @@ export class EnhancedConfig {
     if (this.options.validate) {
       const isValid = this.validateConfig(config)
       if (!isValid && this.options.autoFix) {
-        logColoredMessage('🔄 Attempting to auto-fix configuration...', 'yellow')
+        logColoredMessage(
+          '🔄 Attempting to auto-fix configuration...',
+          'yellow'
+        )
         config = this.autoFixConfig(config)
         this.validateConfig(config)
       }
@@ -216,17 +239,23 @@ export class EnhancedConfig {
     }
 
     if (config.allowedExtensions && config.allowedExtensions.includes('.ts')) {
-      suggestions.push('Consider adding ".type.ts" and ".interface.ts" for type definitions')
+      suggestions.push(
+        'Consider adding ".type.ts" and ".interface.ts" for type definitions'
+      )
     }
 
     // Suggest ignoredExtensions for common test patterns
     if (!config.ignoredExtensions || config.ignoredExtensions.length === 0) {
-      suggestions.push('Consider adding ignoredExtensions: [".test.ts", ".test.tsx", ".spec.ts", ".spec.tsx"]')
+      suggestions.push(
+        'Consider adding ignoredExtensions: [".test.ts", ".test.tsx", ".spec.ts", ".spec.tsx"]'
+      )
     }
 
     // Suggest excludedFolders for common build directories
     if (!config.excludedFolders || config.excludedFolders.length === 0) {
-      suggestions.push('Consider adding excludedFolders: ["node_modules", "dist", "build", "coverage"]')
+      suggestions.push(
+        'Consider adding excludedFolders: ["node_modules", "dist", "build", "coverage"]'
+      )
     }
 
     return suggestions
@@ -238,16 +267,28 @@ export class EnhancedConfig {
   printConfigSummary(config: ModuleExportOptions): void {
     logColoredMessage('📋 Configuration Summary:', 'blue')
     logColoredMessage(`  Root Directory: ${config.rootDir}`, 'blue')
-    logColoredMessage(`  Output File: ${config.outputFileName}${config.outputFilenameExtension}`, 'blue')
+    logColoredMessage(
+      `  Output File: ${config.outputFileName}${config.outputFilenameExtension}`,
+      'blue'
+    )
     logColoredMessage(`  Export Mode: ${config.exportMode}`, 'blue')
-    logColoredMessage(`  Allowed Extensions: ${config.allowedExtensions?.join(', ') || 'none'}`, 'blue')
-    logColoredMessage(`  Ignored Extensions: ${config.ignoredExtensions?.join(', ') || 'none'}`, 'blue')
-    logColoredMessage(`  Excluded Folders: ${config.excludedFolders?.join(', ') || 'none'}`, 'blue')
+    logColoredMessage(
+      `  Allowed Extensions: ${config.allowedExtensions?.join(', ') || 'none'}`,
+      'blue'
+    )
+    logColoredMessage(
+      `  Ignored Extensions: ${config.ignoredExtensions?.join(', ') || 'none'}`,
+      'blue'
+    )
+    logColoredMessage(
+      `  Excluded Folders: ${config.excludedFolders?.join(', ') || 'none'}`,
+      'blue'
+    )
 
     const suggestions = this.getSuggestions(config)
     if (suggestions.length > 0) {
       logColoredMessage('\n💡 Suggestions:', 'yellow')
-      suggestions.forEach(suggestion => {
+      suggestions.forEach((suggestion) => {
         logColoredMessage(`  • ${suggestion}`, 'yellow')
       })
     }
@@ -271,4 +312,4 @@ export function createConfigFromPreset(
 export function showAvailablePresets(): void {
   const enhancedConfig = new EnhancedConfig()
   enhancedConfig.listAvailablePresets()
-} 
+}

@@ -47,7 +47,6 @@ export function removeExtensionAndMakeRelative(
     }
     return valueToReturn
   } catch (error) {
-    console.log(error)
     logFailedMessage(
       `Error while removing extension and making path relative: ${filepath}`,
       error

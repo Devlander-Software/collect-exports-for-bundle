@@ -132,5 +132,37 @@ export default [
       propertyReadSideEffects: false,
       unknownGlobalSideEffects: false
     }
+  },
+  // CLI build (npx-ready, CommonJS with shebang)
+  {
+    input: "src/cli/index.ts",
+    output: {
+      file: "dist/cjs/cli.js",
+      format: "cjs",
+      sourcemap: true,
+      banner: "#!/usr/bin/env node\n",
+      inlineDynamicImports: true
+    },
+    external: [
+      "fs",
+      "path",
+      "url",
+      "commander",
+      ...Object.keys(packageJson.dependencies || {})
+    ],
+    plugins: [
+      nodeResolve({ extensions, preferBuiltins: true }),
+      commonjs({ include: /node_modules/, extensions }),
+      typescript({ tsconfig: "./tsconfig.json" }),
+      babel({
+        extensions,
+        babelHelpers: "bundled",
+        exclude: /node_modules/,
+        presets: [
+          ["@babel/preset-env", { targets: { node: "14" } }],
+          "@babel/preset-typescript"
+        ]
+      })
+    ]
   }
 ];

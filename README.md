@@ -1,4 +1,4 @@
-![Devlander Collect Exports For Bundle Header](https://github.com/Devlander-Software/collect-exports-for-bundle/raw/main/media/images/collect-exports-for-bundle-preview-rounded.png)
+![Devlander Collectexports Header](https://github.com/Devlander-Software/collectexports/raw/main/media/images/collect-exports-for-bundle-preview-rounded.png)
 
 
 <a href="https://twitter.com/intent/tweet?button_hashtag=Devlander" target="\_parent">
@@ -7,9 +7,9 @@
   <img alt="" src="https://img.shields.io/badge/Discord-Devlander-%235865F2" />
 </a>
 
-<a href="https://www.npmjs.com/package/@devlander/collect-exports-for-bundle" target="\_parent">
+<a href="https://www.npmjs.com/package/collectexports" target="\_parent">
 
-  <img alt="" src="https://img.shields.io/npm/dm/@devlander/collect-exports-for-bundle.svg" />
+  <img alt="" src="https://img.shields.io/npm/dm/collectexports.svg" />
 </a>
 
 <a href="https://github.com/orgs/Devlander-Software/discussions">
@@ -20,11 +20,11 @@
   <img alt="Join Devlander on Twitch" src="https://img.shields.io/twitch/status/twitch" />
 </a>
 
-[![Hits](https://hits.sh/github.com/Devlander-Software/collect-exports-for-bundle.svg?label=Hits)](https://hits.sh/github.com/Devlander-Software/collect-exports-for-bundle/)
+[![Hits](https://hits.sh/github.com/Devlander-Software/collectexports.svg?label=Hits)](https://hits.sh/github.com/Devlander-Software/collectexports/)
 
 
-<a href="https://bit.ly/landonwjohnson-on-twitter" target="\_parent">
-  <img alt="" src="https://img.shields.io/twitter/follow/landonwjohnson.svg?style=social&label=Follow" />
+<a href="https://bit.ly/techwithlandonxtwitter" target="\_parent">
+  <img alt="@techwithlandon" src="https://img.shields.io/twitter/follow/techwithlandon.svg?style=social&label=Follow" />
 </a> 
 
 <a href="https://wakatime.com/i/landonwjohnson" target="\_parent">
@@ -36,6 +36,7 @@
 # Table of contents
 - [Introduction](#introduction)
 - [Features](#features)
+- [Presets & Advanced Configuration](#presets--advanced-configuration)
 - [Installation](#installation)
 - [Usage](#usage)
   - [Programmatically](#programmatically)
@@ -71,16 +72,21 @@ By addressing these challenges, the **Collect Exports For Bundle Script** offers
 
 
 ## Features
-- Export all your TypeScript files from a project into a single `index.ts` file.
+- Export all your TypeScript files from a project into a single `index.ts` file or per-directory barrel files.
 - Use in other GitHub gists and repositories.
 - Type-safe with a default export option.
 - Recursive scanning of directories.
 - Specify which file extensions to include or exclude.
 - Configurable through command-line arguments or direct function parameters.
 - Suitable for both command-line usage and integration with GitHub actions.
+- **TypeScript Compiler API**: Accurate export extraction for compilable barrels (use `useTypeScriptAPI: true`).
+- **rollup-plugin-dts compatible**: Generates `export { type X }` syntax for a single `index.d.ts` bundle.
+- **Inline directives**: Exclude files via `/** @collect-exports-exclude */` (eslint-style).
+- **Interactive config**: Run `collect-exports init --interactive` for guided setup.
 
+## Presets & Advanced Configuration
 
-
+Use presets (`react`, `nodeLibrary`, `designSystem`, `monorepo`, etc.) and `EnhancedConfig` for validation and auto-fixing. See **[IMPROVED_CONFIGURATION.md](./IMPROVED_CONFIGURATION.md)** for presets, configuration options, and advanced usage.
 
 ## Installation
 To install the Collect Exports For Bundle Script from the provided gist:
@@ -89,13 +95,13 @@ To install the Collect Exports For Bundle Script from the provided gist:
 
 ```bash
 
-npm install @devlander/collect-exports-for-bundle
+npm install collectexports
 ```
 
 ### yarn:
 
 ```bash
-yarn add @devlander/collect-exports-for-bundle
+yarn add collectexports
 ```
 
 ## Usage
@@ -105,7 +111,7 @@ After installation, you can use the Collect Exports For Bundle Script in two pri
 First, require or import the **autoExporter** function from the installed module and call it with an options object:
 
 ```javascript
-const autoExporter  = require("@devlander/collect-exports-for-bundle").default
+const autoExporter  = require("collectexports").default
   autoExporter({
     rootDir: "src",
     allowedExtensions: [".ts", ".tsx"],
@@ -139,7 +145,7 @@ This tool can be effectively utilized in both ***GitHub repositories*** and ***g
 #### Example Configuration:
 
 ```typescript
-const autoExporter = require("@devlander/collect-exports-for-bundle").default
+const autoExporter = require("collectexports").default
 
 const init = () => {
   autoExporter({
@@ -163,7 +169,7 @@ In this example, **main.ts** and **isEmpty.ts** would be the only files searched
 #### Example Configuration:
 
 ```typescript
-const autoExporter = require("@devlander/collect-exports-for-bundle").default
+const autoExporter = require("collectexports").default
 
 const init = () => {
     const configForAutoExporter: AutoExporterOptions = {
@@ -178,6 +184,10 @@ init();
 ```
 
 
+## Advanced: TypeScript API & rollup-plugin-dts
+
+Enable `useTypeScriptAPI: true` for accurate export extraction. Use the `library` preset for rollup-plugin-dts. Exclude files via `/** @collect-exports-exclude */`.
+
 ## Helper functions 
 
 ### Collect Paths From Directories 
@@ -186,7 +196,7 @@ This function returns paths that have valid file extensions for your directory
 
 #### Example 
 ```typescript
-const {collectPathsFromDirectories} = require("@devlander/collect-exports-for-bundle").default
+const {collectPathsFromDirectories} = require("collectexports").default
 
 
 const validPaths: string[] = await collectPathsFromDirectories("./src", {
@@ -206,7 +216,7 @@ This function returns paths that have valid file extensions for your directory
 
 #### Example 
 ```typescript
-const {createExtensions} = require("@devlander/collect-exports-for-bundle")
+const {createExtensions} = require("collectexports")
 
 const webExtensions = createExtensions(
   "web",
@@ -261,5 +271,7 @@ const webExtensions = createExtensions(
 - [Website](https://bit.ly/landonjohnsondev)
 - [Instagram](https://bit.ly/landonjohnsondev-on-instagram)
 - [YouTube](https://bit.ly/devlanderjs-youtube)
-- [Twitter](https://bit.ly/landonwjohnson-on-twitter)
+- [Twitter](https://bit.ly/techwithlandonxtwitter) (@techwithlandon)
 - [Facebook](https://bit.ly/devlander-facebook-page)
+- [Software Engineering Hub (US)](https://bit.ly/softwareengineeringhubusafb)
+- [Reddit r/USASoftwareDevs](https://www.reddit.com/r/USASoftwareDevs/)

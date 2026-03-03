@@ -1,4 +1,4 @@
-![Devlander Collect Exports For Bundle Header](https://github.com/Devlander-Software/collect-exports-for-bundle/raw/main/media/images/collect-exports-for-bundle-preview.jpg)
+![Devlander Collectexports Header](https://github.com/Devlander-Software/collectexports/raw/main/media/images/collect-exports-for-bundle-preview.jpg)
 
 
 <a href="https://twitter.com/intent/tweet?button_hashtag=Devlander" target="\_parent">
@@ -7,9 +7,9 @@
   <img alt="" src="https://img.shields.io/badge/Discord-Devlander-%235865F2" />
 </a>
 
-<a href="https://www.npmjs.com/package/@devlander/collect-exports-for-bundle" target="\_parent">
+<a href="https://www.npmjs.com/package/collectexports" target="\_parent">
 
-  <img alt="" src="https://img.shields.io/npm/dm/@devlander/collect-exports-for-bundle.svg" />
+  <img alt="" src="https://img.shields.io/npm/dm/collectexports.svg" />
 </a>
 
 <a href="https://github.com/orgs/Devlander-Software/discussions">
@@ -22,8 +22,8 @@
 
 
 
-<a href="https://bit.ly/landonwjohnson-on-twitter" target="\_parent">
-  <img alt="" src="https://img.shields.io/twitter/follow/landonwjohnson.svg?style=social&label=Follow" />
+<a href="https://bit.ly/techwithlandonxtwitter" target="\_parent">
+  <img alt="@techwithlandon" src="https://img.shields.io/twitter/follow/techwithlandon.svg?style=social&label=Follow" />
 </a> 
 
 <a href="https://wakatime.com/i/landonwjohnson" target="\_parent">
@@ -88,13 +88,13 @@ To install the Collect Exports For Bundle Script from the provided gist:
 
 ```bash
 
-npm install @devlander/collect-exports-for-bundle
+npm install collectexports
 ```
 
 ### yarn:
 
 ```bash
-yarn add @devlander/collect-exports-for-bundle
+yarn add collectexports
 ```
 
 ## Usage
@@ -104,7 +104,7 @@ After installation, you can use the Collect Exports For Bundle Script in two pri
 First, require or import the **autoExporter** function from the installed module and call it with an options object:
 
 ```javascript
-const autoExporter  = require("@devlander/collect-exports-for-bundle").default
+const autoExporter  = require("collectexports").default
   autoExporter({
     rootDir: "src",
     allowedExtensions: [".ts", ".tsx"],
@@ -138,7 +138,7 @@ This tool can be effectively utilized in both ***GitHub repositories*** and ***g
 #### Example Configuration:
 
 ```typescript
-const autoExporter = require("@devlander/collect-exports-for-bundle").default
+const autoExporter = require("collectexports").default
 
 const init = () => {
   autoExporter({
@@ -162,7 +162,7 @@ In this example, **main.ts** and **isEmpty.ts** would be the only files searched
 #### Example Configuration:
 
 ```typescript
-const autoExporter = require("@devlander/collect-exports-for-bundle").default
+const autoExporter = require("collectexports").default
 
 const init = () => {
     const configForAutoExporter: AutoExporterOptions = {
@@ -185,7 +185,7 @@ This function returns paths that have valid file extensions for your directory
 
 #### Example 
 ```typescript
-const {collectPathsFromDirectories} = require("@devlander/collect-exports-for-bundle").default
+const {collectPathsFromDirectories} = require("collectexports").default
 
 
 const validPaths: string[] = await collectPathsFromDirectories("./src", {
@@ -205,7 +205,7 @@ This function returns paths that have valid file extensions for your directory
 
 #### Example 
 ```typescript
-const {createExtensions} = require("@devlander/collect-exports-for-bundle")
+const {createExtensions} = require("collectexports")
 
 const webExtensions = createExtensions(
   "web",
@@ -245,5 +245,7 @@ const webExtensions = createExtensions(
 - [Website](https://bit.ly/landonjohnsondev)
 - [Instagram](https://bit.ly/landonjohnsondev-on-instagram)
 - [YouTube](https://bit.ly/devlanderjs-youtube)
-- [Twitter](https://bit.ly/landonwjohnson-on-twitter)
+- [Twitter](https://bit.ly/techwithlandonxtwitter) (@techwithlandon)
 - [Facebook](https://bit.ly/devlander-facebook-page)
+- [Software Engineering Hub (US)](https://bit.ly/softwareengineeringhubusafb)
+- [Reddit r/USASoftwareDevs](https://www.reddit.com/r/USASoftwareDevs/)

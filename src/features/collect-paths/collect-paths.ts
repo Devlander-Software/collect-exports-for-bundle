@@ -58,9 +58,11 @@ export async function collectPaths(
 
   try {
     const files = await fs.readdir(absolutePath)
-    bgGreen(
-      white(bold(`Files in directory '${absolutePath}': ${files.join(', ')}`))
-    )
+    if (config.debug) {
+      bgGreen(
+        white(bold(`Files in directory '${absolutePath}': ${files.join(', ')}`))
+      )
+    }
 
     for (const file of files) {
       const filepath = path.join(absolutePath, file)
@@ -109,7 +111,9 @@ export async function collectPaths(
         }
       } else {
         if (['index.ts', 'index.tsx'].includes(file)) {
-          bgBlack(white(bold(`Skipping index file: ${filepath}`)))
+          if (config.debug) {
+            bgBlack(white(bold(`Skipping index file: ${filepath}`)))
+          }
           continue
         }
 
@@ -127,8 +131,7 @@ export async function collectPaths(
               'invalid file',
               'bgRed'
             )
-          } else {
-            // console.log ignoredExtensions and the highlight just the extension in red if it can find it
+          } else if (config.debug) {
             bgBlack(
               `Skipping file: ${filepath} because it has an invalid extension which was found in ignoredExtensions`
             )
@@ -152,7 +155,7 @@ export async function collectPaths(
               'valid file',
               'bgGreen'
             )
-          } else {
+          } else if (config.debug) {
             bgGreen(`Adding file to paths: ${filepath}`)
           }
 

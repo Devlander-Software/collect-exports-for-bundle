@@ -1,26 +1,26 @@
 /* eslint-disable no-var */
-const myLocalConstFunc = (): string => {
+const _myLocalConstFunc = (): string => {
   return 'Hello World'
 }
 
-function myLocalFuncFunc(): string {
+function _myLocalFuncFunc(): string {
   return 'Hello World'
 }
 
-var myLocalVarFunc = function (): string {
+var _myLocalVarFunc = function (): string {
   return 'Hello World'
 }
 
-const myLocalLetFunc = function (): string {
+const _myLocalLetFunc = function (): string {
   return 'Hello World'
 }
 
-class MyLocalClass {
+class _MyLocalClass {
   myLocalFunc(): string {
     return 'Hello World'
   }
 }
 
-enum MyLocalEnum {
+enum _MyLocalEnum {
   myLocalValue = 'Hello World'
 }

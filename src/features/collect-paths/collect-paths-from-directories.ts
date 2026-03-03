@@ -35,11 +35,12 @@ export async function collectPathsFromDirectories(
     if (message) {
       logColoredMessage(message, 'blue')
     }
-    logColoredMessage(
-      `Collecting paths from directory... ${startPath}  
-    `,
-      'green'
-    )
+    if (config.debug) {
+      logColoredMessage(
+        `Collecting paths from directory... ${startPath}`,
+        'green'
+      )
+    }
     if (message && config.debug) {
       logColoredMessage(message, 'blue')
     }

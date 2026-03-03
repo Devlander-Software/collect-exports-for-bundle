@@ -2,7 +2,7 @@ import autoExporter, {
   createConfigFromPreset, 
   showAvailablePresets,
   EnhancedConfig 
-} from '@devlander/collect-exports-for-bundle'
+} from 'collectexports'
 
 /**
  * Enhanced usage examples with the new configuration system

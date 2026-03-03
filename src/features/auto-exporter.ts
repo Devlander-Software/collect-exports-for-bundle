@@ -6,8 +6,42 @@ import { ModuleExportOptions } from '../types/module-exporter.types'
 import { logColoredMessage } from '../utils/log-with-color'
 import { modifyConfig } from '../utils/modify-config'
 import { simulateProgressBar } from '../utils/stimulate-progress-bar'
-import { bundleExportAsFunction } from './bundle-export-as-function-old'
+import { bundleExportAsFunction } from './bundle-export-as-function'
 
+/**
+ * Scans a directory and generates barrel export statements (e.g., `index.ts`) automatically.
+ *
+ * Use this when you want to programmatically generate exports from scripts, build tools,
+ * or CI pipelines.
+ *
+ * @param options - Configuration for which directory to scan, extensions to include/exclude,
+ *                  output filename, and export mode. See {@link ModuleExportOptions}.
+ * @returns Promise that resolves when barrel files have been written.
+ * @throws Throws if `rootDir` is missing or invalid.
+ *
+ * @example
+ * Basic usage with defaults:
+ * ```typescript
+ * import autoExporter from 'collectexports'
+ *
+ * await autoExporter({
+ *   rootDir: 'src/components',
+ *   allowedExtensions: ['.ts', '.tsx'],
+ *   ignoredExtensions: ['.test.ts', '.stories.tsx'],
+ * })
+ * ```
+ *
+ * @example
+ * With TypeScript API for accurate export extraction:
+ * ```typescript
+ * await autoExporter({
+ *   rootDir: 'src',
+ *   allowedExtensions: ['.ts', '.tsx'],
+ *   useTypeScriptAPI: true,
+ *   barrelMode: 'perDirectory',
+ * })
+ * ```
+ */
 const autoExporter = async (
   options: ModuleExportOptions = {}
 ): Promise<void> => {
@@ -76,14 +110,18 @@ const autoExporter = async (
       currentStep++
     )
 
-    // TO DO
-    // after this function runs
-    // it should have updated the resuls object in the config
-    // which would have updated values for includedExports, excludedExports,
-    // includedFolders, excludedFolders, includedFiles, excludedFiles
-    const exportsList = await generateExportsFromDir(config.rootDir, config)
+    const barrelResults = await generateExportsFromDir(config.rootDir, config)
 
-    console.log(exportsList, 'exportsList')
+    if (config.debug) {
+      logColoredMessage(
+        `Generated barrels: ${JSON.stringify(
+          barrelResults.map((r) => r.outputPath),
+          null,
+          2
+        )}`,
+        'magenta'
+      )
+    }
 
     simulateProgressBar(
       `Writing to ${fileNameToWriteTo}...`,
@@ -91,12 +129,13 @@ const autoExporter = async (
       currentStep++
     )
 
-    fs.writeFileSync(
-      path.join(config.rootDir, fileNameToWriteTo),
-      exportsList.join('\n')
-    )
+    for (const { outputPath, content } of barrelResults) {
+      fs.writeFileSync(outputPath, content.join('\n'))
+      logColoredMessage(`Wrote ${outputPath}`, 'green')
+    }
 
     if (
+      config.barrelMode !== 'perDirectory' &&
       config.bundleAsObjectForDefaultExport &&
       config.rootDir &&
       typeof config.bundleAsObjectForDefaultExport !== 'undefined'
@@ -133,8 +172,11 @@ const autoExporter = async (
     logColoredMessage(`\nExports generated in ${fileNameToWriteTo}\n`, 'green')
     logColoredMessage(`Located at ${config.rootDir}\n`, 'green')
   } catch (e) {
-    console.log(e)
-    logColoredMessage(`\nError: ${e}\n`, 'red')
+    const errorMessage = e instanceof Error ? e.message : String(e)
+    logColoredMessage(`\nError: ${errorMessage}\n`, 'red')
+    if (process.env.DEBUG) {
+      logColoredMessage(e instanceof Error ? e.stack ?? '' : String(e), 'red')
+    }
   }
 }
 
