@@ -7,9 +7,9 @@
   <img alt="" src="https://img.shields.io/badge/Discord-Devlander-%235865F2" />
 </a>
 
-<a href="https://www.npmjs.com/package/collectexports" target="\_parent">
+<a href="https://www.npmjs.com/package/collectbyexports" target="\_parent">
 
-  <img alt="" src="https://img.shields.io/npm/dm/collectexports.svg" />
+  <img alt="" src="https://img.shields.io/npm/dm/collectbyexports.svg" />
 </a>
 
 <a href="https://github.com/orgs/Devlander-Software/discussions">
@@ -82,7 +82,7 @@ By addressing these challenges, the **Collect Exports For Bundle Script** offers
 - **TypeScript Compiler API**: Accurate export extraction for compilable barrels (use `useTypeScriptAPI: true`).
 - **rollup-plugin-dts compatible**: Generates `export { type X }` syntax for a single `index.d.ts` bundle.
 - **Inline directives**: Exclude files via `/** @collect-exports-exclude */` (eslint-style).
-- **Interactive config**: Run `collectexports init --interactive` for guided setup.
+- **Interactive config**: Run `collectbyexports init --interactive` for guided setup.
 
 ## Presets & Advanced Configuration
 
@@ -95,13 +95,13 @@ To install the Collect Exports For Bundle Script from the provided gist:
 
 ```bash
 
-npm install collectexports
+npm install collectbyexports
 ```
 
 ### yarn:
 
 ```bash
-yarn add collectexports
+yarn add collectbyexports
 ```
 
 ## Usage
@@ -111,7 +111,7 @@ After installation, you can use the Collect Exports For Bundle Script in two pri
 First, require or import the **autoExporter** function from the installed module and call it with an options object:
 
 ```javascript
-const autoExporter  = require("collectexports").default
+const autoExporter  = require("collectbyexports").default
   autoExporter({
     rootDir: "src",
     allowedExtensions: [".ts", ".tsx"],
@@ -145,7 +145,7 @@ This tool can be effectively utilized in both ***GitHub repositories*** and ***g
 #### Example Configuration:
 
 ```typescript
-const autoExporter = require("collectexports").default
+const autoExporter = require("collectbyexports").default
 
 const init = () => {
   autoExporter({
@@ -169,7 +169,7 @@ In this example, **main.ts** and **isEmpty.ts** would be the only files searched
 #### Example Configuration:
 
 ```typescript
-const autoExporter = require("collectexports").default
+const autoExporter = require("collectbyexports").default
 
 const init = () => {
     const configForAutoExporter: AutoExporterOptions = {
@@ -196,7 +196,7 @@ This function returns paths that have valid file extensions for your directory
 
 #### Example 
 ```typescript
-const {collectPathsFromDirectories} = require("collectexports").default
+const {collectPathsFromDirectories} = require("collectbyexports").default
 
 
 const validPaths: string[] = await collectPathsFromDirectories("./src", {
@@ -216,7 +216,7 @@ This function returns paths that have valid file extensions for your directory
 
 #### Example 
 ```typescript
-const {createExtensions} = require("collectexports")
+const {createExtensions} = require("collectbyexports")
 
 const webExtensions = createExtensions(
   "web",

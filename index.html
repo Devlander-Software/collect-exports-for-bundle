@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>collectexports — Generate barrel exports automatically</title>
-  <meta name="description" content="collectexports scans your directories and generates TypeScript/JavaScript export statements for barrel files and design systems.">
+  <title>collectbyexports — Generate barrel exports automatically</title>
+  <meta name="description" content="collectbyexports scans your directories and generates TypeScript/JavaScript export statements for barrel files and design systems.">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
   <style>
     :root {
@@ -237,14 +237,14 @@
 </head>
 <body>
   <header>
-    <a href="./" class="logo">collectexports</a>
+    <a href="./" class="logo">collectbyexports</a>
     <nav>
       <button type="button" class="nav-toggle" aria-label="Open menu" aria-expanded="false">☰</button>
       <div class="nav-links">
         <a href="./docs/">Docs</a>
         <a href="https://github.com/Devlander-Software/collectexports/blob/main/IMPROVED_CONFIGURATION.md" target="_blank" rel="noopener">Presets</a>
         <a href="https://github.com/Devlander-Software/collectexports" target="_blank" rel="noopener">GitHub</a>
-        <a href="https://www.npmjs.com/package/collectexports" target="_blank" rel="noopener">npm</a>
+        <a href="https://www.npmjs.com/package/collectbyexports" target="_blank" rel="noopener">npm</a>
       </div>
     </nav>
   </header>
@@ -253,7 +253,7 @@
     <section class="hero">
       <div class="container">
         <h1>Generate barrel exports automatically</h1>
-        <p class="subhead">collectexports scans your directories and generates TypeScript/JavaScript export statements for barrel files, large projects, and design systems.</p>
+        <p class="subhead">collectbyexports scans your directories and generates TypeScript/JavaScript export statements for barrel files, large projects, and design systems.</p>
         <div class="hero-buttons">
           <a href="./docs/" class="btn btn-primary">Get started</a>
           <a href="https://github.com/Devlander-Software/collectexports" class="btn btn-secondary" target="_blank" rel="noopener">View on GitHub</a>
@@ -311,8 +311,8 @@ export { Input } from './Input'
         <h2>Install &amp; Run</h2>
         <div class="code-block">
           <button type="button" class="copy-btn" aria-label="Copy code">Copy</button>
-          <pre><code class="language-bash">npm install collectexports
-collectexports collect</code></pre>
+          <pre><code class="language-bash">npm install collectbyexports
+collectbyexports collect</code></pre>
         </div>
         <div class="code-label">Configuration</div>
         <div class="code-block">
@@ -332,7 +332,7 @@ collectexports collect</code></pre>
         <h2>Use it programmatically</h2>
         <div class="code-block">
           <button type="button" class="copy-btn" aria-label="Copy code">Copy</button>
-          <pre><code class="language-typescript">import { autoExporter } from 'collectexports'
+          <pre><code class="language-typescript">import { autoExporter } from 'collectbyexports'
 
 await autoExporter({
   rootDir: 'src/components',
@@ -366,8 +366,8 @@ export const debugOnly = () => { /* ... */ }</code></pre>
             <p>Run via CLI. Build scripts, CI/CD.</p>
             <div class="code-block">
               <button type="button" class="copy-btn" aria-label="Copy code">Copy</button>
-              <pre><code class="language-bash">collectexports collect
-npx collectexports collect</code></pre>
+              <pre><code class="language-bash">collectbyexports collect
+npx collectbyexports collect</code></pre>
             </div>
           </div>
           <div class="card">
@@ -379,7 +379,7 @@ npx collectexports collect</code></pre>
             <p>Guided setup for new projects.</p>
             <div class="code-block">
               <button type="button" class="copy-btn" aria-label="Copy code">Copy</button>
-              <pre><code class="language-bash">collectexports init --interactive</code></pre>
+              <pre><code class="language-bash">collectbyexports init --interactive</code></pre>
             </div>
           </div>
         </div>
@@ -433,7 +433,7 @@ npx collectexports collect</code></pre>
         <h2>CLI Quick Reference</h2>
         <div class="code-block">
           <button type="button" class="copy-btn" aria-label="Copy code">Copy</button>
-          <pre><code class="language-bash">collectexports collect -d ./src -o index</code></pre>
+          <pre><code class="language-bash">collectbyexports collect -d ./src -o index</code></pre>
         </div>
         <p>Uses flags for directory and output targeting.</p>
       </div>
@@ -444,9 +444,9 @@ npx collectexports collect</code></pre>
         <h2>Ready to stop hand-maintaining exports?</h2>
         <div class="buttons">
           <a href="./docs/" class="btn btn-primary">View the docs</a>
-          <a href="https://www.npmjs.com/package/collectexports" class="btn btn-secondary" target="_blank" rel="noopener">Try it now</a>
+          <a href="https://www.npmjs.com/package/collectbyexports" class="btn btn-secondary" target="_blank" rel="noopener">Try it now</a>
         </div>
-        <p class="footer-attribution">collectexports — by Devlander</p>
+        <p class="footer-attribution">collectbyexports — by Devlander</p>
         <p class="footer-copyright">© Devlander. All rights reserved.</p>
         <div class="footer-social">
           <a href="https://discord.gg/5uyfXkpgUG" target="_blank" rel="noopener">Discord</a>

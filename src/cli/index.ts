@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * collectexports CLI — Run from terminal with `collectexports` or `ce`.
+ * collectbyexports CLI — Run from terminal with `collectbyexports` or `cbe`.
  *
  * ## Commands
  *
@@ -13,10 +13,10 @@
  * ## Examples
  *
  * ```bash
- * collectexports collect -d ./src
- * collectexports collect -d ./src -o index -e .ts,.tsx
- * collectexports init --interactive
- * collectexports list-presets
+ * collectbyexports collect -d ./src
+ * collectbyexports collect -d ./src -o index -e .ts,.tsx
+ * collectbyexports init --interactive
+ * collectbyexports list-presets
  * ```
  *
  * @packageDocumentation
@@ -68,7 +68,7 @@ class CollectExportsCLI {
 
   private setupCommands(): void {
     this.program
-      .name('collectexports')
+      .name('collectbyexports')
       .description(
         'Automatically collect and generate export statements for TypeScript/JavaScript files'
       )
@@ -183,7 +183,7 @@ class CollectExportsCLI {
         )
         config = await runInteractiveConfig(process.cwd())
         writeConfigFile(config, this.defaultConfigPath)
-        logColoredMessage('💡 You can now run: collectexports collect', 'blue')
+        logColoredMessage('💡 You can now run: collectbyexports collect', 'blue')
         return
       }
 
@@ -221,7 +221,7 @@ class CollectExportsCLI {
       fs.writeFileSync(configPath, JSON.stringify(config, null, 2))
 
       logColoredMessage(`✅ Configuration file created: ${configPath}`, 'green')
-      logColoredMessage('💡 You can now run: collectexports collect', 'blue')
+      logColoredMessage('💡 You can now run: collectbyexports collect', 'blue')
     } catch (error: unknown) {
       const msg = error instanceof Error ? error.message : String(error)
       logColoredMessage(`❌ Error: ${msg}`, 'red')

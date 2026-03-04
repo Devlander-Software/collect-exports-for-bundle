@@ -1,5 +1,5 @@
 /**
- * collectexports — Generate barrel exports automatically
+ * collectbyexports — Generate barrel exports automatically
  *
  * Easily collect all exports from a directory to your index file for bundling.
  * Ideal for design systems, shared types, monorepos, and projects using Rollup, Vite, or Storybook.
@@ -7,18 +7,18 @@
  * ## Installation
  *
  * ```bash
- * npm install collectexports
- * yarn add collectexports
+ * npm install collectbyexports
+ * yarn add collectbyexports
  * ```
  *
  * ## Quick Start
  *
- * **CLI:** Run `collectexports collect` or `collectexports init --interactive` for guided setup.
+ * **CLI:** Run `collectbyexports collect` or `collectbyexports init --interactive` for guided setup.
  *
  * **Programmatic:** Import `autoExporter` and call it with your config:
  *
  * ```typescript
- * import { autoExporter } from 'collectexports'
+ * import { autoExporter } from 'collectbyexports'
  *
  * await autoExporter({
  *   rootDir: 'src/components',
