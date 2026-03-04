@@ -50,7 +50,7 @@ export { Input } from './Input'
 ## 3. Install & Run
 
 ```bash
-npm install @devlander/collectexports
+npm install collectexports
 collectexports collect
 ```
 
@@ -61,7 +61,7 @@ Show the resulting `.collect-exports.json` (or interactive init output) and a be
 ## 4. Programmatic Usage
 
 ```typescript
-import autoExporter from '@devlander/collectexports'
+import { autoExporter } from 'collectexports'
 
 autoExporter({
   rootDir: 'src/components',

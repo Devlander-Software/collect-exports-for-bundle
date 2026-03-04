@@ -24,7 +24,8 @@ function normalizeOptions(
   if (o.outputPath) {
     const parsed = path.parse(o.outputPath)
     o.outputFileName = parsed.name
-    o.outputFilenameExtension = (parsed.ext || '.ts') as '.ts' | '.tsx'
+    const ext = parsed.ext
+    o.outputFilenameExtension = (ext === '.ts' || ext === '.tsx') ? ext : '.ts'
   }
   if (o.includeBarrelFiles !== undefined && o.includeIndexes === undefined) {
     o.includeIndexes = o.includeBarrelFiles

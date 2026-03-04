@@ -31,6 +31,7 @@
  */
 
 export { default as autoExporter } from './features/auto-exporter'
+export { default } from './features/auto-exporter'
 export {
   EnhancedConfig,
   createConfigFromPreset,

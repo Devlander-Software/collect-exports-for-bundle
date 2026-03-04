@@ -98,7 +98,7 @@ class CollectExportsCLI {
         'Comma-separated list of excluded folders'
       )
       .option('-m, --mode <mode>', 'Export mode: named, default, or both')
-      .option('-V, --verbose', 'Enable debug/verbose mode')
+      .option('-D, --verbose', 'Enable debug/verbose mode')
       .option('--debug', 'Enable debug mode')
       .option('-v, --validate', 'Validate configuration only')
       .action(this.handleCollect.bind(this))
