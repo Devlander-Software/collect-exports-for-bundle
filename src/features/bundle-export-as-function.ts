@@ -3,7 +3,7 @@ import path from 'path'
 import { createDurationComment } from '../comments/create-duration-comment'
 import { createTitleComment } from '../comments/create-title-comment'
 
-import { extractDefaultExportVariable } from '../export-related/extract-default-export'
+import { extractDefaultExportVariableByFilePath } from '../export-related/extract-default-export-by-file-path'
 import { getExportedFunctionNamesByFilePath } from '../export-related/get-exported-function-names-by-filepath'
 import { getExportedTypeDeclarationsByFilePath } from '../export-related/get-exported-type-declarations-by-filepath'
 import { AutoExporterOptions, Results } from '../types/module-exporter.types'
@@ -110,7 +110,7 @@ export const bundleExportAsFunction = async (
         .relative(options.rootDir, match.path)
         .replace(/\\/g, '/')}`
 
-      const hasDefaultExport = extractDefaultExportVariable(match.path) || ''
+      const hasDefaultExport = extractDefaultExportVariableByFilePath(match.path) || ''
       const withoutExtension = relativePath.substring(
         0,
         relativePath.lastIndexOf('.')
