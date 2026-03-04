@@ -23,6 +23,15 @@ describe('modify-config aliases', () => {
     expect(result.outputFilenameExtension).toBe('.ts')
   })
 
+  it('defaults outputFilenameExtension to .ts when outputPath has an unsupported extension', async () => {
+    const result = await modifyConfig({
+      rootDir: 'src',
+      outputPath: './dist/index.js'
+    })
+    expect(result.outputFileName).toBe('index')
+    expect(result.outputFilenameExtension).toBe('.ts')
+  })
+
   it('maps includeBarrelFiles to includeIndexes', async () => {
     const result = await modifyConfig({
       rootDir: 'src',
