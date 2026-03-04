@@ -1,4 +1,4 @@
-import autoExporter, { 
+import { autoExporter, 
   createConfigFromPreset, 
   showAvailablePresets,
   EnhancedConfig 

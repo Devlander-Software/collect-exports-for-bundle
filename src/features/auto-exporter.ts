@@ -131,7 +131,9 @@ const autoExporter = async (
 
     for (const { outputPath, content } of barrelResults) {
       fs.writeFileSync(outputPath, content.join('\n'))
-      logColoredMessage(`Wrote ${outputPath}`, 'green')
+      if (config.debug) {
+        logColoredMessage(`Wrote ${outputPath}`, 'green')
+      }
     }
 
     if (
