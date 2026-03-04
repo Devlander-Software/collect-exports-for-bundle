@@ -27,7 +27,7 @@ export async function generateExportsFromDir(
         const dirConfig = { ...config, rootDir: dir }
         const lines = generateExportsFromPaths(paths, dirConfig)
         results.push({
-          outputPath: `${dir}/${config.outputFileName}${config.outputFilenameExtension}`,
+          outputPath: path.join(dir, config.outputFileName + config.outputFilenameExtension),
           content: lines
         })
       }
@@ -35,7 +35,7 @@ export async function generateExportsFromDir(
     }
 
     const lines = generateExportsFromPaths(filteredPaths, config)
-    const outputPath = `${config.rootDir}/${config.outputFileName}${config.outputFilenameExtension}`
+    const outputPath = path.join(config.rootDir, config.outputFileName + config.outputFilenameExtension)
     return [{ outputPath, content: lines }]
   } catch (error: unknown) {
     logColoredMessage(`Error generating exports from directory...`, 'red')
