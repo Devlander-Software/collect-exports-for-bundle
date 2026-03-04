@@ -1,8 +1,8 @@
 import { fileHasValidExtension } from '../../extensions/has-valid-extension'
 import { AutoExporterOptions } from '../../types/module-exporter.types'
 import {
-    logColoredMessage,
-    logMessageForFunction
+  logColoredMessage,
+  logMessageForFunction
 } from '../../utils/log-with-color'
 import { collectPaths } from './collect-paths'
 

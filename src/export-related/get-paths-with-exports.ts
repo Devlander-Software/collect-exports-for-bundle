@@ -1,4 +1,5 @@
 import { fileHasValidExtension } from '../extensions/has-valid-extension'
+import { isFileExcludedByDirective } from '../features/directive-parser'
 import { ConfigForCollectPathsFromDirectories } from '../features/collect-paths/collect-paths-from-directories'
 import { getFileContent } from '../utils/get-file-content'
 import {
@@ -30,9 +31,20 @@ export async function getPathsWithExports(
         )
       }
       if (hasValidExtension) {
+        const fileOutput = getFileContent(path).toString()
+        if (isFileExcludedByDirective(path, fileOutput)) {
+          if (config.debug) {
+            logMessageForFunction(
+              'getPathsWithExports',
+              { path },
+              'excluded by @collect-exports-exclude',
+              'yellow'
+            )
+          }
+          return false
+        }
         // check to see if the file has either a default export or named exports
         // if it doesn't, it's not a valid file
-        const fileOutput = getFileContent(path).toString()
 
         if (config.debug) {
           logMessageForFunction(

@@ -46,10 +46,11 @@ describe('createExportMatches', () => {
         };
       
         const result = generateExportsFromPaths(paths, config);
-      
-        expect(result).toContain('* Start Time:');
-        expect(result).toContain('* End Time:');
-        expect(result).toContain('* Duration:');
+        const resultStr = Array.isArray(result) ? result.join('\n') : String(result);
+
+        expect(resultStr).toContain('* Start Time:');
+        expect(resultStr).toContain('* End Time:');
+        expect(resultStr).toContain('* Duration:');
         // Additional assertions can be added based on expected behavior
       });
 

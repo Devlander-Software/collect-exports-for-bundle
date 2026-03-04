@@ -69,7 +69,7 @@ async function checkAndRelinkPackage(packageName, directories) {
 }
 
 function linkPackages() {
-    const packageName = '@devlander/collect-exports-for-bundle';
+    const packageName = 'collectexports';
     const directories = ['example']; // Adjust the directories as needed
     checkAndRelinkPackage(packageName, directories);
 }

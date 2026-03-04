@@ -1,5 +1,5 @@
- const TestCompJS = () => {
- return ''
+const TestCompJS = () => {
+  return ''
 }
 
 export default TestCompJS

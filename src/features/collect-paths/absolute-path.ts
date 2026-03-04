@@ -24,9 +24,13 @@ export const getAbsolutePath = async (
 ): Promise<{ paths: string[]; absolutePath?: string }> => {
   try {
     let myPath = path.normalize(path.resolve(startPath))
-    logColoredMessage(`Starting to get absolute path from ${myPath}`, 'blue')
+    if (config.debug) {
+      logColoredMessage(`Starting to get absolute path from ${myPath}`, 'blue')
+    }
     myPath = correctDuplicateDriveLetters(myPath)
-    logColoredMessage(`Corrected path to ${myPath}`, 'blue')
+    if (config.debug) {
+      logColoredMessage(`Corrected path to ${myPath}`, 'blue')
+    }
 
     let pathsToTry = [
       myPath,

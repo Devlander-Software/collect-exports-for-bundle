@@ -25,39 +25,46 @@ describe('createExportMatches', () => {
       usedFunctionNames,
       usedFunctionTypes
     )
-    console.log(result, 'this is result for createExportMatches')
-    let expected = [
-        {
-          functionNames: [{ exportType: 'named', name: 'getDuration' }],
-          functionTypes: [],
-          path: pathWithFunctionExport
-        },
-        {
-          functionNames: [],
-          functionTypes: [{ exportType: 'named', name: 'TestOptions' }],
-          path: pathWithInterfaceInFile
-        },
-        {
-          functionNames: [{ exportType: 'named', name: 'myVarInJS' }],
-          functionTypes: [],
-          path: pathWithJSFile
-        },
-        {
-          functionNames: [],
-          functionTypes: [],
-          path: pathWithNoExports
-        },
-        {
-          functionNames: [],
-          functionTypes: [],
-          path: pathWithFunctionExport
-        },
-        {
-          functionNames: [{ exportType: 'default', name: 'TestComp' }],
-          functionTypes: [],
-          path: pathToIndexWithDefaultExport
-        }
-      ]
+    const expected = [
+      {
+        functionNames: [
+          { exportType: 'named', name: 'getDuration', isTypeOnly: false }
+        ],
+        functionTypes: [],
+        path: pathWithFunctionExport
+      },
+      {
+        functionNames: [],
+        functionTypes: [
+          { exportType: 'named', name: 'TestOptions', isTypeOnly: true }
+        ],
+        path: pathWithInterfaceInFile
+      },
+      {
+        functionNames: [
+          { exportType: 'named', name: 'myVarInJS', isTypeOnly: false }
+        ],
+        functionTypes: [],
+        path: pathWithJSFile
+      },
+      {
+        functionNames: [],
+        functionTypes: [],
+        path: pathWithNoExports
+      },
+      {
+        functionNames: [],
+        functionTypes: [],
+        path: pathWithFunctionExport
+      },
+      {
+        functionNames: [
+          { exportType: 'default', name: 'TestComp', isTypeOnly: false }
+        ],
+        functionTypes: [],
+        path: pathToIndexWithDefaultExport
+      }
+    ]
     expect(result).toEqual(expected)
   })
 })

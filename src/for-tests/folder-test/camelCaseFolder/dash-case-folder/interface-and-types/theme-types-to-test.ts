@@ -118,28 +118,28 @@ export interface ShadowStyleFactory {
 }
 
 export type ThemedTypographyProcessor<T> = TypographyThemeProcessor<T>
-export type ImageStyleFactory<T, InputType = number> = ThemePropsValueMapper<
+export type ImageStyleFactory<T, _InputType = number> = ThemePropsValueMapper<
   T,
   ImageAppearanceProps,
   string
 >
-export type ButtonStyleFactory<T, InputType = number> = ThemePropsValueMapper<
+export type ButtonStyleFactory<T, _InputType = number> = ThemePropsValueMapper<
   T,
   ButtonAppearanceProps,
   string
 >
-export type TextStyleFactory<T, InputType = number> = ThemePropsValueMapper<
+export type TextStyleFactory<T, _InputType = number> = ThemePropsValueMapper<
   T,
   ThemedTextStyleProps,
   string
 >
-export type LayoutStyleFactory<T, InputType = number> = ThemePropsValueMapper<
+export type LayoutStyleFactory<T, _InputType = number> = ThemePropsValueMapper<
   T,
   OverallStyleProps,
   string
 >
 
-export interface BasicThemeFunctions<T, ExpectedNumOrString> {
+export interface BasicThemeFunctions<_T, _ExpectedNumOrString> {
   // Define additional theme functions and their signatures
 }
 
@@ -149,11 +149,11 @@ export interface CoreTheme {
   // Define additional core theme properties
 }
 
-export interface UnifiedTheme<ExpectedNumOrString>
+export interface UnifiedTheme<_ExpectedNumOrString>
   extends CoreTheme,
     BasicThemeFunctions<
-      UnifiedTheme<ExpectedNumOrString>,
-      ExpectedNumOrString
+      UnifiedTheme<_ExpectedNumOrString>,
+      _ExpectedNumOrString
     > {
   // Extend with additional properties and methods if needed
 }

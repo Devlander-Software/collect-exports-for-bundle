@@ -7,7 +7,7 @@ The enhanced configuration system makes it easier and more accurate to set up th
 ### Available Presets
 
 ```typescript
-import { showAvailablePresets, createConfigFromPreset } from '@devlander/collect-exports-for-bundle'
+import { showAvailablePresets, createConfigFromPreset } from 'collectexports'
 
 // See all available presets
 showAvailablePresets()
@@ -24,7 +24,7 @@ showAvailablePresets()
 ### Using Presets
 
 ```typescript
-import autoExporter, { createConfigFromPreset } from '@devlander/collect-exports-for-bundle'
+import autoExporter, { createConfigFromPreset } from 'collectexports'
 
 // Quick setup for React project
 const config = createConfigFromPreset('react', {
@@ -40,7 +40,7 @@ await autoExporter(config)
 ### Basic Usage
 
 ```typescript
-import { EnhancedConfig } from '@devlander/collect-exports-for-bundle'
+import { EnhancedConfig } from 'collectexports'
 
 const enhancedConfig = new EnhancedConfig({
   validate: true,    // Validate configuration

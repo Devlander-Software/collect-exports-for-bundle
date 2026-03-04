@@ -10,6 +10,8 @@ export enum ExportType {
 export interface FuncItem {
   exportType: ExportType
   name: string
+  /** True for interface, type alias - use `export { type X }` syntax */
+  isTypeOnly?: boolean
 }
 
 export interface MatchItem {
@@ -26,7 +28,7 @@ export function createExportMatches(
   return filePaths.map((filePath) => {
     let functionNames = getExportedFunctionNamesByFilePath(filePath).map(
       (name) => {
-        return { name, exportType: ExportType.named } // Assuming all are named exports
+        return { name, exportType: ExportType.named, isTypeOnly: false }
       }
     )
 
@@ -34,7 +36,7 @@ export function createExportMatches(
     const defaultFunctionNames = getExportedDefaultFunctionsByFilePath(
       filePath
     ).map((name) => {
-      return { name, exportType: ExportType.default }
+      return { name, exportType: ExportType.default, isTypeOnly: false }
     })
 
     // Combine named and default exports
@@ -50,7 +52,7 @@ export function createExportMatches(
 
     let functionTypes = getExportedTypeDeclarationsByFilePath(filePath).map(
       (name) => {
-        return { name, exportType: ExportType.named } // Adjust if needed
+        return { name, exportType: ExportType.named, isTypeOnly: true }
       }
     )
 

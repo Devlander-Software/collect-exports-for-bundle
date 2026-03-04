@@ -30,6 +30,11 @@ yarn-error.log*
 *.sublime-project
 *.sublime-workspace
 
+# Environment and secrets
+.env
+.env.local
+.env.*.local
+
 # OS generated
 .DS_Store
 .DS_Store?

@@ -11,7 +11,14 @@ export const CONFIG_PRESETS = {
     config: {
       rootDir: 'src',
       allowedExtensions: ['.ts', '.tsx', '.js', '.jsx'],
-      ignoredExtensions: ['.test.ts', '.test.tsx', '.spec.ts', '.spec.tsx', '.stories.ts', '.stories.tsx'],
+      ignoredExtensions: [
+        '.test.ts',
+        '.test.tsx',
+        '.spec.ts',
+        '.spec.tsx',
+        '.stories.ts',
+        '.stories.tsx'
+      ],
       excludedFolders: ['node_modules', 'dist', 'build', 'coverage'],
       outputFileName: 'index',
       outputFilenameExtension: '.ts' as const,
@@ -43,7 +50,12 @@ export const CONFIG_PRESETS = {
     config: {
       rootDir: 'src',
       allowedExtensions: ['.ts', '.tsx', '.component.ts', '.component.tsx'],
-      ignoredExtensions: ['.test.ts', '.test.tsx', '.stories.ts', '.stories.tsx'],
+      ignoredExtensions: [
+        '.test.ts',
+        '.test.tsx',
+        '.stories.ts',
+        '.stories.tsx'
+      ],
       excludedFolders: ['node_modules', 'dist', 'build', 'storybook-static'],
       outputFileName: 'index',
       outputFilenameExtension: '.ts' as const,
@@ -98,6 +110,24 @@ export const CONFIG_PRESETS = {
       exportMode: 'both' as const,
       includeIndexes: false
     }
+  },
+
+  // TypeScript library (rollup-plugin-dts compatible)
+  library: {
+    name: 'TypeScript Library',
+    description:
+      'Library with compilable barrels for rollup-plugin-dts single index.d.ts',
+    config: {
+      rootDir: 'src',
+      allowedExtensions: ['.ts', '.tsx'],
+      ignoredExtensions: ['.test.ts', '.test.tsx', '.spec.ts', '.spec.tsx'],
+      excludedFolders: ['node_modules', 'dist', 'build', 'coverage'],
+      outputFileName: 'index',
+      outputFilenameExtension: '.ts' as const,
+      exportMode: 'named' as const,
+      includeIndexes: false,
+      useTypeScriptAPI: true
+    }
   }
 }
 
@@ -113,7 +143,11 @@ export function getPreset(presetName: PresetName): ModuleExportOptions {
 /**
  * List all available presets
  */
-export function listPresets(): Array<{ name: string; key: string; description: string }> {
+export function listPresets(): Array<{
+  name: string
+  key: string
+  description: string
+}> {
   return Object.entries(CONFIG_PRESETS).map(([key, preset]) => ({
     key,
     name: preset.name,
@@ -126,4 +160,4 @@ export function listPresets(): Array<{ name: string; key: string; description: s
  */
 export function isValidPreset(presetName: string): presetName is PresetName {
   return presetName in CONFIG_PRESETS
-} 
+}

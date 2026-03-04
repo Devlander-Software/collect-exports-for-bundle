@@ -1,39 +1,22 @@
 import { TestOptions } from './test-options.types'
 
+/** Barrel generation mode: single file vs per-directory (ctix-style) */
+export type BarrelMode = 'single' | 'perDirectory'
+
 /**
- * Options to configure how modules should be exported.
+ * Base options for barrel generation. Use with {@link autoExporter} or the CLI.
+ * Extended by {@link ModuleExportOptions}.
  *
- * @property {string} [rootDir] - The directory that will be scanned for files to export.
- *                               Default is 'src' if not specified.
- * 
- * @property {string} [title] - This is optional, but it will be used to describe the file in the generated index file
-
-* @property {string} [description] - This is optional, but it will be used to describe the file in the generated index file
- *                               and leave a comment in the file
- * @property {'es6' | 'es5'} [targetVersion] - Format of the output index file.
- *                                            Default is 'es6' if not specified.
- * @property {string} [primaryExportFile] - The file that will be exported as default.
- *                                         If not specified, there won't be a default export.
- * @property {string} [bundleAsFunctionForDefaultExportAs] - this will bundle everything up into a single function rather than multiple exports in the index file
- *                                         it will also be the default export, if not specified, it will just ignore it. primaryExportFile will be ignored if this is specified
- *                                       If will also not bundle up any interfaces, types or enums
- * @property {string[]} [allowedExtensions] - Extensions of files to be exported.
- *                                           Defaults are ['.ts', '.tsx', '.component.tsx', '.component.ts'].
- * @property {'named' | 'default' | 'both'} [exportMode] - Mode of export, whether named, default or both. by default, it is named
- *
- * @property {'.ts' | '.tsx'} [outputFilenameExtension] - File extension for the output file.
- *                                                       Default is '.ts' if not specified.
- * @property {'.ts' | '.tsx'} [outputFileName] - File name for the output file.
- *                                                       Default is 'index' if not specified.
- * @property {string[]} [ignoredExtensions] - Extensions of files to be ignored.
- *                                           Defaults are ['.test.tsx', '.stories.tsx', '.test.ts', '.stories.ts'].
- * @property {string[]} [specificFiles] - Only exports the specified files instead of scanning the whole rootDir.
- *                                        By default, it scans all files in rootDir with allowedExtensions.
- * @property {string[]} [excludeSpecificFiles] - Excludes specific files from being exported.
- * @property {string[]} [excludedFolders] - Folders to be ignored during export.
- *                                          Default is ['node_modules'] if not specified.
+ * @property rootDir - Directory to scan. Default is 'src'.
+ * @property allowedExtensions - Extensions to include (e.g. `['.ts', '.tsx']`).
+ * @property ignoredExtensions - Extensions to skip (e.g. `['.test.ts', '.stories.tsx']`).
+ * @property excludedFolders - Folders to skip (default: node_modules, dist, build).
+ * @property outputFileName - Output name without extension. Default is 'index'.
+ * @property outputFilenameExtension - Output extension. Default is '.ts'.
+ * @property exportMode - 'named' | 'default' | 'both'. Default is 'named'.
+ * @property useTypeScriptAPI - Use TypeScript Compiler API for accurate extraction.
+ * @property barrelMode - 'single' (one barrel) | 'perDirectory' (barrel per dir).
  */
-
 export interface BaseModuleExportOptions {
   rootDir?: string
   targetVersion?: 'es6' | 'es5'
@@ -50,6 +33,16 @@ export interface BaseModuleExportOptions {
   debug?: boolean
   description?: string
   title?: string
+  /** Use TypeScript Compiler API for accurate export extraction (produces compilable barrels) */
+  useTypeScriptAPI?: boolean
+  /** single: one barrel in rootDir; perDirectory: barrel in each directory (ctix create mode) */
+  barrelMode?: BarrelMode
+  /** Alias for bundleAsObjectForDefaultExport */
+  bundleDefaultAsObject?: string
+  /** Alias: full path e.g. ./src/index.ts (overrides outputFileName + outputFilenameExtension) */
+  outputPath?: string
+  /** Alias for includeIndexes */
+  includeBarrelFiles?: boolean
 }
 
 export interface ResultItem {
@@ -90,7 +83,6 @@ export interface AutoExporterOptions {
   specificFiles: string[]
   excludeSpecificFiles: string[]
   includeIndexes: boolean
-
   excludedFolders: string[]
   bundleAsObjectForDefaultExport?: string | undefined
   testOptions?: TestOptions
@@ -98,6 +90,10 @@ export interface AutoExporterOptions {
   description?: string
   title?: string
   results: Results
+  /** Use TypeScript Compiler API for accurate export extraction (produces compilable barrels) */
+  useTypeScriptAPI?: boolean
+  /** single: one barrel; perDirectory: barrel per directory (ctix create mode) */
+  barrelMode?: BarrelMode
 }
 
 // These types enforce the constraints when used

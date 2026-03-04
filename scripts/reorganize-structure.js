@@ -428,8 +428,10 @@ updateAllImports('./src')
 console.log('✅ Imports updated')
 `
 
-    fs.writeFileSync('scripts/update-imports.js', updateScript)
-    console.log('📝 Created import update script: scripts/update-imports.js')
+    fs.writeFileSync('scripts/update-imports.generated.js', updateScript)
+    console.log(
+      '📝 Created import update script: scripts/update-imports.generated.js'
+    )
   }
 
   async createBarrelExports() {

@@ -4,7 +4,7 @@ import { nativeExtensionPath, pathWithNoExtension, webExtensionPath } from "./sh
 
 
 
-describe.only('fileHasValidExtension', () => {
+describe('fileHasValidExtension', () => {
 
    
     it('should return false for an explicitly excluded file', () => {

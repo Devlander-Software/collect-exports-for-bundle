@@ -1,12 +1,53 @@
-export * from './conversions/to-camel-case'
-export * from './extensions/create-extensions'
-export * from './extensions/get-extensions'
-export { default } from './features/auto-exporter'
-export * from './features/collect-paths/collect-paths'
-export * from './features/collect-paths/collect-paths-from-directories'
-export type * from './types/module-exporter.types'
+/**
+ * collectexports — Generate barrel exports automatically
+ *
+ * Easily collect all exports from a directory to your index file for bundling.
+ * Ideal for design systems, shared types, monorepos, and projects using Rollup, Vite, or Storybook.
+ *
+ * ## Installation
+ *
+ * ```bash
+ * npm install collectexports
+ * yarn add collectexports
+ * ```
+ *
+ * ## Quick Start
+ *
+ * **CLI:** Run `collectexports collect` or `collectexports init --interactive` for guided setup.
+ *
+ * **Programmatic:** Import `autoExporter` and call it with your config:
+ *
+ * ```typescript
+ * import { autoExporter } from 'collectexports'
+ *
+ * await autoExporter({
+ *   rootDir: 'src/components',
+ *   allowedExtensions: ['.ts', '.tsx'],
+ *   ignoredExtensions: ['.test.ts'],
+ * })
+ * ```
+ *
+ * @packageDocumentation
+ */
 
-// Enhanced configuration system
-export * from './config/presets'
-export * from './config/enhanced-config'
-
+export { default as autoExporter } from './features/auto-exporter'
+export {
+  EnhancedConfig,
+  createConfigFromPreset,
+  showAvailablePresets
+} from './config/enhanced-config'
+export {
+  CONFIG_PRESETS,
+  getPreset,
+  listPresets,
+  isValidPreset,
+  type PresetName
+} from './config/presets'
+export type {
+  ModuleExportOptions,
+  BaseModuleExportOptions,
+  BarrelMode,
+  Results,
+  ResultItem,
+  AutoExporterOptions
+} from './types/module-exporter.types'
