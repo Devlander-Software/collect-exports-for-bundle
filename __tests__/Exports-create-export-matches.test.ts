@@ -25,7 +25,6 @@ describe('createExportMatches', () => {
       usedFunctionNames,
       usedFunctionTypes
     )
-    console.log(result, 'this is result for createExportMatches')
     const expected = [
       {
         functionNames: [
