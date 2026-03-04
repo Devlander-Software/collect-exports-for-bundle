@@ -22,7 +22,7 @@ import { bundleExportAsFunction } from './bundle-export-as-function'
  * @example
  * Basic usage with defaults:
  * ```typescript
- * import autoExporter from 'collectexports'
+ * import autoExporter from 'collectbyexports'
  *
  * await autoExporter({
  *   rootDir: 'src/components',

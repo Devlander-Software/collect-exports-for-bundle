@@ -35,7 +35,7 @@ interface CompleteAutoExportConfig extends Omit<AutoExportPartialOptions, 'packa
 const outputFileNames: string[] = [];
 
 const path = require('path');
-const { createExtensions, collectExportsForBundle, collectPathsFromDirectories, toCamelCase } = require('collectexports');
+const { createExtensions, collectExportsForBundle, collectPathsFromDirectories, toCamelCase } = require('collectbyexports');
 
 const getPathForPackageName = (packageName: string) => {
   return `./packages/@devlander/${packageName}`
@@ -144,7 +144,7 @@ const createConfigForPackage = (packageName: string): CompleteAutoExportConfig[]
 }
 
 (async () => {
-  const autoExporter = require('collectexports').default
+  const autoExporter = require('collectbyexports').default
 
   const packages = ['hooks', 'package-json-helper'];
 
