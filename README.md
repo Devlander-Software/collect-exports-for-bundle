@@ -82,7 +82,7 @@ By addressing these challenges, the **Collect Exports For Bundle Script** offers
 - **TypeScript Compiler API**: Accurate export extraction for compilable barrels (use `useTypeScriptAPI: true`).
 - **rollup-plugin-dts compatible**: Generates `export { type X }` syntax for a single `index.d.ts` bundle.
 - **Inline directives**: Exclude files via `/** @collect-exports-exclude */` (eslint-style).
-- **Interactive config**: Run `collect-exports init --interactive` for guided setup.
+- **Interactive config**: Run `collectexports init --interactive` for guided setup.
 
 ## Presets & Advanced Configuration
 
