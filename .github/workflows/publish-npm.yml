@@ -8,7 +8,7 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
-    environment: release
+    environment: NPM_PUBLISH_TOKEN
     permissions:
       contents: read
       id-token: write
