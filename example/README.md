@@ -22,13 +22,6 @@
 
 
 
-<a href="https://bit.ly/techwithlandonxtwitter" target="\_parent">
-  <img alt="@techwithlandon" src="https://img.shields.io/twitter/follow/techwithlandon.svg?style=social&label=Follow" />
-</a> 
-
-<a href="https://wakatime.com/i/landonwjohnson" target="\_parent">
-  <img alt="" src="https://wakatime.com/badge/user/bd50b6c5-e0ca-4937-83b3-ab2d13adbc73/project/018b459c-3fa7-454f-94e5-e85da6e4d8a4.svg" />
-</a> 
 
 
 
@@ -45,7 +38,7 @@
 - [Helper Functions](#helper-functions)
 - [To do](#to-do)
 - [Future Plans](#future-plans)
-- [Connect with me on Social](#social)
+- [Community](#community)
 
 ## Introduction
 The Collect Exports For Bundle Script is a utility designed to automatically generate export statements for files in a specified directory. This tool is especially useful for projects with numerous files that need to be exported, eliminating the tedious task of manually writing export statements.
@@ -241,11 +234,10 @@ const webExtensions = createExtensions(
  - [] Have a result output showing which directories it went through, and which directories it skipped, same with functions
 
 
-## Connect with me on social 
-- [Website](https://bit.ly/landonjohnsondev)
-- [Instagram](https://bit.ly/landonjohnsondev-on-instagram)
+## Community
+- [GitHub Discussions](https://github.com/orgs/Devlander-Software/discussions)
+- [Discord](https://bit.ly/devlander-discord-invite)
 - [YouTube](https://bit.ly/devlanderjs-youtube)
-- [Twitter](https://bit.ly/techwithlandonxtwitter) (@techwithlandon)
 - [Facebook](https://bit.ly/devlander-facebook-page)
 - [Software Engineering Hub (US)](https://bit.ly/softwareengineeringhubusafb)
 - [Reddit r/USASoftwareDevs](https://www.reddit.com/r/USASoftwareDevs/)

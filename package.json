@@ -10,19 +10,26 @@
   ],
   "description": "Easily collect all exports from a directory to your index file for bundling.",
   "author": {
-    "name": "Landon W. Johnson",
-    "url": "https://landonjohnson.dev"
+    "name": "Devlander Software",
+    "url": "https://github.com/Devlander-Software"
+  },
+  "homepage": "https://github.com/Devlander-Software/collectexports#readme",
+  "bugs": {
+    "url": "https://github.com/Devlander-Software/collectexports/issues"
   },
   "keywords": [
+    "collectbyexports",
+    "collect exports",
+    "barrel files",
+    "index.ts",
+    "auto generate exports",
+    "typescript barrel",
     "export and bundle",
-    "landon johnson",
     "design system",
     "rollup",
     "storybook",
     "typescript",
-    "landon w johnson",
-    "devlander",
-    "techwithlandon"
+    "devlander"
   ],
   "scripts": {
     "prepare": "yarn run build",

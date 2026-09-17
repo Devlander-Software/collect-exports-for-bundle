@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### Changed
+
+- **Branding / SEO**: Replaced personal author, keywords, social, and funding links with Devlander Software / collectbyexports product metadata (`package.json`, `README.md`, `index.html`, `.github/FUNDING.yml`)
+
 ### Fixed
 
 - **Typecheck**: Resolved `tsc --noEmit` conflict with `emitDeclarationOnly` by adding `tsconfig.typecheck.json`; `yarn typecheck` now passes
